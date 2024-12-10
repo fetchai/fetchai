@@ -87,6 +87,7 @@ def send_message_to_agent(
     sender: Identity,
     target: str,
     payload: Any,
+    session: Optional[uuid4()] = uuid4(),
     # The default protocol for AI to AI conversation, use for standard chat
     protocol_digest: Optional[
         str
@@ -98,6 +99,7 @@ def send_message_to_agent(
 ):
     """
     Send a message to an agent.
+    :param session: The unique identifier for the dialogue between two agents
     :param sender: The identity of the sender.
     :param target: The address of the target agent.
     :param protocol_digest: The digest of the protocol that is being used
@@ -111,7 +113,7 @@ def send_message_to_agent(
         version=1,
         sender=sender.address,
         target=target,
-        session=uuid4(),
+        session=session,
         schema_digest=model_digest,
         protocol_digest=protocol_digest,
     )
