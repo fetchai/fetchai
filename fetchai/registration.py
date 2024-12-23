@@ -4,6 +4,7 @@ import json
 import requests
 from typing import Optional, Union, List, Dict
 from pydantic import BaseModel
+import time
 
 from fetchai.crypto import Identity
 from fetchai.logging import logger
@@ -19,41 +20,37 @@ class AgentEndpoint(BaseModel):
     weight: int
 
 
-class AgentRegistrationAttestation(BaseModel):
+class VerifiableModel(BaseModel):
     agent_address: str
-    protocols: List[str]
-    endpoints: List[AgentEndpoint]
-    metadata: Optional[Dict[str, Union[str, Dict[str, str]]]] = None
     signature: Optional[str] = None
+    timestamp: Optional[int] = None
 
     def sign(self, identity: Identity):
+        self.timestamp = int(time.time())
         digest = self._build_digest()
         self.signature = identity.sign_digest(digest)
 
     def verify(self) -> bool:
-        if self.signature is None:
-            raise ValueError("Attestation signature is missing")
-        return Identity.verify_digest(
+        return self.signature is not None and Identity.verify_digest(
             self.agent_address, self._build_digest(), self.signature
         )
 
     def _build_digest(self) -> bytes:
-        normalised_attestation = AgentRegistrationAttestation(
-            agent_address=self.agent_address,
-            protocols=sorted(self.protocols),
-            endpoints=sorted(self.endpoints, key=lambda x: x.url),
-            metadata=self.metadata,
-        )
-
         sha256 = hashlib.sha256()
         sha256.update(
             json.dumps(
-                normalised_attestation.model_dump(exclude={"signature"}),
+                self.model_dump(exclude={"signature"}),
                 sort_keys=True,
                 separators=(",", ":"),
             ).encode("utf-8")
         )
         return sha256.digest()
+
+
+class AgentRegistrationAttestation(VerifiableModel):
+    protocols: List[str]
+    endpoints: List[AgentEndpoint]
+    metadata: Optional[Dict[str, Union[str, Dict[str, str]]]] = None
 
 
 def register_with_agentverse(
@@ -63,9 +60,7 @@ def register_with_agentverse(
     agent_title: str,
     readme: str,
     *,
-    protocol_digest: Optional[
-        str
-    ] = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
+    protocol_digest: str = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
     almanac_api: Optional[str] = None,
 ):
     """
