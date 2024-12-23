@@ -2,18 +2,18 @@ import hashlib
 import json
 
 import requests
-from typing import Optional, Union, List, Dict, Literal, Annotated
-from pydantic import BaseModel, StringConstraints
+from typing import Optional, Union, List, Dict, Literal
+from pydantic import BaseModel, Field
 import time
 
 from fetchai.crypto import Identity
-from fetchai.logging import logger
+from fetchai.logger import logger
 
 
 DEFAULT_AGENTVERSE_URL = "https://agentverse.ai"
 DEFAULT_ALMANAC_API_URL = DEFAULT_AGENTVERSE_URL + "/v1/almanac"
 DEFAULT_MAILBOX_API_URL = DEFAULT_AGENTVERSE_URL + "/v1/agents"
-DEFAULT_CHALLENGE_URL   = DEFAULT_AGENTVERSE_URL + "/v1/auth/challenge"
+DEFAULT_CHALLENGE_URL = DEFAULT_AGENTVERSE_URL + "/v1/auth/challenge"
 
 
 class AgentEndpoint(BaseModel):
@@ -78,9 +78,9 @@ class ChallengeResponse(BaseModel):
 
 
 class AgentUpdates(BaseModel):
-    name: Annotated[str, StringConstraints(min_length=1, max_length=80)]
-    readme: Optional[Annotated[str, StringConstraints(max_length=80000)]] = None
-    avatar_url: Optional[Annotated[str, StringConstraints(max_length=4000)]] = None
+    name: str = Field(min_length=1, max_length=80)
+    readme: Optional[str] = Field(default=None, max_length=80000)
+    avatar_url: Optional[str] = Field(default=None, max_length=4000)
     agent_type: Optional[AgentType] = "custom"
 
 
@@ -161,7 +161,7 @@ def register_with_agentverse(
             "Agent did not exist on agentverse; registering it",
             extra=registration_metadata,
         )
-        
+
         challenge_request = ChallengeRequest(address=identity.address)
         logger.debug(
             "Requesting mailbox access challenge",
@@ -199,9 +199,7 @@ def register_with_agentverse(
             )
         else:
             r.raise_for_status()
-            registration_response = RegistrationResponse.model_validate_json(
-                r.text
-            )
+            registration_response = RegistrationResponse.model_validate_json(r.text)
             if registration_response.success:
                 logger.info(
                     f"Successfully registered as {agent_type} agent in Agentverse",
