@@ -2,8 +2,8 @@ import hashlib
 import json
 
 import requests
-from typing import Optional, Union, List, Dict
-from pydantic import BaseModel
+from typing import Optional, Union, List, Dict, Literal, Annotated
+from pydantic import BaseModel, StringConstraints
 import time
 
 from fetchai.crypto import Identity
@@ -13,6 +13,7 @@ from fetchai.logging import logger
 DEFAULT_AGENTVERSE_URL = "https://agentverse.ai"
 DEFAULT_ALMANAC_API_URL = DEFAULT_AGENTVERSE_URL + "/v1/almanac"
 DEFAULT_MAILBOX_API_URL = DEFAULT_AGENTVERSE_URL + "/v1/agents"
+DEFAULT_CHALLENGE_URL   = DEFAULT_AGENTVERSE_URL + "/v1/auth/challenge"
 
 
 class AgentEndpoint(BaseModel):
@@ -47,10 +48,40 @@ class VerifiableModel(BaseModel):
         return sha256.digest()
 
 
+AgentType = Literal["mailbox", "proxy", "custom"]
+
+
 class AgentRegistrationAttestation(VerifiableModel):
     protocols: List[str]
     endpoints: List[AgentEndpoint]
     metadata: Optional[Dict[str, Union[str, Dict[str, str]]]] = None
+
+
+class RegistrationRequest(BaseModel):
+    address: str
+    challenge: str
+    challenge_response: str
+    agent_type: AgentType
+    endpoint: Optional[str] = None
+
+
+class RegistrationResponse(BaseModel):
+    success: bool
+
+
+class ChallengeRequest(BaseModel):
+    address: str
+
+
+class ChallengeResponse(BaseModel):
+    challenge: str
+
+
+class AgentUpdates(BaseModel):
+    name: Annotated[str, StringConstraints(min_length=1, max_length=80)]
+    readme: Optional[Annotated[str, StringConstraints(max_length=80000)]] = None
+    avatar_url: Optional[Annotated[str, StringConstraints(max_length=4000)]] = None
+    agent_type: Optional[AgentType] = "custom"
 
 
 def register_with_agentverse(
@@ -62,6 +93,7 @@ def register_with_agentverse(
     *,
     protocol_digest: str = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
     almanac_api: Optional[str] = None,
+    agent_type: AgentType = "custom",
 ):
     """
     Register the agent with the Agentverse API.
@@ -129,34 +161,66 @@ def register_with_agentverse(
             "Agent did not exist on agentverse; registering it",
             extra=registration_metadata,
         )
+        
+        challenge_request = ChallengeRequest(address=identity.address)
+        logger.debug(
+            "Requesting mailbox access challenge",
+            extra=registration_metadata,
+        )
         r = requests.post(
-            f"{DEFAULT_MAILBOX_API_URL}/",
+            DEFAULT_CHALLENGE_URL,
+            data=challenge_request.model_dump_json(),
+            headers={
+                "content-type": "application/json",
+                "Authorization": f"Bearer {agentverse_token}",
+            },
+        )
+        r.raise_for_status()
+        challenge = ChallengeResponse.model_validate_json(r.text)
+        registration_payload = RegistrationRequest(
+            address=identity.address,
+            challenge=challenge.challenge,
+            challenge_response=identity.sign(challenge.challenge.encode()),
+            endpoint=url,
+            agent_type=agent_type,
+        ).model_dump_json()
+        r = requests.post(
+            DEFAULT_MAILBOX_API_URL,
             headers={
                 "content-type": "application/json",
                 "authorization": f"Bearer {agentverse_token}",
             },
-            json={
-                "address": agent_address,
-                "name": agent_title,
-            },
+            data=registration_payload,
         )
-        r.raise_for_status()
+        if r.status_code == 409:
+            logger.info(
+                "Agent already registered with Agentverse",
+                extra=registration_metadata,
+            )
+        else:
+            r.raise_for_status()
+            registration_response = RegistrationResponse.model_validate_json(
+                r.text
+            )
+            if registration_response.success:
+                logger.info(
+                    f"Successfully registered as {agent_type} agent in Agentverse",
+                    extra=registration_metadata,
+                )
 
     # update the readme and the title of the agent to make it easier to find
     logger.debug(
         "Registering agent title and readme with Agentverse",
         extra=registration_metadata,
     )
+    update = AgentUpdates(name=agent_title, readme=readme)
     r = requests.put(
         f"{DEFAULT_MAILBOX_API_URL}/{agent_address}",
         headers={
             "content-type": "application/json",
             "authorization": f"Bearer {agentverse_token}",
         },
-        json={
-            "name": agent_title,
-            "readme": readme,
-        },
+        data=update.model_dump_json(),
     )
     r.raise_for_status()
     logger.info(
