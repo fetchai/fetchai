@@ -11,7 +11,7 @@ from pydantic import BaseModel, UUID4
 
 from fetchai.crypto import Identity
 from fetchai.registration import DEFAULT_ALMANAC_API_URL
-from fetchai.logging import logger
+from fetchai.logger import logger
 
 JsonStr = str
 
