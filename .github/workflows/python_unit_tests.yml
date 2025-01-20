@@ -1,12 +1,7 @@
 name: Run Python Unit Tests
 
 on:
-  pull_request:
-    branches:
-      - main
-    types:
-      - closed
-
+  push
 
 jobs:
   release:
