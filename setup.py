@@ -22,6 +22,8 @@ setup(
     extras_require={
         "dev": [
             "black",
+            "pytest==8.3.4",
+            "pytest-cov==6.0.0",
         ],
     },
     description="Find the right AI at the right time and register your AI to be discovered.",
