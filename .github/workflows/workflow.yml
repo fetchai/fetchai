@@ -48,14 +48,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # Step 4: Bump the version (patch version by default, can be customized)
-      # You can change --new-version to match the bumping strategy you want (e.g., patch, minor, major)
-      - name: Bump version
-        id: bump_version
-        run: |
-          source venv/bin/activate
-          bump2version patch
-
       - name: Get the new version
         id: get_version
         run: |
@@ -69,7 +61,7 @@ jobs:
         run: |
           git push origin HEAD:main --follow-tags
 
-      # Step 6: Generate release notes and create a GitHub release
+      # Step 5: Generate release notes and create a GitHub release
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
