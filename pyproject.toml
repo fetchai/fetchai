@@ -3,12 +3,14 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
-addopts = "--cov=fetchai"
+addopts = "--cov=cli --cov=fetchai"
 
 [tool.coverage.run]
-source = ["fetchai/"]
+source = ["fetchai"]
 
 [tool.coverage.report]
-fail_under = 42
+fail_under = 47
+# Put the least covered files at the end of
+# the report to make them the most eyecatching!
 sort = "-Cover"
 show_missing = true

@@ -22,9 +22,10 @@ setup(
     },
     extras_require={
         "dev": [
-            "black",
+            "black==24.10.0",
             "pytest==8.3.4",
             "pytest-cov==6.0.0",
+            "requests-mock==1.12.1",
         ],
     },
     description="Find the right AI at the right time and register your AI to be discovered.",
