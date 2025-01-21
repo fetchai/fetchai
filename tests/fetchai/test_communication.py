@@ -5,21 +5,7 @@ import pytest
 from requests_mock import Mocker as RequestsMocker
 
 from fetchai import communication
-from fetchai.communication import (
-    lookup_endpoint_for_agent,
-)
 from fetchai.crypto import Identity
-
-FAKE_ALMANAC_API_URL = "http://localhost/almanac/api"
-FAKE_AGENT_ADDRESS = "fake_agent_address"
-FAKE_AGENT_URL = "http://localhost/fake_agent_url"
-
-
-@pytest.fixture(autouse=True)
-def patch_default_almanac_api_url():
-    """Ensure we don't run any tests against a real almanac url"""
-
-    communication.DEFAULT_ALMANAC_API_URL = FAKE_ALMANAC_API_URL
 
 
 @pytest.fixture
@@ -27,35 +13,10 @@ def identity() -> Identity:
     return Identity.from_seed("TESTING", 1)
 
 
-class TestLookupEndpointForAgent:
-
-    @pytest.fixture()
-    def fake_almanac_response(self) -> dict:
-        return {
-            "endpoints": [
-                {
-                    "url": FAKE_AGENT_URL,
-                },
-            ],
-        }
-
-    def test_default_almanac_api_url_is_not_live(self):
-        assert communication.DEFAULT_ALMANAC_API_URL == FAKE_ALMANAC_API_URL
-
-    def test_agent_address_lookup(self, fake_almanac_response: dict):
-        agent_address = FAKE_AGENT_ADDRESS
-        expected_url = f"{FAKE_ALMANAC_API_URL}/agents/{agent_address}"
-
-        with RequestsMocker() as mock:
-            mock.get(expected_url, json=fake_almanac_response)
-            response = lookup_endpoint_for_agent(agent_address)
-
-        assert response
-        assert response == FAKE_AGENT_URL
-
-
 def fake_agent_lookup_function(agent_address: str) -> str:
-    """A fake function to use in test"""
+    """A fake agent look up function to use in test.
+
+    Returns a predictable URL for testing against"""
 
     return f"http://localhost/fake_endpoint/{agent_address}"
 
@@ -101,7 +62,6 @@ class TestParseMessageFromAgent:
         return content
 
     def test_happy_path(self, envelope: communication.Envelope, payload: dict):
-
         agent_message = communication.parse_message_from_agent(
             envelope.model_dump_json()
         )

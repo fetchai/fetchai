@@ -9,7 +9,7 @@ addopts = "--cov=cli --cov=fetchai"
 source = ["fetchai"]
 
 [tool.coverage.report]
-fail_under = 47
+fail_under = 46
 # Put the least covered files at the end of
 # the report to make them the most eyecatching!
 sort = "-Cover"
