@@ -24,7 +24,7 @@ def fake_agent_lookup_function(agent_address: str) -> str:
 class TestSendMessageToAgent:
     def test_happy_path(self, identity: Identity):
         agent_name = "agent_one"
-        expected_url = "http://localhost/fake_endpoint/agent_one"
+        expected_url = fake_agent_lookup_function(agent_name)
 
         with RequestsMocker() as mock:
             mock.post(expected_url)
