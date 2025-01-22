@@ -35,7 +35,23 @@ class TestSendMessageToAgent:
                 agent_lookup_function=fake_agent_lookup_function,
             )
 
-            assert mock.called_once
+        assert mock.called_once
+        assert mock.last_request.scheme == "http"
+        assert mock.last_request.netloc == "localhost"
+        assert mock.last_request.port == 80
+        assert mock.last_request.path == f"/fake_endpoint/{agent_name}"
+
+        payload = communication.Envelope.model_validate_json(mock.last_request.text)
+        assert (
+            payload.protocol_digest
+            == "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2"
+        )
+        assert (
+            payload.sender
+            == "agent1qv8qnqv4ddslkktlalqhv4zz7wsjnwslv0h33gpwh7fhw3txae2lg89awsp"
+        )
+        assert payload.target == "agent_one"
+        assert payload.payload == "e30="
 
 
 class TestParseMessageFromAgent:
