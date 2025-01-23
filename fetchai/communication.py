@@ -2,16 +2,16 @@ import base64
 import hashlib
 import json
 import struct
-from typing import Optional, Any
-from uuid import uuid4
 from dataclasses import dataclass
+from typing import Optional, Any, Callable
+from uuid import uuid4
 
 import requests
 from pydantic import BaseModel, UUID4
 
 from fetchai.crypto import Identity
-from fetchai.registration import DEFAULT_ALMANAC_API_URL
 from fetchai.logger import logger
+from fetchai.registration import DEFAULT_ALMANAC_API_URL
 
 JsonStr = str
 
@@ -96,6 +96,7 @@ def send_message_to_agent(
     model_digest: Optional[
         str
     ] = "model:708d789bb90924328daa69a47f7a8f3483980f16a1142c24b12972a2e4174bc6",
+    agent_lookup_function: Callable[[str], str] = lookup_endpoint_for_agent,
 ):
     """
     Send a message to an agent.
@@ -124,7 +125,7 @@ def send_message_to_agent(
     print(env.model_dump_json())
 
     # query the almanac to lookup the target agent
-    endpoint = lookup_endpoint_for_agent(target)
+    endpoint = agent_lookup_function(target)
     print(endpoint)
 
     # send the envelope to the target agent
