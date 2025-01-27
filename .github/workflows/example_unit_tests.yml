@@ -4,13 +4,9 @@ on:
   push
 
 jobs:
-  release:
+  test-examples:
     name: Run Unit Tests for Code Examples
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./examples/single-shot-agent
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -25,9 +21,12 @@ jobs:
 
     - name: Install dependencies
       run: poetry install
+      working-directory: ./examples/single-shot-agent
 
     - name: Test with pytest
       run: poetry run pytest .
+      working-directory: ./examples/single-shot-agent
 
     - name: Lint with ruff
       run: poetry run ruff check .
+      working-directory: ./examples/single-shot-agent
