@@ -1,0 +1,33 @@
+name: Run Python Unit Tests for Code Examples
+
+on:
+  push
+
+jobs:
+  release:
+    name: Run Unit Tests for Code Examples
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./examples/single-shot-agent
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        poetry install
+
+    - name: Test with pytest
+      run: |
+        poetry run pytest .
+
+    - name: Lint with ruff
+      run: |
+        poetry run ruff check .
