@@ -15,20 +15,19 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Install Poetry
+      run: pipx install poetry
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 
     - name: Install dependencies
-      run: |
-        pip install poetry
-        poetry install
+      run: poetry install
 
     - name: Test with pytest
-      run: |
-        poetry run pytest .
+      run: poetry run pytest .
 
     - name: Lint with ruff
-      run: |
-        poetry run ruff check .
+      run: poetry run ruff check .
