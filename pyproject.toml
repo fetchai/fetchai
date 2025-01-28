@@ -10,7 +10,6 @@ addopts = "--cov=cli --cov=fetchai"
 
 [tool.coverage.run]
 source = ["fetchai"]
-exclude
 
 [tool.coverage.report]
 fail_under = 46
