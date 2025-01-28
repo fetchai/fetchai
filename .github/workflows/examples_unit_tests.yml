@@ -1,4 +1,4 @@
-name: Run Python Unit Tests for Code Examples
+name: Run Unit Tests for Code Examples
 
 on:
   push

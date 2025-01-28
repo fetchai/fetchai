@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Demonstration Agent"
 authors = ["scrowland <simon.rowland@fetch.ai>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.13"
@@ -13,10 +14,16 @@ fastapi = {extras = ["standard"], version = "^0.115.7"}
 ruff = "^0.9.3"
 mypy = "^1.14.1"
 pytest = "^8.3.4"
+httpx = "^0.28.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-run_dev_agent = "single_shot_agent.main:run_dev_server"
+dev_agent = "single_shot_agent.main:run_dev_server"
+
+[tool.pytest.ini_options]
+# This overrides the pyproject.toml options in the root directory
+# TODO - remove once the root pacjage is moved into a non-parent dir of this dir
+addopts = ""

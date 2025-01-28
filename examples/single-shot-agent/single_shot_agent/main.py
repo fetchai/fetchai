@@ -5,8 +5,8 @@ app = FastAPI()
 
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+async def health_check():
+    return {"status": "OK"}
 
 
 def run_dev_server():
