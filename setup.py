@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 setup(
     name="fetchai",
     version="0.1.18",
-    packages=find_packages(exclude=("tests", "examples")),
+    packages=find_packages(exclude=("fetchai/tests", "examples")),
     install_requires=[
         "bech32>=1.2.0,<2.0",
         "ecdsa>=0.19.0,<1.0",
