@@ -16,9 +16,9 @@ You will also need an agentverse account and API KEY, available [here](https://a
 
 ### Ngrok or similar if you are running your agent locally
 
-If you are running the example locally, you will need a publicly available url. The simplest
+If you are running the example locally, you will need a publicly available URL. The simplest
 way to achieve this is to use a tool like [ngrok](https://ngrok.com/) which you can configure
-to proxy a local url to a public url.
+to proxy a local URL to a public URL.
 
 ### Local environment
 
