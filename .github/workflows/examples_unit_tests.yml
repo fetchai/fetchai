@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./examples/single-shot-agent
+        working-directory: ./examples/readme-agent
 
     steps:
     - name: Checkout repository
