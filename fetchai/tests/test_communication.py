@@ -93,7 +93,7 @@ class TestParseMessageFromAgent:
 class TestParseMessageFromAgentDict:
     @pytest.fixture
     def payload(self) -> dict:
-        return  {
+        return {
             "question": "Buy me a pair of shoes",
             "shoe_size": 12,
             "favorite_color": "black",
