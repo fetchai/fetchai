@@ -2,7 +2,6 @@ import base64
 import hashlib
 import json
 import struct
-from dataclasses import dataclass
 from typing import Optional, Any, Callable, Self
 from uuid import uuid4
 
@@ -157,8 +156,9 @@ class AgentMessage(BaseModel):
         json_payload = envelope.decode_payload()
         payload = json.loads(json_payload)
 
-        return AgentMessage(sender=envelope.sender, target=envelope.target, payload=payload)
-
+        return AgentMessage(
+            sender=envelope.sender, target=envelope.target, payload=payload
+        )
 
 
 def parse_message_from_agent(content: JsonStr) -> AgentMessage:
@@ -180,6 +180,9 @@ def parse_message_from_agent(content: JsonStr) -> AgentMessage:
 
 
 def parse_message_from_agent_message_dict(content: dict) -> AgentMessage:
+    """
+    Parses an agent message from a dict, as typically send to an agent's webhook.
+    """
 
     envelope = Envelope.model_validate(content)
 

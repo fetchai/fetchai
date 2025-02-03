@@ -88,3 +88,31 @@ class TestParseMessageFromAgent:
         )
         assert agent_message.target == "agent_two"
         assert agent_message.payload == payload
+
+
+class TestParseMessageFromAgentDict:
+    @pytest.fixture
+    def payload(self) -> dict:
+        return  {
+            "question": "Buy me a pair of shoes",
+            "shoe_size": 12,
+            "favorite_color": "black",
+        }
+
+    @pytest.fixture
+    def content(self) -> dict:
+        return {
+            "version": 42,
+            "sender": "agent1qtuj7h0tas4clwym5ckdrven78lz6afqwe7uyu3c5smw8sygnsvl6x6p52m",
+            "target": "agent1qtuj7h0tas4clwym5ckdrven78lz6afqwe7uyu3c5smw8sygnsvl6x6p52m",
+            "session": "7842f054-5c50-4344-98f4-dc55ef923bf8",
+            "schema_digest": "model:708d789bb90924328daa69a47f7a8f3483980f16a1142c24b12972a2e4174bc6",
+            "protocol_digest": "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
+            "payload": "eyJxdWVzdGlvbiI6IkJ1eSBtZSBhIHBhaXIgb2Ygc2hvZXMiLCJzaG9lX3NpemUiOjEyLCJmYXZvcml0ZV9jb2xvciI6ImJsYWNrIn0=",
+            "signature": "sig1jfjr6gfug8yfzwdwc4u5t2pz3zch0yx7xt68zfw4lsygg9nv3twzwsn9ala5e5wh4ywsf5d0lh6la2uz5rw3zkcevqcq7dcylp0syfgner05t",
+        }
+
+    def test_happy_path(self, content: dict, payload: dict):
+        agent_message = communication.parse_message_from_agent_message_dict(content)
+
+        assert agent_message.payload == payload

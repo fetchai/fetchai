@@ -1,11 +1,9 @@
 from typing import Optional
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 
 from fetchai.communication import (
-    parse_message_from_agent,
     parse_message_from_agent_message_dict,
-    send_message_to_agent,
 )
 from pydantic import BaseModel, Field
 

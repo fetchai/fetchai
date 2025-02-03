@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.13"
-fastapi = "^0.115.8"
+fastapi = {extras = ["standard"], version = "^0.115.8"}
 fetchai = {path="../../", develop=false}
 
 [tool.poetry.group.dev.dependencies]
