@@ -21,7 +21,9 @@ MY_WEBHOOK_URL = os.getenv("MY_WEBHOOK_URL")
 
 
 if "Generate a unique string" in MY_AI_KEY:
-    raise ValueError("Do not use the default value for MY_AI_KEY - Generate a unique string in your .env file")
+    raise ValueError(
+        "Do not use the default value for MY_AI_KEY - Generate a unique string in your .env file"
+    )
 
 
 def main():
