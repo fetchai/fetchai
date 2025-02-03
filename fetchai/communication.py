@@ -3,7 +3,7 @@ import hashlib
 import json
 import struct
 from dataclasses import dataclass
-from typing import Optional, Any, Callable
+from typing import Optional, Any, Callable, Self
 from uuid import uuid4
 
 import requests
@@ -63,6 +63,10 @@ class Envelope(BaseModel):
         if self.nonce is not None:
             hasher.update(struct.pack(">Q", self.nonce))
         return hasher.digest()
+
+    @classmethod
+    def from_dict(cls, data: dict) -> Self:
+        return cls.model_validate(**data)
 
 
 def lookup_endpoint_for_agent(agent_address: str) -> str:
@@ -140,14 +144,21 @@ def send_message_to_agent(
     logger.info("Sent message to agent", extra=request_meta)
 
 
-@dataclass
-class AgentMessage:
+class AgentMessage(BaseModel):
     # The address of the sender of the message.
     sender: str
     # The address of the target of the message.
     target: str
     # The payload of the message.
     payload: Any
+
+    @classmethod
+    def from_envelope(cls, envelope: Envelope) -> Self:
+        json_payload = envelope.decode_payload()
+        payload = json.loads(json_payload)
+
+        return AgentMessage(sender=envelope.sender, target=envelope.target, payload=payload)
+
 
 
 def parse_message_from_agent(content: JsonStr) -> AgentMessage:
@@ -166,3 +177,13 @@ def parse_message_from_agent(content: JsonStr) -> AgentMessage:
     payload = json.loads(json_payload)
 
     return AgentMessage(sender=env.sender, target=env.target, payload=payload)
+
+
+def parse_message_from_agent_message_dict(content: dict) -> AgentMessage:
+
+    envelope = Envelope.model_validate(content)
+
+    if not envelope.verify():
+        raise ValueError("Invalid Envelope Signature")
+
+    return AgentMessage.from_envelope(envelope)

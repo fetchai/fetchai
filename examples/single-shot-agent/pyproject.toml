@@ -25,5 +25,5 @@ dev_agent = "single_shot_agent.main:run_dev_server"
 
 [tool.pytest.ini_options]
 # This overrides the pyproject.toml options in the root directory
-# TODO - remove once the root pacjage is moved into a non-parent dir of this dir
+# TODO - remove once the root package is moved into a non-parent dir of this dir
 addopts = ""
