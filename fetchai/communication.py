@@ -63,10 +63,6 @@ class Envelope(BaseModel):
             hasher.update(struct.pack(">Q", self.nonce))
         return hasher.digest()
 
-    @classmethod
-    def from_dict(cls, data: dict) -> Self:
-        return cls.model_validate(**data)
-
 
 def lookup_endpoint_for_agent(agent_address: str) -> str:
     request_meta = {
