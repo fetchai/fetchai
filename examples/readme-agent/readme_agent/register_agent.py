@@ -19,6 +19,9 @@ MY_AI_KEY = os.getenv("MY_AI_KEY")
 # The local url your agent is running at
 MY_WEBHOOK_URL = os.getenv("MY_WEBHOOK_URL")
 
+# A nice name for your agent
+MY_AGENT_NAME = os.getenv("MY_AGENT_NAME")
+
 
 if "Generate a unique string" in MY_AI_KEY:
     raise ValueError(
@@ -29,10 +32,6 @@ if "Generate a unique string" in MY_AI_KEY:
 def main():
     # Your AI's unique key for generating an address on agentverse
     ai_identity = Identity.from_seed(MY_AI_KEY, 0)
-
-    # Give your AI a name on Agentverse. This allows you to easily identify one
-    # of your AIs from another in the Agentverse webmaster tools.
-    name = "Example Agent"
 
     # Use realistic details in your README description to enable discovery of your agent
     readme = """
@@ -56,7 +55,7 @@ def main():
         ai_identity,
         MY_WEBHOOK_URL,
         AGENTVERSE_KEY,
-        name,
+        MY_AGENT_NAME,
         readme,
     )
     print("Registration result: ", result)
