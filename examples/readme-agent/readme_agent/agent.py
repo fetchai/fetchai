@@ -44,6 +44,11 @@ class EncodedAgentMessage(BaseModel):
     encoded_payload: str = Field(alias="payload")
 
 
+@app.get("/")
+async def healthcheck():
+    return {"Status": "OK"}
+
+
 @app.post("/webhook")
 async def webhook(agent_message: EncodedAgentMessage):
     """Simple webhook to receive messages for this agent"""
