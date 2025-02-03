@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "readme-agent"
 version = "0.1.0"
-description = ""
+description = "A simple example of how to use the fetchai package to create an agent"
 authors = ["scrowland <simon.rowland@fetch.ai>"]
 readme = "README.md"
 
