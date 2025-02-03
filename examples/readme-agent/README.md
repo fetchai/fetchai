@@ -22,7 +22,7 @@ to proxy a local URL to a public URL.
 
 ### Local environment
 
-Copy the `.env.example` file to `.env` and populate with your own values for each Key.
+Copy the `.env.example` file to `.env` and populate with your own values for each key.
 
 ```shell
 cp .env.example .env
