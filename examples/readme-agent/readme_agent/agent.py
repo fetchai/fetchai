@@ -44,7 +44,7 @@ class EncodedAgentMessage(BaseModel):
 
 @app.get("/")
 async def healthcheck():
-    return {"Status": "OK"}
+    return
 
 
 @app.post("/webhook")
@@ -61,5 +61,4 @@ async def webhook(agent_message: EncodedAgentMessage):
     print(message)
 
     # TODO - implement your response to the message here
-
-    return {"status": "OK So far!"}
+    return
