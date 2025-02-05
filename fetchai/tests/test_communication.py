@@ -3,10 +3,12 @@ import uuid
 
 import pytest
 from requests_mock import Mocker as RequestsMocker
+from uagents_core.config import DEFAULT_ALMANAC_API_PATH, AgentverseConfig
+from uagents_core.crypto import Identity
+from uagents_core.envelope import Envelope
+import urllib.parse
 
-import fetchai.schema
 from fetchai import communication
-from fetchai.crypto import Identity
 
 
 @pytest.fixture
@@ -14,35 +16,46 @@ def identity() -> Identity:
     return Identity.from_seed("TESTING", 1)
 
 
-def fake_agent_lookup_function(agent_address: str) -> str:
-    """A fake agent look up function to use in test.
-
-    Returns a predictable URL for testing against"""
-
-    return f"http://localhost/fake_endpoint/{agent_address}"
-
-
 class TestSendMessageToAgent:
     def test_happy_path(self, identity: Identity):
         agent_name = "agent_one"
-        expected_url = fake_agent_lookup_function(agent_name)
+        agentverse_config = AgentverseConfig()
+        almanac_api = urllib.parse.urljoin(
+            agentverse_config.url, DEFAULT_ALMANAC_API_PATH
+        )
+        # the endpoint where the agent endpoint lookup request is expected to be sent
+        expected_endpoint_lookup_url = f"{almanac_api}/agents/"
+        # the endpoint url path where the agent message is expected to be sent
+        expected_agent_url_path = "/v1/hosting/submit"
+        # the endpoint url where the agent message is expected to be sent
+        expected_agent_url = f"{agentverse_config.url}{expected_agent_url_path}"
 
         with RequestsMocker() as mock:
-            mock.post(expected_url)
+            # mock request sent from uagents_core.utils.communication.lookup_endpoint_for_agent method
+            #   that resolves agent url
+            mock.get(
+                expected_endpoint_lookup_url,
+                json={
+                    "endpoints": [{"url": expected_agent_url, "weight": 1}],
+                },
+            )
+            # mock request sent from uagents_core.utils.communication.send_message method
+            #   that sends the message to the agent url
+            mock.post(expected_agent_url)
+
             communication.send_message_to_agent(
                 identity,
                 agent_name,
                 {},
-                agent_lookup_function=fake_agent_lookup_function,
             )
 
-        assert mock.called_once
-        assert mock.last_request.scheme == "http"
-        assert mock.last_request.netloc == "localhost"
-        assert mock.last_request.port == 80
-        assert mock.last_request.path == f"/fake_endpoint/{agent_name}"
+        assert mock.call_count == 2
+        assert mock.last_request.scheme == agentverse_config.http_prefix
+        assert mock.last_request.netloc == agentverse_config.base_url
+        assert mock.last_request.port == 443
+        assert mock.last_request.path == "/v1/hosting/submit"
 
-        payload = fetchai.schema.Envelope.model_validate_json(mock.last_request.text)
+        payload = Envelope.model_validate_json(mock.last_request.text)
         assert (
             payload.protocol_digest
             == "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2"
@@ -61,11 +74,11 @@ class TestParseMessageFromAgent:
         return {"hello": "there"}
 
     @pytest.fixture
-    def envelope(self, identity: Identity, payload: dict) -> fetchai.schema.Envelope:
+    def envelope(self, identity: Identity, payload: dict) -> Envelope:
         session_id = uuid.uuid4()
         json_payload = json.dumps(payload)
 
-        content = fetchai.schema.Envelope(
+        content = Envelope(
             version=1,
             sender=identity.address,
             target="agent_two",
@@ -78,7 +91,7 @@ class TestParseMessageFromAgent:
 
         return content
 
-    def test_happy_path(self, envelope: fetchai.schema.Envelope, payload: dict):
+    def test_happy_path(self, envelope: communication.Envelope, payload: dict):
         agent_message = communication.parse_message_from_agent(
             envelope.model_dump_json()
         )

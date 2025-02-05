@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-from fetchai.crypto import Identity
+from uagents_core.crypto import Identity
 
 
 load_dotenv()
