@@ -91,7 +91,7 @@ class TestParseMessageFromAgent:
 
         return content
 
-    def test_happy_path(self, envelope: communication.Envelope, payload: dict):
+    def test_happy_path(self, envelope: Envelope, payload: dict):
         agent_message = communication.parse_message_from_agent(
             envelope.model_dump_json()
         )
