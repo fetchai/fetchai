@@ -1,45 +1,11 @@
-from typing import Optional
-
 from fastapi import FastAPI
 
 from fetchai.communication import (
     parse_message_from_agent_message_dict,
 )
-from pydantic import BaseModel, Field
-
+from fetchai.schema import EncodedAgentMessage
 
 app = FastAPI()
-
-
-class EncodedAgentMessage(BaseModel):
-    """
-    A Message looks like this on the way in:
-
-    b'{
-        "version":1,
-        "sender":"<Agentverse Agent Address>",
-        "target":"<Agentverse Agent Address>",
-        "session":"<Session UUID>",
-        "schema_digest":"<Agentverse Schema Digest>",
-        "protocol_digest":"<Agentverse Protocol Digest>",
-        "payload":"<Encoded Payload>",
-        "expires":null,
-        "nonce":null,
-        "signature":"<Message Signature>"
-    }'
-    """
-
-    version: int
-    sender: str
-    target: str
-    session: str
-    schema_digest: str
-    protocol_digest: str
-    expires: Optional[str]
-    nonce: Optional[str]
-    signature: str
-
-    encoded_payload: str = Field(alias="payload")
 
 
 @app.get("/")
