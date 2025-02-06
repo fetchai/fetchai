@@ -30,16 +30,21 @@ def register_with_agentverse(
     :return:
     """
 
+    # Create config for Almanac registration (by register_in_almanac method)
+    # This config will not be used for Agentverse registration (by register_in_agentverse method)
+    # TODO: Doesn't make sense to me to make only the Almanac registration configurable (by almanac_api arg)
+    #   but not the Agentverse registration
+    #   but that's how this method was implemented before so I will stick to that implementation
     if almanac_api:
         almanac_api_parsed = urlparse(almanac_api)
         protocol = almanac_api_parsed.scheme
         base_url = f"{almanac_api_parsed.netloc}{almanac_api_parsed.path}"
 
-        agentverse_config = AgentverseConfig(
+        almanac_config = AgentverseConfig(
             base_url=base_url, protocol=protocol, http_prefix=protocol
         )
     else:
-        agentverse_config = AgentverseConfig()
+        almanac_config = AgentverseConfig()
 
     agentverse_connect_request = AgentverseConnectRequest(
         user_token=agentverse_token,
@@ -51,7 +56,7 @@ def register_with_agentverse(
         request=agentverse_connect_request,
         identity=identity,
         protocol_digests=[protocol_digest],
-        agentverse_config=agentverse_config,
+        agentverse_config=almanac_config,
     )
 
     agent_updates = AgentUpdates(name=agent_title, readme=readme)
@@ -59,5 +64,7 @@ def register_with_agentverse(
         request=agentverse_connect_request,
         identity=identity,
         agent_details=agent_updates,
-        agentverse_config=agentverse_config,
+        # Agentverse registration is not configurable (<-> Almanac registration (register_in_almanac method))
+        #   = it always uses production Agentverse
+        agentverse_config=AgentverseConfig(),
     )
