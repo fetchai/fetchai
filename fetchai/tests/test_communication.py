@@ -53,7 +53,7 @@ class TestSendMessageToAgent:
         assert mock.last_request.scheme == agentverse_config.http_prefix
         assert mock.last_request.netloc == agentverse_config.base_url
         assert mock.last_request.port == 443
-        assert mock.last_request.path == "/v1/hosting/submit"
+        assert mock.last_request.path == expected_agent_url_path
 
         payload = Envelope.model_validate_json(mock.last_request.text)
         assert (
