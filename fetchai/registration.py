@@ -44,7 +44,7 @@ def register_with_agentverse(
             base_url=base_url, protocol=protocol, http_prefix=protocol
         )
     else:
-        # use production Agentverse for Almanac registration
+        # Use production Agentverse for Almanac registration
         almanac_config = AgentverseConfig()
 
     agentverse_connect_request = AgentverseConnectRequest(
