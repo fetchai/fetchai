@@ -8,6 +8,7 @@ from uagents_core.envelope import Envelope
 from uagents_core.utils.communication import send_message
 
 from fetchai.schema import JsonStr, AgentMessage
+from fetchai.agentverse_config import AgentverseEnv, create_agentverse_config
 
 
 def send_message_to_agent(
@@ -20,7 +21,10 @@ def send_message_to_agent(
         str
     ] = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
     # The default model for AI to AI conversation, use for standard chat
-    model_digest: str = "model:708d789bb90924328daa69a47f7a8f3483980f16a1142c24b12972a2e4174bc6",
+    model_digest: Optional[
+        str
+    ] = "model:708d789bb90924328daa69a47f7a8f3483980f16a1142c24b12972a2e4174bc6",
+    env: AgentverseEnv = "prod",
 ):
     """
     Send a message to an agent.
@@ -32,6 +36,9 @@ def send_message_to_agent(
     :param model_digest: The digest of the model that is being used
     :return:
     """
+
+    agentverse_config = create_agentverse_config(env=env)
+
     send_message(
         destination=target,
         message_schema_digest=model_digest,
@@ -39,6 +46,7 @@ def send_message_to_agent(
         sender=sender,
         session_id=session,
         protocol_digest=protocol_digest,
+        agentverse_config=agentverse_config,
     )
 
 
