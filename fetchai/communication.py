@@ -34,6 +34,7 @@ def send_message_to_agent(
     :param session: The unique identifier for the dialogue between two agents
     :param protocol_digest: The digest of the protocol that is being used
     :param model_digest: The digest of the model that is being used
+    :param env: The environment we would like to use - default is prod.
     :return:
     """
 

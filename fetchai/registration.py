@@ -25,6 +25,7 @@ def register_with_agentverse(
     :param agent_title: The title of the agent
     :param readme: The readme for the agent
     :param protocol_digest: The digest of the protocol that the agent supports
+    :param env: The environment we would like to use - default is prod.
     :return:
     """
 

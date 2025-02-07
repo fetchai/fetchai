@@ -6,6 +6,13 @@ AgentverseEnv = Literal["prod", "canary", "staging"]
 
 
 def create_agentverse_config(env: AgentverseEnv) -> AgentverseConfig:
+    """
+    Create a config to point to a specific Almanac+Agentverse env
+        so that non-prod Almanac+Agentverse envs can be used too (for testing).
+    :param env: The environment we would like to use - can be prod/canary/staging.
+    :return: The AgentverseConfig object containing the url corresponding to the specific env.
+    """
+
     agentverse_subdomain = "" if env == "prod" else env
     agentverse_base_url = (
         f"{agentverse_subdomain}.{DEFAULT_AGENTVERSE_URL}"
