@@ -1,9 +1,8 @@
+from uagents_core.config import AgentverseConfig
 from uagents_core.crypto import Identity
 from uagents_core.registration import AgentverseConnectRequest, AgentUpdates
 from uagents_core.types import AgentType
 from uagents_core.utils.registration import register_in_almanac, register_in_agentverse
-
-from fetchai.agentverse_config import AgentverseEnv, create_agentverse_config
 
 
 def register_with_agentverse(
@@ -15,7 +14,7 @@ def register_with_agentverse(
     *,
     protocol_digest: str = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
     agent_type: AgentType = "custom",
-    env: AgentverseEnv = "prod",
+    agentverse_base_url: str = "agentverse.ai",
 ):
     """
     Register the agent with the Agentverse API.
@@ -29,7 +28,7 @@ def register_with_agentverse(
     :return:
     """
 
-    agentverse_config = create_agentverse_config(env=env)
+    agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
 
     agentverse_connect_request = AgentverseConnectRequest(
         user_token=agentverse_token,

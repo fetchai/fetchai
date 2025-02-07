@@ -3,12 +3,12 @@ from typing import Optional, Any
 from uuid import uuid4
 
 from pydantic import UUID4
+from uagents_core.config import AgentverseConfig
 from uagents_core.crypto import Identity
 from uagents_core.envelope import Envelope
 from uagents_core.utils.communication import send_message
 
 from fetchai.schema import JsonStr, AgentMessage
-from fetchai.agentverse_config import AgentverseEnv, create_agentverse_config
 
 
 def send_message_to_agent(
@@ -24,7 +24,7 @@ def send_message_to_agent(
     model_digest: Optional[
         str
     ] = "model:708d789bb90924328daa69a47f7a8f3483980f16a1142c24b12972a2e4174bc6",
-    env: AgentverseEnv = "prod",
+    agentverse_base_url: str = "agentverse.ai",
 ):
     """
     Send a message to an agent.
@@ -38,7 +38,7 @@ def send_message_to_agent(
     :return:
     """
 
-    agentverse_config = create_agentverse_config(env=env)
+    agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
 
     send_message(
         destination=target,
