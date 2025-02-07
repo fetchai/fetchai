@@ -13,12 +13,9 @@ def create_agentverse_config(env: AgentverseEnv) -> AgentverseConfig:
     :return: The AgentverseConfig object containing the url corresponding to the specific env.
     """
 
-    agentverse_subdomain = "" if env == "prod" else env
-    agentverse_base_url = (
-        f"{agentverse_subdomain}.{DEFAULT_AGENTVERSE_URL}"
-        if agentverse_subdomain
-        else DEFAULT_AGENTVERSE_URL
-    )
-    agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
+    if env == "prod":
+        return AgentverseConfig()
 
+    agentverse_base_url = f"{env}.{DEFAULT_AGENTVERSE_URL}"
+    agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
     return agentverse_config
