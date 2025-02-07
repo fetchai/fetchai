@@ -25,7 +25,7 @@ def register_with_agentverse(
     :param agentverse_token: The token to use to authenticate with the Agentverse API
     :param agent_title: The title of the agent
     :param readme: The readme for the agent
-    :param env: The Almanac+Agentverse environment we would like to use - default is prod.
+    :param env: The Agentverse environment we would like to use - default is prod.
     :return:
     """
 

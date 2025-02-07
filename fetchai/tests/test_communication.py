@@ -20,11 +20,11 @@ class TestSendMessageToAgent:
     def test_happy_path(self, identity: Identity):
         agent_name = "agent_one"
         agentverse_config = AgentverseConfig()
-        almanac_api = urllib.parse.urljoin(
+        almanac_api_url = urllib.parse.urljoin(
             agentverse_config.url, DEFAULT_ALMANAC_API_PATH
         )
         # the endpoint where the agent endpoint lookup request is expected to be sent
-        expected_endpoint_lookup_url = f"{almanac_api}/agents/"
+        expected_endpoint_lookup_url = f"{almanac_api_url}/agents/"
         # the endpoint url path where the agent message is expected to be sent
         expected_agent_url_path = "/v1/hosting/submit"
         # the endpoint url where the agent message is expected to be sent
