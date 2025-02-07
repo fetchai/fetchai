@@ -28,12 +28,12 @@ def send_message_to_agent(
 ):
     """
     Send a message to an agent.
+    :param session: The unique identifier for the dialogue between two agents
     :param sender: The identity of the sender.
     :param target: The address of the target agent.
-    :param payload: The payload of the message.
-    :param session: The unique identifier for the dialogue between two agents
     :param protocol_digest: The digest of the protocol that is being used
     :param model_digest: The digest of the model that is being used
+    :param payload: The payload of the message.
     :param env: The environment we would like to use - default is prod.
     :return:
     """
