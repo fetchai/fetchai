@@ -34,7 +34,7 @@ def send_message_to_agent(
     :param protocol_digest: The digest of the protocol that is being used
     :param model_digest: The digest of the model that is being used
     :param payload: The payload of the message.
-    :param env: The Agentverse environment we would like to use - default is prod.
+    :param agentverse_base_url: The base url of the Agentverse environment we would like to use.
     :return:
     """
 
