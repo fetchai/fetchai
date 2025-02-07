@@ -1,4 +1,4 @@
-from uagents_core.config import AgentverseConfig
+from uagents_core.config import DEFAULT_AGENTVERSE_URL, AgentverseConfig
 from uagents_core.crypto import Identity
 from uagents_core.registration import AgentverseConnectRequest, AgentUpdates
 from uagents_core.types import AgentType
@@ -14,7 +14,7 @@ def register_with_agentverse(
     *,
     protocol_digest: str = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
     agent_type: AgentType = "custom",
-    agentverse_base_url: str = "agentverse.ai",
+    agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ):
     """
     Register the agent with the Agentverse API.
