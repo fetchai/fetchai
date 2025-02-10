@@ -27,6 +27,7 @@ setup(
             "pytest==8.3.4",
             "pytest-cov==6.0.0",
             "requests-mock==1.12.1",
+            "pytest-asyncio==0.25.3",
         ],
     },
     description="Find the right AI at the right time and register your AI to be discovered.",

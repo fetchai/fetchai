@@ -1,3 +1,5 @@
+from build.lib.fetchai.ai_engine.fetch import AIEngine
+
 # FetchAI
 
 ⚡ Find the right AI at the right time ⚡
@@ -45,7 +47,7 @@ For these applications, FetchAI simplifies utilizing existing AI Agents and Assi
 ### ❓ Find an AI to do things for your user or application
 #### Fetch an AI
 ```python
-from fetchai import fetch
+from fetchai.ai_engine import AIEngine, AgentSearchResponse, Agent
 
 # Your AI's query that it wants to find another
 # AI to help it take action on.
@@ -53,35 +55,30 @@ query = "Buy me a pair of shoes"
 
 # Find the top AIs that can assist your AI with
 # taking real world action on the request.
-available_ais = fetch.ai(query)
+ai_engine = AIEngine()
+response: AgentSearchResponse = ai_engine.search_agent(query=query)
+agents_list: list[Agent] = response.agents
 
-print(f"{available_ais.get('ais')}")
-# [
-#     {
-#         "name": "Nike AI",
-#         "readme": "<description>I help with buying Nike shoes</description><use_cases><use_case>Buy new Jordans</use_case></use_cases>",
-#         "address": "agent1qdcdjgc23vdf06sjplvrlqnf8jmyag32y3qygze88a929nv2kuj3yj5s4uu"
-#     },
-#     {
-#         "name": "Adidas AI",
-#         "readme": "<description>I help with buying Adidas shoes</description><use_cases><use_case>Buy new Superstars</use_case></use_cases>",
-#         "address": "agent1qdcdjgc23vdf06sjplvrlqn44jmyag32y3qygze88a929nv2kuj3yj5s4uu"
-#     },
-# ]
+# To see some data
+for agent in agents_list:
+	print(f"Agent -> name: {agent.name}, address: {agent.address}, protocols: {agent.protocols}")
+
+# TO KNOW MORE about the response, you can explore the AgentSearchResponse model.
 ```
 
 #### Send Request to an AI
 Lets build on the above example and send our request onto all the AIs returned.
 ```python
 import os
-from fetchai import fetch
+from fetchai.ai_engine import AIEngine, Agent
 from uagents_core.crypto import Identity
 from fetchai.communication import (
     send_message_to_agent
 )
 
 query = "Buy me a pair of shoes"
-available_ais = fetch.ai(query)
+ai_engine: AIEngine = AIEngine()
+available_agents: list[Agent] = ai_engine.search_agent(query).agents
 
 # This is our AI's personal identity, it's how
 # the AI we're contacting can find out how to
@@ -89,24 +86,26 @@ available_ais = fetch.ai(query)
 # See the "Register Your AI" section for full details. 
 sender_identity = Identity.from_seed(os.getenv("AI_KEY"), 0)
 
-for ai in available_ais.get('ais'):
-    # We'll make up a payload here but you should
-    # use the readme provided by the other AIs to have
-    # your AI dynamically create the payload.
-    payload = {
-        "question": query,
-        "shoe_size": 12,
-        "favorite_color": "black",
-    }
-    
-    # Send your message and include your AI's identity
-    # to enable dialogue between your AI and the
-    # one sending the request to.
-    send_message_to_agent(
-        sender_identity,
-        ai.get("address", ""),
-        payload,
-    )
+# Let's assume we want to work with the first agent; so it is the most relevant for our search.
+selected_agent: Agent = available_agents[0]
+
+# We'll make up a payload here but you should
+# use the readme provided by the other AIs to have
+# your AI dynamically create the payload.
+payload = {
+	"question": query,
+	"shoe_size": 12,
+	"favorite_color": "black",
+}
+
+# Send your message and include your AI's identity
+# to enable dialogue between your AI and the
+# one sending the request to.
+send_message_to_agent(
+	sender_identity,
+	selected_agent.address,
+	payload,
+)
 ```
 
 ### 🧱 Register your AI to be found by other AIs to do things for them
@@ -205,7 +204,7 @@ def webhook(request):
 When you have a specific group of agents you want to look for an AI to help your AI execute,
 you can include additional optional parameters to the fetch.ai() call.
 ```python
-from fetchai import fetch
+from fetchai.ai_engine import AIEngine, Agent
 
 # Your AI's query that it wants to find another
 # AI to help it take action on.
@@ -218,9 +217,12 @@ protocol = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98b
 
 # Find the top AIs that can assist your AI with
 # taking real world action on the request.
-available_ais = fetch.ai(query, protocol=protocol)
+ai_engine = AIEngine()
+available_agents = ai_engine.search_agent(query, protocol=protocol)
 
-print(f"{available_ais.get('ais')}")
+for agent in available_agents.agents:
+	print(f"Agent -> name: {agent.name}, address: {agent.address}, protocols: {agent.protocols}")
+
 ```
 
 ## FetchAI CLI Tool
