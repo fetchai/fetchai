@@ -75,7 +75,7 @@ Lets build on the above example and send our request onto all the AIs returned.
 ```python
 import os
 from fetchai import fetch
-from fetchai.crypto import Identity
+from uagents_core.crypto import Identity
 from fetchai.communication import (
     send_message_to_agent
 )
@@ -114,7 +114,7 @@ for ai in available_ais.get('ais'):
 #### Register Your AI
 ```python
 import os
-from fetchai.crypto import Identity
+from uagents_core.crypto import Identity
 from fetchai.registration import register_with_agentverse
 
 # Your Agentverse API Key for utilizing webtools on your AI that is 
@@ -161,7 +161,7 @@ register_with_agentverse(
 ```python
 def webhook(request):
     import os
-    from fetchai.crypto import Identity
+    from uagents_core.crypto import Identity
     from fetchai.communication import (
         parse_message_from_agent, 
         send_message_to_agent

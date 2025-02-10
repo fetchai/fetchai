@@ -1,38 +1,21 @@
 import json
-from typing import Optional, Any, Callable
+from typing import Optional, Any
 from uuid import uuid4
 
-import requests
+from pydantic import UUID4
+from uagents_core.config import DEFAULT_AGENTVERSE_URL, AgentverseConfig
+from uagents_core.crypto import Identity
+from uagents_core.envelope import Envelope
+from uagents_core.utils.communication import send_message
 
-from fetchai.crypto import Identity
-from fetchai.logger import logger
-from fetchai.registration import DEFAULT_ALMANAC_API_URL
-from fetchai.schema import JsonStr, Envelope, AgentMessage
-
-
-def lookup_endpoint_for_agent(agent_address: str) -> str:
-    request_meta = {
-        "agent_address": agent_address,
-        "lookup_url": DEFAULT_ALMANAC_API_URL,
-    }
-    logger.debug("looking up endpoint for agent", extra=request_meta)
-    r = requests.get(f"{DEFAULT_ALMANAC_API_URL}/agents/{agent_address}")
-    r.raise_for_status()
-
-    request_meta["response_status"] = r.status_code
-    logger.info(
-        "Got response looking up agent endpoint",
-        extra=request_meta,
-    )
-
-    return r.json()["endpoints"][0]["url"]
+from fetchai.schema import JsonStr, AgentMessage
 
 
 def send_message_to_agent(
     sender: Identity,
     target: str,
     payload: Any,
-    session: Optional[uuid4()] = uuid4(),
+    session: Optional[UUID4] = uuid4(),
     # The default protocol for AI to AI conversation, use for standard chat
     protocol_digest: Optional[
         str
@@ -41,7 +24,7 @@ def send_message_to_agent(
     model_digest: Optional[
         str
     ] = "model:708d789bb90924328daa69a47f7a8f3483980f16a1142c24b12972a2e4174bc6",
-    agent_lookup_function: Callable[[str], str] = lookup_endpoint_for_agent,
+    agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ):
     """
     Send a message to an agent.
@@ -51,38 +34,21 @@ def send_message_to_agent(
     :param protocol_digest: The digest of the protocol that is being used
     :param model_digest: The digest of the model that is being used
     :param payload: The payload of the message.
+    :param agentverse_base_url: The base url of the Agentverse environment we would like to use.
     :return:
     """
-    json_payload = json.dumps(payload, separators=(",", ":"))
 
-    env = Envelope(
-        version=1,
-        sender=sender.address,
-        target=target,
-        session=session,
-        schema_digest=model_digest,
+    agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
+
+    send_message(
+        destination=target,
+        message_schema_digest=model_digest,
+        message_body=payload,
+        sender=sender,
+        session_id=session,
         protocol_digest=protocol_digest,
+        agentverse_config=agentverse_config,
     )
-
-    env.encode_payload(json_payload)
-    env.sign(sender)
-
-    print(env.model_dump_json())
-
-    # query the almanac to lookup the target agent
-    endpoint = agent_lookup_function(target)
-    print(endpoint)
-
-    # send the envelope to the target agent
-    request_meta = {"agent_address": target, "agent_endpoint": endpoint}
-    logger.debug("Sending message to agent", extra=request_meta)
-    r = requests.post(
-        endpoint,
-        headers={"content-type": "application/json"},
-        data=env.model_dump_json(),
-    )
-    r.raise_for_status()
-    logger.info("Sent message to agent", extra=request_meta)
 
 
 def parse_message_from_agent(content: JsonStr) -> AgentMessage:

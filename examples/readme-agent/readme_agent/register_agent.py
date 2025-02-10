@@ -34,7 +34,7 @@ def main():
         MY_AGENT_NAME,
         readme,
     )
-    print("Registered agent at:", ai_identity.address)
+    print("Registered agent at:", AGENT_IDENTITY.address)
 
 
 if __name__ == "__main__":

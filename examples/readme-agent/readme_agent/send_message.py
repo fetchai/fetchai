@@ -1,9 +1,6 @@
 from fetchai.communication import send_message_to_agent
 
-from readme_agent.settings import (
-    AGENT_IDENTITY,
-    MY_WEBHOOK_URL,
-)
+from readme_agent.settings import AGENT_IDENTITY
 
 
 def main():

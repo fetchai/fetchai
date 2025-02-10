@@ -1,7 +1,7 @@
 import click
 import sys
 from dotenv import set_key
-from fetchai.crypto import Identity
+from uagents_core.crypto import Identity
 from fetchai.registration import register_with_agentverse
 from cli.env import load_environment_variables
 from cli.readme import load_readme
@@ -39,7 +39,7 @@ and the program will exit with a non-zero status code.
 Dependencies:
     - click: For creating the command-line interface
     - dotenv: For setting environment variables
-    - fetchai.crypto: For creating AI identity
+    - uagents_core.crypto: For creating AI identity
     - fetchai.registration: For registering with AgentVerse
     - cli.env: For loading environment variables
     - cli.readme: For loading README content

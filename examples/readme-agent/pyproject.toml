@@ -6,9 +6,10 @@ authors = ["scrowland <simon.rowland@fetch.ai>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.13"
+python = ">=3.9,<3.13"
 fastapi = {extras = ["standard"], version = "^0.115.8"}
 fetchai = {path="../../", develop=false}
+uagents-core = "0.1.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
