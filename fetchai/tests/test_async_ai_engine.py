@@ -7,12 +7,6 @@ from fetchai.ai_engine import AsyncAIEngine
 
 
 class TestAIEngineIntegration:
-    ai_engine: AsyncAIEngine
-
-    @classmethod
-    def setup_class(cls):
-        cls.ai_engine = AsyncAIEngine()
-
     @pytest.mark.asyncio
     async def test_search_agents(self):
         with mock.patch(
