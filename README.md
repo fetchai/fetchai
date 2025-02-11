@@ -1,5 +1,3 @@
-from build.lib.fetchai.ai_engine.fetch import AIEngine
-
 # FetchAI
 
 ⚡ Find the right AI at the right time ⚡
