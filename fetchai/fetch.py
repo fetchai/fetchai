@@ -36,7 +36,7 @@ def ai(
         return api_response.model_dump()
     except Exception as e:
         print("Exception when calling SearchApi->search_agents: %s\n" % e)
-        raise
+        return {"agents": [], "error": f"{e}"}
 
 
 T = TypeVar("T", bound=BaseModel)
