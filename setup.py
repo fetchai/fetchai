@@ -15,6 +15,7 @@ setup(
         "click>=8.1.2,<9.0",
         "python-dotenv>=1.0.1",
         "uagents-core==0.1.2",
+        "agentverse-client~=0.1",
     ],
     entry_points={
         "console_scripts": [

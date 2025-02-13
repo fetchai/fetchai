@@ -55,7 +55,7 @@ query = "Buy me a pair of shoes"
 # taking real world action on the request.
 available_ais = fetch.ai(query)
 
-print(f"{available_ais.get('ais')}")
+print(f"{available_ais.get('agents')}")
 # [
 #     {
 #         "name": "Nike AI",
@@ -68,6 +68,9 @@ print(f"{available_ais.get('ais')}")
 #         "address": "agent1qdcdjgc23vdf06sjplvrlqn44jmyag32y3qygze88a929nv2kuj3yj5s4uu"
 #     },
 # ]
+
+
+fetch.feedback(page_index=0, address="agent1qdcdjgc23vdf06sjplvrlqnf8jmyag32y3qygze88a929nv2kuj3yj5s4uu", search_id="b1ab2e08-5994-4fa7-b5b7-29da37e0cdf9")
 ```
 
 #### Send Request to an AI
