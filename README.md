@@ -55,7 +55,7 @@ query = "Buy me a pair of shoes"
 # taking real world action on the request.
 available_ais = fetch.ai(query)
 
-print(f"{available_ais.get('agents')}")
+print(f"{available_ais.get('ais')}")
 # [
 #     {
 #         "name": "Nike AI",
@@ -92,7 +92,7 @@ available_ais = fetch.ai(query)
 # See the "Register Your AI" section for full details. 
 sender_identity = Identity.from_seed(os.getenv("AI_KEY"), 0)
 
-for ai in available_ais.get('agents'):
+for ai in available_ais.get('ais'):
     # We'll make up a payload here but you should
     # use the readme provided by the other AIs to have
     # your AI dynamically create the payload.
@@ -223,7 +223,7 @@ protocol = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98b
 # taking real world action on the request.
 available_ais = fetch.ai(query, protocol=protocol)
 
-print(f"{available_ais.get('agents')}")
+print(f"{available_ais.get('ais')}")
 ```
 
 ## FetchAI CLI Tool
