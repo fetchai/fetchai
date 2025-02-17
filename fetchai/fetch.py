@@ -34,7 +34,7 @@ def ai(
     try:
         api_response: AgentSearchResponse = _request(req)
         result: dict = api_response.model_dump()
-        result['ais'] = result.get('agents', [])
+        result["ais"] = result.get("agents", [])
         return result
     except Exception as e:
         print("Exception when calling SearchApi->search_agents: %s\n" % e)
