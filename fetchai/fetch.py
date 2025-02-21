@@ -7,7 +7,9 @@ from agentverse_client.search import (
     AgentFilters,
     Direction,
     SortType,
-    AgentClickedRequest,
+)
+from agentverse_client.search.models.search_feedback_request import (
+    SearchFeedbackRequest,
 )
 from pydantic import BaseModel
 
@@ -49,20 +51,20 @@ def _request(request: Callable[[SearchApi], T]) -> T:
     configuration = agentverse_client.search.Configuration(host=url)
     with agentverse_client.search.ApiClient(configuration) as api_client:
         # Create an instance of the API class
-        api_instance = agentverse_client.search.SearchApi(api_client)
+        api_instance: SearchApi = agentverse_client.search.SearchApi(api_client)
         return request(api_instance)
 
 
 def feedback(search_response: dict, agent_index: int) -> None:
     page_index: int = search_response.get("offset") // search_response.get("num_hits")
-    agent_clicked_request = AgentClickedRequest(
+    search_feedback_request = SearchFeedbackRequest(
         search_id=search_response.get("search_id"),
         page_index=page_index,
         address=search_response.get("agents")[agent_index].get("address"),
     )
 
-    req: Callable[[SearchApi], Any] = lambda api_instance: api_instance.select_agent(
-        agent_clicked_request
+    req: Callable[[SearchApi], Any] = lambda api_instance: api_instance.feedback(
+        search_feedback_request
     )
 
     try:

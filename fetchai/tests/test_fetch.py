@@ -13,7 +13,7 @@ class TestAI:
 
     def test__notify_selected_agent(self, agent_search_response_fixture: dict):
         with mock.patch(
-            "agentverse_client.search.SearchApi.select_agent"
+            "agentverse_client.search.SearchApi.feedback"
         ) as search_agents_mock:
             fetch.feedback(search_response=agent_search_response_fixture, agent_index=0)
             assert search_agents_mock.call_count == 1

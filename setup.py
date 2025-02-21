@@ -14,7 +14,7 @@ setup(
         "mnemonic>=0.21",
         "click>=8.1.2,<9.0",
         "python-dotenv>=1.0.1",
-        "uagents-core==0.1.2",
+        "uagents-core~=0.1.2",
         "agentverse-client~=0.1",
     ],
     entry_points={
