@@ -38,8 +38,6 @@ For these applications, FetchAI simplifies utilizing existing AI Agents and Assi
 
 - **[Agentverse](https://agentverse.ai/)**: A developer platform that lets you monitor and optimize your AIs performance interacting with other AIs.
 
-![Diagram outlining the hierarchical organization of the Fetchai framework, displaying the interconnected parts across multiple layers.](docs/static/png/fetchai_product_overview.png "Fetchai Architecture Overview")
-
 ## 🧱 Quickstart: What can you do with Fetchai?
 
 ### ❓ Find an AI to do things for your user or application

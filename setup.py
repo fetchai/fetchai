@@ -8,7 +8,7 @@ setup(
     install_requires=[
         "bech32>=1.2.0,<2.0",
         "ecdsa>=0.19.0,<1.0",
-        "pydantic>=2.7.4,<3.0",
+        "pydantic>=2.8,<2.9",
         "requests>=2.32.3,<3.0",
         "httpx>=0.23.0,<1.0",
         "mnemonic>=0.21",
