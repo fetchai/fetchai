@@ -38,8 +38,6 @@ For these applications, FetchAI simplifies utilizing existing AI Agents and Assi
 
 - **[Agentverse](https://agentverse.ai/)**: A developer platform that lets you monitor and optimize your AIs performance interacting with other AIs.
 
-![Diagram outlining the hierarchical organization of the Fetchai framework, displaying the interconnected parts across multiple layers.](docs/static/png/fetchai_product_overview.png "Fetchai Architecture Overview")
-
 ## 🧱 Quickstart: What can you do with Fetchai?
 
 ### ❓ Find an AI to do things for your user or application
@@ -75,7 +73,7 @@ Lets build on the above example and send our request onto all the AIs returned.
 ```python
 import os
 from fetchai import fetch
-from fetchai.crypto import Identity
+from uagents_core.crypto import Identity
 from fetchai.communication import (
     send_message_to_agent
 )
@@ -114,7 +112,7 @@ for ai in available_ais.get('ais'):
 #### Register Your AI
 ```python
 import os
-from fetchai.crypto import Identity
+from uagents_core.crypto import Identity
 from fetchai.registration import register_with_agentverse
 
 # Your Agentverse API Key for utilizing webtools on your AI that is 
@@ -161,7 +159,7 @@ register_with_agentverse(
 ```python
 def webhook(request):
     import os
-    from fetchai.crypto import Identity
+    from uagents_core.crypto import Identity
     from fetchai.communication import (
         parse_message_from_agent, 
         send_message_to_agent

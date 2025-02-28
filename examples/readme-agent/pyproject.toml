@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "readme-agent"
+version = "0.1.0"
+description = "A simple example of how to use the fetchai package to create an agent"
+authors = ["scrowland <simon.rowland@fetch.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+fastapi = {extras = ["standard"], version = "^0.115.8"}
+fetchai = {path="../../", develop=false}
+uagents-core = "0.1.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+pytest = "^8.3.4"
+httpx = "^0.28.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+# A temporary workaround to PyTest inheriting the config from the `pyproject.toml` file in
+# the repos root directory.
+addopts=""

@@ -1,18 +1,20 @@
 from setuptools import setup, find_packages
 
+
 setup(
     name="fetchai",
     version="0.1.30",
-    packages=find_packages(),  # Automatically find all packages in the folder
+    packages=find_packages(exclude=("fetchai/tests", "examples")),
     install_requires=[
         "bech32>=1.2.0,<2.0",
         "ecdsa>=0.19.0,<1.0",
-        "pydantic>=2.7.4,<3.0",
+        "pydantic>=2.8,<2.9",
         "requests>=2.32.3,<3.0",
         "httpx>=0.23.0,<1.0",
         "mnemonic>=0.21",
         "click>=8.1.2,<9.0",
         "python-dotenv>=1.0.1",
+        "uagents-core==0.1.2",
     ],
     entry_points={
         "console_scripts": [
@@ -21,7 +23,10 @@ setup(
     },
     extras_require={
         "dev": [
-            "black",
+            "black==24.10.0",
+            "pytest==8.3.4",
+            "pytest-cov==6.0.0",
+            "requests-mock==1.12.1",
         ],
     },
     description="Find the right AI at the right time and register your AI to be discovered.",
@@ -36,5 +41,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.9,<3.13",
 )
