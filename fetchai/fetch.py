@@ -61,7 +61,9 @@ def feedback(search_response: dict, agent_index: int) -> None:
         url = "https://agentverse.ai"
         configuration = agentverse_client.search.Configuration(host=url)
         with agentverse_client.search.ApiClient(configuration) as api_client:
-            api_instance: SearchApi = agentverse_client.search.SearchApi(search_feedback_request)
+            api_instance: SearchApi = agentverse_client.search.SearchApi(
+                search_feedback_request
+            )
             api_instance.feedback(search_feedback_request)
     except Exception as e:
         print("Exception when calling SearchApi->search_agents: %s\n" % e)
