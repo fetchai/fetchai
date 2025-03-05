@@ -11,7 +11,7 @@ class TestAI:
             fetch.ai(query="Find me a restaurant.")
             assert search_agents_mock.call_count == 1
 
-    def test__notify_selected_agent(self, agent_search_response_fixture: dict):
+    def test_feedback(self, agent_search_response_fixture: dict):
         with mock.patch(
             "agentverse_client.search.SearchApi.feedback"
         ) as search_agents_mock:

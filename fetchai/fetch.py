@@ -1,4 +1,4 @@
-from typing import Optional, Callable
+from typing import Optional
 
 import agentverse_client.search
 from agentverse_client.search import (
@@ -19,23 +19,24 @@ def ai(
         str
     ] = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
 ) -> dict:
-    res: dict
+    res: dict = {"ais": []}
 
     agent_search_request = agentverse_client.search.AgentSearchRequest(
         search_text=query,
         filters=AgentFilters(protocol_digest=[protocol]),
         sort=SortType.RELEVANCY,
-        direction=Direction.ASC,  # TODO: Should not be this DESC?
+        direction=Direction.ASC,  # ! Right now, in the API, ASC & DESC are reversed
         offset=0,
         limit=10,
     )
 
-    req: Callable[[SearchApi], AgentSearchResponse] = (
-        lambda api_instance: api_instance.search_agents(agent_search_request)
-    )
-
     try:
-        api_response: AgentSearchResponse = _request(req)
+        with agentverse_client.search.ApiClient() as api_client:
+            api_instance: SearchApi = agentverse_client.search.SearchApi(api_client)
+            api_response: AgentSearchResponse = api_instance.search_agents(
+                agent_search_request
+            )
+
         api_response_dict: dict = api_response.model_dump()
 
         res["ais"] = api_response_dict.get("agents", [])
@@ -58,13 +59,9 @@ def feedback(search_response: dict, agent_index: int) -> None:
     )
 
     try:
-        url = "https://agentverse.ai"
-        configuration = agentverse_client.search.Configuration(host=url)
-        with agentverse_client.search.ApiClient(configuration) as api_client:
-            api_instance: SearchApi = agentverse_client.search.SearchApi(
-                search_feedback_request
-            )
+        with agentverse_client.search.ApiClient() as api_client:
+            api_instance: SearchApi = agentverse_client.search.SearchApi(api_client)
             api_instance.feedback(search_feedback_request)
     except Exception as e:
-        print("Exception when calling SearchApi->search_agents: %s\n" % e)
+        print("Exception when calling SearchApi->feedback: %s\n" % e)
         raise
