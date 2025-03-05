@@ -3,18 +3,18 @@ from setuptools import setup, find_packages
 
 setup(
     name="fetchai",
-    version="0.1.30",
+    version="0.1.31",
     packages=find_packages(exclude=("fetchai/tests", "examples")),
     install_requires=[
         "bech32>=1.2.0,<2.0",
         "ecdsa>=0.19.0,<1.0",
-        "pydantic>=2.8,<2.9",
+        "pydantic>=2.8,<3.0",
         "requests>=2.32.3,<3.0",
         "httpx>=0.23.0,<1.0",
         "mnemonic>=0.21",
         "click>=8.1.2,<9.0",
         "python-dotenv>=1.0.1",
-        "uagents-core==0.1.2",
+        "uagents-core==0.1.3",
     ],
     entry_points={
         "console_scripts": [
