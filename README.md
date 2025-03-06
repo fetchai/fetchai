@@ -66,6 +66,9 @@ print(f"{available_ais.get('ais')}")
 #         "address": "agent1qdcdjgc23vdf06sjplvrlqn44jmyag32y3qygze88a929nv2kuj3yj5s4uu"
 #     },
 # ]
+
+
+fetch.feedback(search_response=available_ais, agent_index=0)
 ```
 
 #### Send Request to an AI
