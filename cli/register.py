@@ -1,11 +1,3 @@
-import click
-import sys
-from dotenv import set_key
-from uagents_core.crypto import Identity
-from fetchai.registration import register_with_agentverse
-from cli.env import load_environment_variables
-from cli.readme import load_readme
-
 """
 register.py
 
@@ -48,6 +40,15 @@ Note: This script assumes that the necessary environment variables (AGENTVERSE_K
 and AGENT_KEY) are set or can be loaded from a .env file.
 """
 
+import sys
+
+import click
+from dotenv import set_key
+from uagents_core.identity import Identity
+
+from cli.env import load_environment_variables
+from cli.readme import load_readme
+from fetchai.registration import register_with_agentverse
 
 # Register command
 
@@ -87,8 +88,12 @@ def register(name, readme, webhook, force):
         ai_identity = Identity.from_seed(agent_key, 0)
 
         # Register the agent with Agentverse
-        result = register_with_agentverse(
-            ai_identity, webhook, agentverse_key, name, readme_content
+        register_with_agentverse(
+            identity=ai_identity,
+            url=webhook,
+            agentverse_token=agentverse_key,
+            agent_title=name,
+            readme=readme_content,
         )
         click.echo(f"Agent successfully registered @ {ai_identity.address}")
         # Optionally save information to .env file

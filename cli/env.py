@@ -1,6 +1,7 @@
-import click
-import sys
 import os
+import sys
+
+import click
 
 
 # Load environment variables from .env and validate keys

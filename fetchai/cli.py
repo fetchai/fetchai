@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-import os
 import click
-from dotenv import load_dotenv, set_key, dotenv_values
-from cli import env, identity, readme, register
+from dotenv import load_dotenv
+
+from cli import identity, readme, register
 
 # Load environment variables from .env file
 load_dotenv()
