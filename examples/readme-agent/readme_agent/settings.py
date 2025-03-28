@@ -1,9 +1,7 @@
 import os
 
 from dotenv import load_dotenv
-
-from uagents_core.crypto import Identity
-
+from uagents_core.identity import Identity
 
 load_dotenv()
 
