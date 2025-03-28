@@ -1,8 +1,8 @@
 from uagents_core.config import DEFAULT_AGENTVERSE_URL, AgentverseConfig
-from uagents_core.crypto import Identity
-from uagents_core.registration import AgentverseConnectRequest, AgentUpdates
+from uagents_core.identity import Identity
+from uagents_core.registration import AgentUpdates, AgentverseConnectRequest
 from uagents_core.types import AgentType
-from uagents_core.utils.registration import register_in_almanac, register_in_agentverse
+from uagents_core.utils.registration import register_in_agentverse, register_in_almanac
 
 
 def register_with_agentverse(
@@ -15,7 +15,7 @@ def register_with_agentverse(
     protocol_digest: str = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
     agent_type: AgentType = "custom",
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
-):
+) -> None:
     """
     Register the agent with the Agentverse API.
     :param identity: The identity of the agent.
@@ -30,23 +30,23 @@ def register_with_agentverse(
 
     agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
 
-    agentverse_connect_request = AgentverseConnectRequest(
-        user_token=agentverse_token,
-        agent_type=agent_type,
-        endpoint=url,
-    )
-
     register_in_almanac(
-        request=agentverse_connect_request,
         identity=identity,
+        endpoints=[url],
         protocol_digests=[protocol_digest],
         agentverse_config=agentverse_config,
     )
 
-    agent_updates = AgentUpdates(name=agent_title, readme=readme)
     register_in_agentverse(
-        request=agentverse_connect_request,
+        request=AgentverseConnectRequest(
+            user_token=agentverse_token,
+            agent_type=agent_type,
+            endpoint=url,
+        ),
         identity=identity,
-        agent_details=agent_updates,
+        agent_details=AgentUpdates(
+            name=agent_title,
+            readme=readme,
+        ),
         agentverse_config=agentverse_config,
     )

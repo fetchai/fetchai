@@ -1,5 +1,4 @@
 from fetchai.registration import register_with_agentverse
-
 from readme_agent.settings import (
     AGENT_IDENTITY,
     AGENTVERSE_KEY,

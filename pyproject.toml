@@ -3,17 +3,15 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
-testpaths = [
-    "fetchai/tests",
-]
+testpaths = ["fetchai/tests"]
 addopts = [
-#    "--cov=cli", # There are no test at all for this package and makes the coverage to fail.
-    "--cov=fetchai"
+    #    "--cov=cli", # There are no test at all for this package and makes the coverage to fail.
+    "--cov=fetchai",
 ]
 
 [tool.coverage.run]
 source = ["fetchai"]
-omit = ["fetchai/tests/*",]
+omit = ["fetchai/tests/*"]
 
 [tool.coverage.report]
 fail_under = 46

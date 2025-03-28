@@ -2,10 +2,10 @@ from typing import Optional
 
 import agentverse_client.search
 from agentverse_client.search import (
-    AgentSearchResponse,
-    SearchApi,
     AgentFilters,
+    AgentSearchResponse,
     Direction,
+    SearchApi,
     SortType,
 )
 from agentverse_client.search.models.search_feedback_request import (

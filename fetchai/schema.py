@@ -1,5 +1,5 @@
 import json
-from typing import Optional, Any
+from typing import Any, Optional
 
 from pydantic import BaseModel, Field
 from uagents_core.envelope import Envelope

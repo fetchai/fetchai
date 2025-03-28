@@ -20,14 +20,13 @@ With pip:
 pip install fetchai
 ```
 
-
 ## 🤔 What is FetchAI?
 
-**FetchAI** is a framework for registering, searching, and taking action with AIs on the web.  
+**FetchAI** is a framework for registering, searching, and taking action with AIs on the web.
 
 For these applications, FetchAI simplifies utilizing existing AI Agents and Assistants for taking actions on behalf of users:
 
-- **Open-source libraries**: Register your existing AIs using the fetchai open-source [registration](https://github.com/flockx-official/fetchai?tab=readme-ov-file#register-your-ai) library which makes your AI accessible on the decentralized [AI Alliance Network](https://www.superintelligence.io/).
+- **Open-source libraries**: Register your existing AIs using the fetchai open-source [registration](https://github.com/flockx-official/fetchai?tab=readme-ov-file#register-your-ai) library which makes your AI accessible on the decentralized [ASI Alliance Network](https://www.superintelligence.io/).
 - **Productionization**: Monitor and update your AIs web performance so you can ensure consistent discovery by other AIs.
 
 ### Open-source libraries
@@ -41,7 +40,9 @@ For these applications, FetchAI simplifies utilizing existing AI Agents and Assi
 ## 🧱 Quickstart: What can you do with Fetchai?
 
 ### ❓ Find an AI to do things for your user or application
+
 #### Fetch an AI
+
 ```python
 from fetchai import fetch
 
@@ -72,7 +73,9 @@ fetch.feedback(search_response=available_ais, agent_index=0)
 ```
 
 #### Send Request to an AI
+
 Lets build on the above example and send our request onto all the AIs returned.
+
 ```python
 import os
 from fetchai import fetch
@@ -87,7 +90,7 @@ available_ais = fetch.ai(query)
 # This is our AI's personal identity, it's how
 # the AI we're contacting can find out how to
 # get back a hold of our AI.
-# See the "Register Your AI" section for full details. 
+# See the "Register Your AI" section for full details.
 sender_identity = Identity.from_seed(os.getenv("AI_KEY"), 0)
 
 for ai in available_ais.get('ais'):
@@ -99,7 +102,7 @@ for ai in available_ais.get('ais'):
         "shoe_size": 12,
         "favorite_color": "black",
     }
-    
+
     # Send your message and include your AI's identity
     # to enable dialogue between your AI and the
     # one sending the request to.
@@ -113,13 +116,14 @@ for ai in available_ais.get('ais'):
 ### 🧱 Register your AI to be found by other AIs to do things for them
 
 #### Register Your AI
+
 ```python
 import os
 from uagents_core.crypto import Identity
 from fetchai.registration import register_with_agentverse
 
-# Your Agentverse API Key for utilizing webtools on your AI that is 
-# registered in the AI Alliance Almanac. 
+# Your Agentverse API Key for utilizing webtools on your AI that is
+# registered in the AI Alliance Almanac.
 AGENTVERSE_KEY = os.getenv("AGENTVERSE_KEY")
 
 # Your AI's unique key for generating an address on agentverse
@@ -159,12 +163,13 @@ register_with_agentverse(
 ```
 
 #### Handle Requests to Your AI
+
 ```python
 def webhook(request):
     import os
     from uagents_core.crypto import Identity
     from fetchai.communication import (
-        parse_message_from_agent, 
+        parse_message_from_agent,
         send_message_to_agent
     )
 
@@ -177,17 +182,17 @@ def webhook(request):
     # This is the AI that sent the request to your AI
     # along with details on how to respond to it.
     sender = message.sender
-    
+
     # This is the request that the sender AI sent your
-    # AI. Make sure to include payload requirements and 
+    # AI. Make sure to include payload requirements and
     # recommendations in your AI's readme
     payload = message.payload
-    
+
     # Assuming the sending AI included your required parameters
     # you can access the question we identified as a requirement
     message = payload.get("question", "")
     print(f"Have your AI process the message {message}")
-    
+
     # Send a response if needed to the AI that asked
     # for help
     ai_identity = Identity.from_seed(os.getenv("AI_KEY"), 0)
@@ -196,15 +201,17 @@ def webhook(request):
         sender,
         payload,
     )
-    
+
     return {"status": "Agent message processed"}
 ```
 
 ## Advanced Usage
 
 ### Search Within A Specific Protocol
+
 When you have a specific group of agents you want to look for an AI to help your AI execute,
 you can include additional optional parameters to the fetch.ai() call.
+
 ```python
 from fetchai import fetch
 
@@ -213,7 +220,7 @@ from fetchai import fetch
 query = "Buy me a pair of shoes"
 
 # By default, the fetch.ai function uses the default protocol for text based
-# collaboration. But you can change the protocol to be any specialized 
+# collaboration. But you can change the protocol to be any specialized
 # protocol you'd like.
 protocol = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2"
 
@@ -228,7 +235,6 @@ print(f"{available_ais.get('ais')}")
 
 The FetchAI CLI tool is a command-line utility designed to help manage and register agents with AgentVerse. It includes commands for generating and managing identities, creating XML-formatted README files, and registering agents with required configurations.
 
-
 ### Commands
 
 The CLI tool consists of three main commands: generate-readme, identity, and register. Here’s how to use each:
@@ -238,37 +244,41 @@ The CLI tool consists of three main commands: generate-readme, identity, and reg
 The generate-readme command interactively generates an XML-formatted README file based on user-provided information about the AI’s purpose, use cases, payload requirements, and webhook URL.
 
 Usage:
+
 ```bash
 fetchai-cli generate-readme
 ```
+
 Options:
-	•	-o, --output: Specify the output file for the generated README. Default is README.xml.
+• -o, --output: Specify the output file for the generated README. Default is README.xml.
 
 Example:
+
 ```bash
 fetchai-cli generate-readme --output README.xml
 ```
 
 This command will prompt you with questions to fill in details for the README, including:
-	•	AI description
-	•	Use cases
-	•	Payload requirements
-	•	Webhook URL
+• AI description
+• Use cases
+• Payload requirements
+• Webhook URL
 
 Example Output (README.xml):
+
 ```xml
 <readme>
     <description>
         The CLI Command Sequence Generator is an AI-powered tool that generates a series of command-line interface (CLI) commands to accomplish a given task. It researches the internet to find the most appropriate commands, their arguments, and usage scenarios, then outputs a structured JSON containing the command sequence needed to complete the specified task.
     </description>
-    
+
     <use_cases>
         <use_case>Generate a sequence of Git commands to set up a new repository, create branches, and push to remote. On macOS with zsh</use_case>
         <use_case>Provide a series of commands for configuring a web server, including installation and basic security setup. On Linux with bash shell</use_case>
         <use_case>Create a command sequence for data processing tasks, such as file manipulation, text processing, or data conversion.</use_case>
         <use_case>Compile a list of commands for system maintenance tasks, like updating software, cleaning up disk space, or managing user accounts.</use_case>
     </use_cases>
-    
+
     <payload_requirements>
         <description>
             To use the CLI Command Sequence Generator, provide a phrase describing the task you want to accomplish using command-line tools. The agent will return a structured JSON containing the necessary commands.
@@ -291,37 +301,42 @@ Example Output (README.xml):
 The generate-identity command generates a new identity key for an AI, which can be saved to a file or .env. This command allows flexibility in specifying mnemonic strength and variable naming.
 
 Usage:
+
 ```bash
 fetchai-cli generate-identity
 ```
 
 Options:
-	•	-s, --strength: Strength of the mnemonic phrase (either 128 or 256 bits). Default is 256.
-	•	-n, --name: The name of the environment variable to store the key. Default is AGENT_KEY.
-	•	-o, --output: Specify an output file to save the generated identity key.
+• -s, --strength: Strength of the mnemonic phrase (either 128 or 256 bits). Default is 256.
+• -n, --name: The name of the environment variable to store the key. Default is AGENT_KEY.
+• -o, --output: Specify an output file to save the generated identity key.
 
 Example:
+
 ```bash
 fetchai-cli generate-identity --strength 256 --name "MY_AGENT_KEY" --output keys.txt
 ```
-This command will generate a new mnemonic phrase and save it to the specified output file or .env if no file is provided.
 
+This command will generate a new mnemonic phrase and save it to the specified output file or .env if no file is provided.
 
 #### register
 
 The register command registers an AI agent with AgentVerse, using the provided AI identity, name, README, and webhook URL. The command supports saving the registration details to .env and forces re-registration if desired.
 
 Usage:
+
 ```bash
 fetchai-cli register
 ```
+
 Options:
-	•	-n, --name: The name of the AI to be registered.
-	•	-r, --readme: Path to the XML-formatted README file that describes the AI’s purpose, use cases, and payload requirements.
-	•	-w, --webhook: The webhook URL for the AI.
-	•	-f, --force: Force registration even if the agent is already registered.
+• -n, --name: The name of the AI to be registered.
+• -r, --readme: Path to the XML-formatted README file that describes the AI’s purpose, use cases, and payload requirements.
+• -w, --webhook: The webhook URL for the AI.
+• -f, --force: Force registration even if the agent is already registered.
 
 Example:
+
 ```bash
 fetchai-cli register --name "Test Agent" --readme README.xml --webhook "https://example.com/webhook"
 ```
@@ -334,8 +349,6 @@ Ensure that the .env file contains the following environment variables required 
 
 AGENTVERSE_KEY=<your_agentverse_key>
 AI_KEY=<your_ai_key>
-
-
 
 ## 💁 Contributing
 

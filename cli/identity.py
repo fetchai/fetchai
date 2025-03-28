@@ -45,9 +45,8 @@ when saving a new key.
 """
 
 # Import statements and code follow here...
-import os
 import click
-from dotenv import load_dotenv, set_key, dotenv_values
+from dotenv import dotenv_values, load_dotenv, set_key
 from mnemonic import Mnemonic
 
 

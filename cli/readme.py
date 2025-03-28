@@ -1,8 +1,3 @@
-import click
-from xml.etree.ElementTree import Element, SubElement, tostring
-from xml.dom.minidom import parseString
-import sys
-
 """
 readme.py
 
@@ -46,6 +41,12 @@ Note: This script assumes that the user has the necessary information about thei
 ready when running the generate-readme command. The generated README.xml file should be
 reviewed and potentially edited for completeness and accuracy after generation.
 """
+
+import sys
+from xml.dom.minidom import parseString
+from xml.etree.ElementTree import Element, SubElement, tostring
+
+import click
 
 
 @click.command(name="generate-readme")
