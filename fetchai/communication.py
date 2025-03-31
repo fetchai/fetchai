@@ -28,13 +28,9 @@ def send_message_to_agent(
     payload: Any,
     session: Optional[UUID4] = uuid4(),
     # The default protocol for AI to AI conversation, use for standard chat
-    protocol_digest: Optional[
-        str
-    ] = chat_protocol_spec.digest,
+    protocol_digest: Optional[str] = chat_protocol_spec.digest,
     # The default model for AI to AI conversation, use for standard chat
-    model_digest: Optional[
-        str
-    ] = CHAT_MESSAGE_DIGEST,
+    model_digest: Optional[str] = CHAT_MESSAGE_DIGEST,
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ) -> MsgStatus:
     """

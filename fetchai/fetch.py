@@ -18,9 +18,7 @@ from uagents_core.contrib.protocols.chat import (
 
 def ai(
     query: str,
-    protocol: Optional[
-        str
-    ] = chat_protocol_spec.digest,
+    protocol: Optional[str] = chat_protocol_spec.digest,
 ) -> dict:
     res: dict = {"ais": []}
 
