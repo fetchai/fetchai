@@ -200,6 +200,15 @@ def webhook(request):
     return {"status": "Agent message processed"}
 ```
 
+## Documentation and Guides
+For more detailed information on using FetchAI, check out our documentation:
+
+- [AI Agent to AI Agent Communication](docs/ai-communication.mdx) - Learn how to enable communication between AI agents using FetchAI SDK
+- [AI Agent to uAgent Communication](docs/sdk-uagent-communication.mdx) - Understand how to integrate AI agents with uAgents 
+- [AI Agent Provisioning](docs/register_an_agent.mdx) - Step-by-step guide for registering your AI agent on the network
+- [AI Agent CLI](docs/cli.mdx) - Command line interface helper functions to rapidly get your Agent provisioned and operational
+
+
 ## Advanced Usage
 
 ### Search Within A Specific Protocol
@@ -223,117 +232,6 @@ available_ais = fetch.ai(query, protocol=protocol)
 
 print(f"{available_ais.get('ais')}")
 ```
-
-## FetchAI CLI Tool
-
-The FetchAI CLI tool is a command-line utility designed to help manage and register agents with AgentVerse. It includes commands for generating and managing identities, creating XML-formatted README files, and registering agents with required configurations.
-
-
-### Commands
-
-The CLI tool consists of three main commands: generate-readme, identity, and register. Here’s how to use each:
-
-#### generate-readme
-
-The generate-readme command interactively generates an XML-formatted README file based on user-provided information about the AI’s purpose, use cases, payload requirements, and webhook URL.
-
-Usage:
-```bash
-fetchai-cli generate-readme
-```
-Options:
-	•	-o, --output: Specify the output file for the generated README. Default is README.xml.
-
-Example:
-```bash
-fetchai-cli generate-readme --output README.xml
-```
-
-This command will prompt you with questions to fill in details for the README, including:
-	•	AI description
-	•	Use cases
-	•	Payload requirements
-	•	Webhook URL
-
-Example Output (README.xml):
-```xml
-<readme>
-    <description>
-        The CLI Command Sequence Generator is an AI-powered tool that generates a series of command-line interface (CLI) commands to accomplish a given task. It researches the internet to find the most appropriate commands, their arguments, and usage scenarios, then outputs a structured JSON containing the command sequence needed to complete the specified task.
-    </description>
-    
-    <use_cases>
-        <use_case>Generate a sequence of Git commands to set up a new repository, create branches, and push to remote. On macOS with zsh</use_case>
-        <use_case>Provide a series of commands for configuring a web server, including installation and basic security setup. On Linux with bash shell</use_case>
-        <use_case>Create a command sequence for data processing tasks, such as file manipulation, text processing, or data conversion.</use_case>
-        <use_case>Compile a list of commands for system maintenance tasks, like updating software, cleaning up disk space, or managing user accounts.</use_case>
-    </use_cases>
-    
-    <payload_requirements>
-        <description>
-            To use the CLI Command Sequence Generator, provide a phrase describing the task you want to accomplish using command-line tools. The agent will return a structured JSON containing the necessary commands.
-        </description>
-        <payload>
-            <requirement>
-                <parameter>task</parameter>
-                <description>
-                    A phrase describing the task you want to accomplish using command-line tools.
-                    Include the operating system and/or shell that commands should be generated for.
-                </description>
-            </requirement>
-        </payload>
-    </payload_requirements>
-</readme>
-```
-
-#### generate-identity
-
-The generate-identity command generates a new identity key for an AI, which can be saved to a file or .env. This command allows flexibility in specifying mnemonic strength and variable naming.
-
-Usage:
-```bash
-fetchai-cli generate-identity
-```
-
-Options:
-	•	-s, --strength: Strength of the mnemonic phrase (either 128 or 256 bits). Default is 256.
-	•	-n, --name: The name of the environment variable to store the key. Default is AGENT_KEY.
-	•	-o, --output: Specify an output file to save the generated identity key.
-
-Example:
-```bash
-fetchai-cli generate-identity --strength 256 --name "MY_AGENT_KEY" --output keys.txt
-```
-This command will generate a new mnemonic phrase and save it to the specified output file or .env if no file is provided.
-
-
-#### register
-
-The register command registers an AI agent with AgentVerse, using the provided AI identity, name, README, and webhook URL. The command supports saving the registration details to .env and forces re-registration if desired.
-
-Usage:
-```bash
-fetchai-cli register
-```
-Options:
-	•	-n, --name: The name of the AI to be registered.
-	•	-r, --readme: Path to the XML-formatted README file that describes the AI’s purpose, use cases, and payload requirements.
-	•	-w, --webhook: The webhook URL for the AI.
-	•	-f, --force: Force registration even if the agent is already registered.
-
-Example:
-```bash
-fetchai-cli register --name "Test Agent" --readme README.xml --webhook "https://example.com/webhook"
-```
-
-This command will read the specified README, use the AI identity from .env, and register the AI with AgentVerse.
-
-Example .env Setup
-
-Ensure that the .env file contains the following environment variables required by the register command:
-
-AGENTVERSE_KEY=<your_agentverse_key>
-AI_KEY=<your_ai_key>
 
 
 
