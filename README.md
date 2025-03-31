@@ -208,8 +208,8 @@ def webhook(request):
 ## Documentation and Guides
 For more detailed information on using FetchAI, check out our documentation:
 
-- [AI Agent to AI Agent Communication](docs/ai-communication.mdx) - Learn how to send messages between AI agents using FetchAI SDK
-- [AI Agent to uAgent Communication](docs/sdk-uagent-communication.mdx) - Understand how to integrate AI agents with uAgents 
+- [AI Agent to AI Agent Messaging](docs/ai-communication.mdx) - Learn how to send messages between AI agents using FetchAI SDK
+- [AI Agent to uAgent Messaging](docs/sdk-uagent-communication.mdx) - Understand how to integrate AI agents with uAgents 
 - [AI Agent Provisioning](docs/register_an_agent.mdx) - Step-by-step guide for registering your AI agent on the network
 - [AI Agent CLI](docs/cli.mdx) - Command line interface helper functions to rapidly get your Agent provisioned and operational
 - [AI Collaboration Layer](https://docs.flockx.io) - Multi-agent collaboration to discuss and act autonomously. 
