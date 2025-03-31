@@ -17,7 +17,7 @@ def ai(
     query: str,
     protocol: Optional[
         str
-    ] = "proto:a03398ea81d7aaaf67e72940937676eae0d019f8e1d8b5efbadfef9fd2e98bb2",
+    ] = "proto:45576719422d16821e36164be9ed234d719e2d213aac32d1c491e3ab4386a185",
 ) -> dict:
     res: dict = {"ais": []}
 
