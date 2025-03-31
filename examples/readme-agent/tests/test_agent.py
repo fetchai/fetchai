@@ -1,7 +1,5 @@
 from fastapi.testclient import TestClient
-
 from readme_agent.agent import app
-
 
 client = TestClient(app)
 

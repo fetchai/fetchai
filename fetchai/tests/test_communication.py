@@ -4,7 +4,7 @@ import uuid
 import pytest
 from requests_mock import Mocker as RequestsMocker
 from uagents_core.config import DEFAULT_ALMANAC_API_PATH, AgentverseConfig
-from uagents_core.crypto import Identity
+from uagents_core.identity import Identity
 from uagents_core.envelope import Envelope
 import urllib.parse
 

@@ -1,14 +1,17 @@
 import json
-from typing import Optional, Any
+from typing import Any, Optional
 from uuid import uuid4
 
+import requests
 from pydantic import UUID4
 from uagents_core.config import DEFAULT_AGENTVERSE_URL, AgentverseConfig
-from uagents_core.crypto import Identity
 from uagents_core.envelope import Envelope
-from uagents_core.utils.communication import send_message
+from uagents_core.identity import Identity
+from uagents_core.types import DeliveryStatus, MsgStatus
+from uagents_core.utils.messages import generate_message_envelope, send_message
+from uagents_core.utils.resolver import lookup_endpoint_for_agent
 
-from fetchai.schema import JsonStr, AgentMessage
+from fetchai.schema import AgentMessage, JsonStr
 
 
 def send_message_to_agent(
@@ -25,7 +28,7 @@ def send_message_to_agent(
         str
     ] = "model:708d789bb90924328daa69a47f7a8f3483980f16a1142c24b12972a2e4174bc6",
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
-):
+) -> MsgStatus:
     """
     Send a message to an agent.
     :param session: The unique identifier for the dialogue between two agents
@@ -40,15 +43,42 @@ def send_message_to_agent(
 
     agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
 
-    send_message(
+    endpoints: list[str] = lookup_endpoint_for_agent(
+        agent_identifier=target, agentverse_config=agentverse_config
+    )
+    if not endpoints:
+        raise ValueError(
+            f"Could not find endpoints for agent {target}. Please check the address."
+        )
+
+    env: Envelope = generate_message_envelope(
         destination=target,
         message_schema_digest=model_digest,
         message_body=payload,
         sender=sender,
         session_id=session,
         protocol_digest=protocol_digest,
-        agentverse_config=agentverse_config,
     )
+
+    endpoint = endpoints[0]
+
+    try:
+        response = send_message(endpoint, env)
+        return MsgStatus(
+            status=DeliveryStatus.SENT,
+            detail=response.text,
+            destination=target,
+            endpoint=endpoint,
+            session=env.session,
+        )
+    except requests.RequestException:
+        return MsgStatus(
+            status=DeliveryStatus.FAILED,
+            detail=response.text,
+            destination=target,
+            endpoint=endpoint,
+            session=env.session,
+        )
 
 
 def parse_message_from_agent(content: JsonStr) -> AgentMessage:
