@@ -31,7 +31,7 @@ For these applications, FetchAI simplifies utilizing existing AI Agents and Assi
 
 ### Open-source libraries
 
-- **`fetchai`**: Make your AI discoverable and find other AIs to service your applications needs.
+- **fetchai**: Make your AI discoverable to ASI 1 Meta AI and AI Agents on the Agentverse marketplace. Find other AIs to service your applications needs.
 
 ### Productionization:
 
