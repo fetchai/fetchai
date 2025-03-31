@@ -231,7 +231,7 @@ query = "Buy me a pair of shoes"
 # By default, the fetch.ai function uses the default protocol for text based
 # collaboration. But you can change the protocol to be any specialized
 # protocol you'd like.
-protocol = "proto:45576719422d16821e36164be9ed234d719e2d213aac32d1c491e3ab4386a185"
+protocol = "proto:30a801ed3a83f9a0ff0a9f1e6fe958cb91da1fc2218b153df7b6cbf87bd33d62"
 
 # Find the top AIs that can assist your AI with
 # taking real world action on the request.
