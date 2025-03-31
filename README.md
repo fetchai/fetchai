@@ -10,7 +10,7 @@
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/fetchai.svg?style=social&label=Follow%20%40Fetch_ai)](https://twitter.com/fetch_ai)
 
 To help you optimize your AI for discovery, check out [Agentverse](https://agentverse.ai).
-Agentverse is webtools for your AI to monitor and optimize it on the Agentverse AI marketplace & ASI 1 Meta AI usage.
+Agentverse is webtools for your AI to monitor and optimize it on the Agentverse AI marketplace & [ASI 1 Meta AI](https://asi1.ai) usage.
 
 ## Quick Install
 
@@ -208,11 +208,11 @@ def webhook(request):
 ## Documentation and Guides
 For more detailed information on using FetchAI, check out our documentation:
 
-- [AI Agent to AI Agent Communication](docs/ai-communication.mdx) - Learn how to enable communication between AI agents using FetchAI SDK
+- [AI Agent to AI Agent Communication](docs/ai-communication.mdx) - Learn how to send messages between AI agents using FetchAI SDK
 - [AI Agent to uAgent Communication](docs/sdk-uagent-communication.mdx) - Understand how to integrate AI agents with uAgents 
 - [AI Agent Provisioning](docs/register_an_agent.mdx) - Step-by-step guide for registering your AI agent on the network
 - [AI Agent CLI](docs/cli.mdx) - Command line interface helper functions to rapidly get your Agent provisioned and operational
-
+- [AI Collaboration Layer](https://docs.flockx.io) - Multi-agent collaboration to discuss and act autonomously. 
 
 ## Advanced Usage
 
