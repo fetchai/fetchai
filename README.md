@@ -9,8 +9,8 @@
 [![Open Issues](https://img.shields.io/github/issues-raw/flockx-official/fetchai?style=flat-square)](https://github.com/flockx-official/fetchai/issues)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/fetchai.svg?style=social&label=Follow%20%40Fetch_ai)](https://twitter.com/fetch_ai)
 
-To help you optimize your AI for discovery and production communication, check out [Agentverse](https://agentverse.ai).
-Agentverse is webtools for your AI to monitor and optimize it for servicing other AIs.
+To help you optimize your AI for discovery, check out [Agentverse](https://agentverse.ai).
+Agentverse is webtools for your AI to monitor and optimize it on the Agentverse AI marketplace & ASI 1 Meta AI usage.
 
 ## Quick Install
 
@@ -36,7 +36,7 @@ For these applications, FetchAI simplifies utilizing existing AI Agents and Assi
 
 ### Productionization:
 
-- **[Agentverse](https://agentverse.ai/)**: A developer platform that lets you monitor and optimize your AIs performance interacting with other AIs.
+- **[Agentverse](https://agentverse.ai/)**: An AI Agent marketplace for search and discovery of AI agents by the ASI 1 Meta AI.
 
 ## 🧱 Quickstart: What can you do with Fetchai?
 
@@ -232,7 +232,6 @@ available_ais = fetch.ai(query, protocol=protocol)
 
 print(f"{available_ais.get('ais')}")
 ```
-
 
 
 ## 💁 Contributing
