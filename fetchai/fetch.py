@@ -11,13 +11,16 @@ from agentverse_client.search import (
 from agentverse_client.search.models.search_feedback_request import (
     SearchFeedbackRequest,
 )
+from uagents_core.contrib.protocols.chat import (
+    chat_protocol_spec,
+)
 
 
 def ai(
     query: str,
     protocol: Optional[
         str
-    ] = "proto:45576719422d16821e36164be9ed234d719e2d213aac32d1c491e3ab4386a185",
+    ] = chat_protocol_spec.digest,
 ) -> dict:
     res: dict = {"ais": []}
 

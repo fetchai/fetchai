@@ -10,8 +10,16 @@ from uagents_core.identity import Identity
 from uagents_core.types import DeliveryStatus, MsgStatus
 from uagents_core.utils.messages import generate_message_envelope, send_message
 from uagents_core.utils.resolver import lookup_endpoint_for_agent
+from uagents_core.contrib.protocols.chat import (
+    ChatMessage,
+    chat_protocol_spec,
+)
+
 
 from fetchai.schema import AgentMessage, JsonStr
+
+
+CHAT_MESSAGE_DIGEST = ChatMessage.build_schema_digest(ChatMessage)
 
 
 def send_message_to_agent(
@@ -22,11 +30,11 @@ def send_message_to_agent(
     # The default protocol for AI to AI conversation, use for standard chat
     protocol_digest: Optional[
         str
-    ] = "proto:45576719422d16821e36164be9ed234d719e2d213aac32d1c491e3ab4386a185",
+    ] = chat_protocol_spec.digest,
     # The default model for AI to AI conversation, use for standard chat
     model_digest: Optional[
         str
-    ] = "model:708d789bb90924328daa69a47f7a8f3483980f16a1142c24b12972a2e4174bc6",
+    ] = CHAT_MESSAGE_DIGEST,
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ) -> MsgStatus:
     """
