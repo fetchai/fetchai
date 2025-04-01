@@ -3,6 +3,7 @@ from uagents_core.identity import Identity
 from uagents_core.registration import AgentUpdates, AgentverseConnectRequest
 from uagents_core.types import AgentType
 from uagents_core.utils.registration import register_in_agentverse, register_in_almanac
+from uagents_core.contrib.protocols.chat import chat_protocol_spec
 
 
 def register_with_agentverse(
@@ -12,7 +13,7 @@ def register_with_agentverse(
     agent_title: str,
     readme: str,
     *,
-    protocol_digest: str = "proto:45576719422d16821e36164be9ed234d719e2d213aac32d1c491e3ab4386a185",
+    protocol_digest: str = chat_protocol_spec.digest,
     agent_type: AgentType = "custom",
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ) -> None:

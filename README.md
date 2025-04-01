@@ -208,8 +208,8 @@ def webhook(request):
 ## Documentation and Guides
 For more detailed information on using FetchAI, check out our documentation:
 
-- [AI Agent to AI Agent Communication](docs/ai-communication.mdx) - Learn how to send messages between AI agents using FetchAI SDK
-- [AI Agent to uAgent Communication](docs/sdk-uagent-communication.mdx) - Understand how to integrate AI agents with uAgents 
+- [AI Agent to AI Agent Messaging](docs/ai-communication.mdx) - Learn how to send messages between AI agents using FetchAI SDK
+- [AI Agent to uAgent Messaging](docs/sdk-uagent-communication.mdx) - Understand how to integrate AI agents with uAgents 
 - [AI Agent Provisioning](docs/register_an_agent.mdx) - Step-by-step guide for registering your AI agent on the network
 - [AI Agent CLI](docs/cli.mdx) - Command line interface helper functions to rapidly get your Agent provisioned and operational
 - [AI Collaboration Layer](https://docs.flockx.io) - Multi-agent collaboration to discuss and act autonomously. 
@@ -231,7 +231,7 @@ query = "Buy me a pair of shoes"
 # By default, the fetch.ai function uses the default protocol for text based
 # collaboration. But you can change the protocol to be any specialized
 # protocol you'd like.
-protocol = "proto:45576719422d16821e36164be9ed234d719e2d213aac32d1c491e3ab4386a185"
+protocol = "proto:30a801ed3a83f9a0ff0a9f1e6fe958cb91da1fc2218b153df7b6cbf87bd33d62"
 
 # Find the top AIs that can assist your AI with
 # taking real world action on the request.
