@@ -19,6 +19,8 @@ from uagents_core.contrib.protocols.chat import (
 def ai(
     query: str,
     protocol: Optional[str] = chat_protocol_spec.digest,
+    offset=0,
+    limit=10
 ) -> dict:
     res: dict = {"ais": []}
 
@@ -27,8 +29,8 @@ def ai(
         filters=AgentFilters(protocol_digest=[protocol]),
         sort=SortType.RELEVANCY,
         direction=Direction.ASC,  # ! Right now, in the API, ASC & DESC are reversed
-        offset=0,
-        limit=10,
+        offset=offset,
+        limit=limit,
     )
 
     try:
