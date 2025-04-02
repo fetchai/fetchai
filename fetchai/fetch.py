@@ -17,10 +17,7 @@ from uagents_core.contrib.protocols.chat import (
 
 
 def ai(
-    query: str,
-    protocol: Optional[str] = chat_protocol_spec.digest,
-    offset=0,
-    limit=10
+    query: str, protocol: Optional[str] = chat_protocol_spec.digest, offset=0, limit=10
 ) -> dict:
     res: dict = {"ais": []}
 
