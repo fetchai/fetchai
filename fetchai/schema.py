@@ -68,6 +68,11 @@ class AgentGeoLocation(BaseModel):
     radius: float | None = None
 
     def as_str_dict(self) -> dict[str, str]:
+        """
+        Dumps object to dict by casting all dict values to str.
+        Casting to str is important because uagents_core.utils.registration.register_in_almanac method expects a str dict
+        """
+
         return {
             key: str(value)
             for key, value in self.model_dump().items()
