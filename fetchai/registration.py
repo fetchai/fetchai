@@ -39,7 +39,7 @@ def register_with_agentverse(
         identity=identity,
         endpoints=[url],
         protocol_digests=[protocol_digest],
-        metadata={"geolocation": geo_location.model_dump()} if geo_location else None,
+        metadata={"geolocation": geo_location.as_str_dict()} if geo_location else None,
         agentverse_config=agentverse_config,
     )
 

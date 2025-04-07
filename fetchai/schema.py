@@ -66,3 +66,10 @@ class AgentGeoLocation(BaseModel):
 
     # The radius in meters defining the area of effect of the agent
     radius: float | None = None
+
+    def as_str_dict(self) -> dict[str, str]:
+        return {
+            key: str(value)
+            for key, value in self.model_dump().items()
+            if value is not None
+        }
