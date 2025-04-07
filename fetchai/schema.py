@@ -55,3 +55,14 @@ class AgentMessage(BaseModel):
         return AgentMessage(
             sender=envelope.sender, target=envelope.target, payload=payload
         )
+
+
+class AgentGeoLocation(BaseModel):
+    # The latitude where the agent is located
+    latitude: float
+
+    # The longitude where the agent is located
+    longitude: float
+
+    # The radius in meters defining the area of effect of the agent
+    radius: float | None = None

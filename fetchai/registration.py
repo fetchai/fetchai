@@ -5,6 +5,8 @@ from uagents_core.types import AgentType
 from uagents_core.utils.registration import register_in_agentverse, register_in_almanac
 from uagents_core.contrib.protocols.chat import chat_protocol_spec
 
+from fetchai.schema import AgentGeoLocation
+
 
 def register_with_agentverse(
     identity: Identity,
@@ -15,6 +17,7 @@ def register_with_agentverse(
     *,
     protocol_digest: str = chat_protocol_spec.digest,
     agent_type: AgentType = "custom",
+    geo_location: AgentGeoLocation | None = None,
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ) -> None:
     """
@@ -35,6 +38,7 @@ def register_with_agentverse(
         identity=identity,
         endpoints=[url],
         protocol_digests=[protocol_digest],
+        metadata={"geolocation": geo_location.model_dump()} if geo_location else None,
         agentverse_config=agentverse_config,
     )
 
