@@ -9,7 +9,7 @@ setup(
         "mnemonic>=0.21",
         "click>=8.1.2,<9.0",
         "python-dotenv>=1.0.1",
-        "agentverse-client~=0.1",
+        "agentverse-client>=0.1.2",
     ],
     entry_points={
         "console_scripts": [
