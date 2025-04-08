@@ -31,9 +31,13 @@ def register_with_agentverse(
 
     agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
 
+    almanac_url = url
+    if agent_type == "proxy":
+        almanac_url = agentverse_config.proxy_endpoint
+
     register_in_almanac(
         identity=identity,
-        endpoints=[url],
+        endpoints=[almanac_url],
         protocol_digests=[protocol_digest],
         agentverse_config=agentverse_config,
     )
