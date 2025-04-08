@@ -14,10 +14,10 @@ def register_with_agentverse(
     agentverse_token: str,
     agent_title: str,
     readme: str,
+    geo_location: AgentGeoLocation | None = None,
     *,
     protocol_digest: str = chat_protocol_spec.digest,
     agent_type: AgentType = "custom",
-    geo_location: AgentGeoLocation | None = None,
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ) -> None:
     """
