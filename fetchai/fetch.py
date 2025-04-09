@@ -55,7 +55,7 @@ def feedback(search_response: dict, agent_index: int) -> None:
     search_feedback_request = SearchFeedbackRequest(
         search_id=search_response.get("search_id"),
         page_index=page_index,
-        address=search_response.get("ais")[agent_index].get("address"),
+        address=search_response.get("agents")[agent_index].get("address"),
     )
 
     try:
