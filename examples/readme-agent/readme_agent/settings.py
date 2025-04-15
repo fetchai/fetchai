@@ -27,3 +27,7 @@ if "Generate a unique string" in MY_AI_KEY:
 
 # The Identity to use for your agent
 AGENT_IDENTITY = Identity.from_seed(MY_AI_KEY, 0)
+
+# Used for extracting those pieces of information from an agent readme
+# that are actually relevant when searching agents based on a short search text.
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

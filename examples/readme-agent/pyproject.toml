@@ -9,6 +9,7 @@ readme = "README.md"
 python = ">=3.10,<3.13"
 fastapi = { extras = ["standard"], version = "^0.115.8" }
 fetchai = { path = "../../", develop = false }
+openai = "^1.74.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"

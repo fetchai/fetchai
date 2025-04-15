@@ -1,3 +1,4 @@
+from readme_agent.readme_utils import extract_readme
 from fetchai.registration import register_with_agentverse
 from readme_agent.settings import (
     AGENT_IDENTITY,
@@ -6,10 +7,12 @@ from readme_agent.settings import (
     MY_WEBHOOK_URL,
 )
 
+from fetchai.schema import AgentGeoLocation
+
 
 def main():
     # Use realistic details in your README description to enable discovery of your agent
-    readme = """
+    readme_metadata = """
     <description>My AI's description of capabilities and offerings</description>
     <use_cases>
         <use_case>Answer any single question</use_case>
@@ -25,6 +28,9 @@ def main():
     </payload_requirements>
     """
 
+    readme = extract_readme(readme_metadata)
+    geo_location = AgentGeoLocation(latitude=51.169392, longitude=71.449074, radius=0.5)
+
     print("Registering with agentverse")
     register_with_agentverse(
         AGENT_IDENTITY,
@@ -32,6 +38,8 @@ def main():
         AGENTVERSE_KEY,
         MY_AGENT_NAME,
         readme,
+        readme_metadata,
+        geo_location,
     )
     print("Registered agent at:", AGENT_IDENTITY.address)
 
