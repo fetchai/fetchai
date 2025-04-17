@@ -1,6 +1,6 @@
 import openai
 
-from readme_agent.settings import ASI1_API_KEY, ASI1_MODEL_NAME, ASI1_URL
+from readme_agent.settings import ASI1_URL, ASI1_API_KEY, ASI1_MODEL_NAME
 
 
 def extract_readme(readme_metadata: str) -> str:
