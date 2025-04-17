@@ -15,6 +15,7 @@ def register_with_agentverse(
     agent_title: str,
     readme: str,
     geo_location: AgentGeoLocation | None = None,
+    metadata: dict[str, str | dict[str, str]] | None = None,
     *,
     protocol_digest: str = chat_protocol_spec.digest,
     agent_type: AgentType = "custom",
@@ -28,6 +29,7 @@ def register_with_agentverse(
     :param agentverse_token: The token to use to authenticate with the Agentverse API
     :param agent_title: The title of the agent
     :param readme: The readme for the agent
+    :param metadata: Additional data related to the agent.
     :param geo_location: The location of the agent
     :param agentverse_base_url: The base url of the Agentverse environment we would like to use.
     :return:
@@ -39,11 +41,15 @@ def register_with_agentverse(
     if agent_type == "proxy":
         almanac_url = agentverse_config.proxy_endpoint
 
+    metadata = metadata or {}
+    if geo_location:
+        metadata["geolocation"] = geo_location.as_str_dict()
+
     register_in_almanac(
         identity=identity,
         endpoints=[almanac_url],
         protocol_digests=[protocol_digest],
-        metadata={"geolocation": geo_location.as_str_dict()} if geo_location else None,
+        metadata=metadata,
         agentverse_config=agentverse_config,
     )
 
