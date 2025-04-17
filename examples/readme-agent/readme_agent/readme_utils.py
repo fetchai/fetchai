@@ -1,6 +1,6 @@
 import openai
 
-from readme_agent.settings import OPENAI_API_KEY
+from readme_agent.settings import ASI1_API_KEY, ASI1_MODEL_NAME, ASI1_URL
 
 
 def extract_readme(readme_metadata: str) -> str:
@@ -8,7 +8,7 @@ def extract_readme(readme_metadata: str) -> str:
     Extracts those pieces from an agent readme that are actually relevant when searching agents based on a short search text.
     """
 
-    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+    client = openai.OpenAI(api_key=ASI1_API_KEY, base_url=ASI1_URL)
 
     prompt = f"""Extract the most relevant from this agent readme:
     {readme_metadata}
@@ -17,7 +17,7 @@ def extract_readme(readme_metadata: str) -> str:
     """
 
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model=ASI1_MODEL_NAME,
         messages=[
             {
                 "role": "system",
@@ -26,10 +26,9 @@ def extract_readme(readme_metadata: str) -> str:
             },
             {"role": "user", "content": prompt},
         ],
-        temperature=0,
+        temperature=0.1,
     )
 
     readme = response.choices[0].message.content.strip()
-    print("Readme:", readme)
 
     return readme

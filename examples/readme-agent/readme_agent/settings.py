@@ -30,4 +30,6 @@ AGENT_IDENTITY = Identity.from_seed(MY_AI_KEY, 0)
 
 # Used for extracting those pieces of information from an agent readme
 # that are actually relevant when searching agents based on a short search text.
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+ASI1_URL = "https://api.asi1.ai/v1"
+ASI1_API_KEY = os.getenv("ASI1_API_KEY")
+ASI1_MODEL_NAME = os.getenv("ASI1_MODEL_NAME", "asi1-mini")
