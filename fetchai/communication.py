@@ -75,10 +75,10 @@ def send_message_to_agent(
             endpoint=endpoint,
             session=env.session,
         )
-    except requests.RequestException:
+    except requests.RequestException as e:
         return MsgStatus(
             status=DeliveryStatus.FAILED,
-            detail=response.text,
+            detail=str(e),
             destination=target,
             endpoint=endpoint,
             session=env.session,
