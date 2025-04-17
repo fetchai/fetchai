@@ -59,6 +59,7 @@ ngrok http --url=<Your Ngrok URL> 8000
 You can set up your ngrok account [here](https://ngrok.com/) to get your url.
 
 ## Register your agent on Agentverse
+`readme_agent/register_agent.py` uses our AS1 model to extract the general purpose of the agent (via `extract_readme` method of `readme_agent/readme_utils.py`) from a bigger readme so that agent search via the `fetch.ai()` method will be more effective based on this concise readme. To obtain an API key for the ASI1 model visit [https://asi1.ai/dashboard/api-keys](https://asi1.ai/dashboard/api-keys).
 
 Run the registration tool from the `fetchai/examples/readme-agent` directory:
 
