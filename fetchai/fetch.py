@@ -25,7 +25,7 @@ def ai(
         search_text=query,
         filters=AgentFilters(protocol_digest=[protocol]),
         sort=SortType.RELEVANCY,
-        direction=Direction.ASC,  # ! Right now, in the API, ASC & DESC are reversed
+        direction=Direction.DESC,
         offset=offset,
         limit=limit,
     )
