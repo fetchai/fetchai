@@ -15,7 +15,7 @@ def register_with_agentverse(
     agent_title: str,
     readme: str,
     geo_location: AgentGeoLocation | None = None,
-    metadata: dict[str, str | dict[str, str]] | None = None,
+    metadata: dict[str, str | list[str] | dict[str, str]] | None = None,
     *,
     protocol_digest: str = chat_protocol_spec.digest,
     agent_type: AgentType = "custom",
