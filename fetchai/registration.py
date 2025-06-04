@@ -19,6 +19,7 @@ def register_with_agentverse(
     *,
     protocol_digest: str = chat_protocol_spec.digest,
     agent_type: AgentType = "custom",
+    is_public: bool = True,
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ) -> None:
     """
@@ -31,6 +32,7 @@ def register_with_agentverse(
     :param readme: The readme for the agent
     :param metadata: Additional data related to the agent.
     :param geo_location: The location of the agent
+    :param is_public: Denotes if the agent should be retrieved by Agentverse search by default.
     :param agentverse_base_url: The base url of the Agentverse environment we would like to use.
     :return:
     """
@@ -42,6 +44,7 @@ def register_with_agentverse(
         almanac_url = agentverse_config.proxy_endpoint
 
     metadata = metadata or {}
+    metadata["is_public"] = str(is_public)
     if geo_location:
         metadata["geolocation"] = geo_location.as_str_dict()
 

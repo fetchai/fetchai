@@ -33,7 +33,6 @@ def main():
     metadata = {
         "readme_metadata": readme_metadata,
         "categories": ["business"],
-        "is_public": True,
     }
 
     print("Registering with agentverse")
@@ -45,6 +44,7 @@ def main():
         readme,
         geo_location,
         metadata,
+        is_public=False,
     )
     print("Registered agent at:", AGENT_IDENTITY.address)
 
