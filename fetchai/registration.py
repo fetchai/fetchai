@@ -5,6 +5,7 @@ from uagents_core.types import AgentType
 from uagents_core.utils.registration import register_in_agentverse, register_in_almanac
 from uagents_core.contrib.protocols.chat import chat_protocol_spec
 
+from fetchai.logger import logger
 from fetchai.schema import AgentGeoLocation
 
 
@@ -44,8 +45,16 @@ def register_with_agentverse(
         almanac_url = agentverse_config.proxy_endpoint
 
     metadata = metadata or {}
+    if "is_public" in metadata:
+        logger.warning(
+            "The value of metadata belonging to key is_public will be overwritten by is_public arg of register_with_agentverse method"
+        )
     metadata["is_public"] = str(is_public)
     if geo_location:
+        if "geolocation" in metadata:
+            logger.warning(
+                "The value of metadata belonging to key geolocation will be overwritten by geo_location arg of register_with_agentverse method"
+            )
         metadata["geolocation"] = geo_location.as_str_dict()
 
     register_in_almanac(
