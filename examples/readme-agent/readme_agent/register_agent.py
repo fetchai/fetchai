@@ -30,7 +30,10 @@ def main():
 
     readme = extract_readme(readme_metadata)
     geo_location = AgentGeoLocation(latitude=51.169392, longitude=71.449074, radius=0.5)
-    metadata = {"readme_metadata": readme_metadata}
+    metadata = {
+        "readme_metadata": readme_metadata,
+        "categories": ["business"],
+    }
 
     print("Registering with agentverse")
     register_with_agentverse(
@@ -41,6 +44,7 @@ def main():
         readme,
         geo_location,
         metadata,
+        is_public=False,
     )
     print("Registered agent at:", AGENT_IDENTITY.address)
 
