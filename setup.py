@@ -5,7 +5,7 @@ setup(
     version="0.1.37",
     packages=find_packages(exclude=("fetchai/tests", "examples")),
     install_requires=[
-        "uagents-core==0.2.3",
+        "uagents-core>=0.3.2",
         "mnemonic>=0.21",
         "click>=8.1.2,<9.0",
         "python-dotenv>=1.0.1",
