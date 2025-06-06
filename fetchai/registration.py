@@ -5,7 +5,11 @@ from uagents_core.types import AgentType
 from uagents_core.utils.registration import register_in_agentverse, register_in_almanac
 from uagents_core.contrib.protocols.chat import chat_protocol_spec
 
+from fetchai.logger import get_logger
 from fetchai.schema import AgentGeoLocation
+
+
+logger = get_logger(__name__)
 
 
 def register_with_agentverse(
@@ -15,10 +19,11 @@ def register_with_agentverse(
     agent_title: str,
     readme: str,
     geo_location: AgentGeoLocation | None = None,
-    metadata: dict[str, str | dict[str, str]] | None = None,
+    metadata: dict[str, str | list[str] | dict[str, str]] | None = None,
     *,
     protocol_digest: str = chat_protocol_spec.digest,
     agent_type: AgentType = "custom",
+    is_public: bool = True,
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ) -> None:
     """
@@ -31,6 +36,7 @@ def register_with_agentverse(
     :param readme: The readme for the agent
     :param metadata: Additional data related to the agent.
     :param geo_location: The location of the agent
+    :param is_public: Denotes if the agent should be retrieved by Agentverse search by default.
     :param agentverse_base_url: The base url of the Agentverse environment we would like to use.
     :return:
     """
@@ -42,7 +48,16 @@ def register_with_agentverse(
         almanac_url = agentverse_config.proxy_endpoint
 
     metadata = metadata or {}
+    if "is_public" in metadata:
+        logger.warning(
+            "The value of metadata belonging to key 'is_public' will be overwritten by `is_public` arg"
+        )
+    metadata["is_public"] = str(is_public)
     if geo_location:
+        if "geolocation" in metadata:
+            logger.warning(
+                "The value of metadata belonging to key 'geolocation' will be overwritten by `geo_location` arg"
+            )
         metadata["geolocation"] = geo_location.as_str_dict()
 
     register_in_almanac(
