@@ -1,7 +1,14 @@
 name: Run Python Unit Tests
 
 on:
-  push
+  push:
+    branches:
+      - main
+      - staging
+  pull_request:
+    branches:
+      - main
+      - staging
 
 jobs:
   release:
