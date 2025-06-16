@@ -88,18 +88,23 @@ def register(name, readme, webhook, force):
         ai_identity = Identity.from_seed(agent_key, 0)
 
         # Register the agent with Agentverse
-        register_with_agentverse(
+        success = register_with_agentverse(
             identity=ai_identity,
             url=webhook,
             agentverse_token=agentverse_key,
             agent_title=name,
             readme=readme_content,
         )
-        click.echo(f"Agent successfully registered @ {ai_identity.address}")
-        # Optionally save information to .env file
-        set_key(".env", "AI_IDENTITY", ai_identity.address)
-        set_key(".env", "AI_NAME", name)
-        click.echo("Identity and name saved to .env.")
+
+        if success:
+            click.echo(f"Agent successfully registered @ {ai_identity.address}")
+            # Optionally save information to .env file
+            set_key(".env", "AI_IDENTITY", ai_identity.address)
+            set_key(".env", "AI_NAME", name)
+            click.echo("Identity and name saved to .env.")
+        else:
+            click.echo("Failed to register agent")
+            sys.exit(1)
     except Exception as e:
         click.echo(f"Error registering agent: {str(e)}")
         sys.exit(1)
