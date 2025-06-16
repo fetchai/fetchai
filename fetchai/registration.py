@@ -1,13 +1,12 @@
 from uagents_core.config import DEFAULT_AGENTVERSE_URL, AgentverseConfig
+from uagents_core.contrib.protocols.chat import chat_protocol_spec
 from uagents_core.identity import Identity
 from uagents_core.registration import AgentUpdates, AgentverseConnectRequest
 from uagents_core.types import AgentType
 from uagents_core.utils.registration import register_in_agentverse, register_in_almanac
-from uagents_core.contrib.protocols.chat import chat_protocol_spec
 
 from fetchai.logger import get_logger
 from fetchai.schema import AgentGeoLocation
-
 
 logger = get_logger(__name__)
 
@@ -25,7 +24,7 @@ def register_with_agentverse(
     agent_type: AgentType = "custom",
     is_public: bool = True,
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
-) -> None:
+) -> bool:
     """
     Register the agent with the Agentverse API.
     :param identity: The identity of the agent.
@@ -38,7 +37,7 @@ def register_with_agentverse(
     :param geo_location: The location of the agent
     :param is_public: Denotes if the agent should be retrieved by Agentverse search by default.
     :param agentverse_base_url: The base url of the Agentverse environment we would like to use.
-    :return:
+    :return: True if registration was successful in both Almanac and Agentverse, False otherwise.
     """
 
     agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
@@ -60,7 +59,7 @@ def register_with_agentverse(
             )
         metadata["geolocation"] = geo_location.as_str_dict()
 
-    register_in_almanac(
+    register_in_almanac_success = register_in_almanac(
         identity=identity,
         endpoints=[almanac_url],
         protocol_digests=[protocol_digest],
@@ -68,7 +67,7 @@ def register_with_agentverse(
         agentverse_config=agentverse_config,
     )
 
-    register_in_agentverse(
+    register_in_agentverse_success = register_in_agentverse(
         request=AgentverseConnectRequest(
             user_token=agentverse_token,
             agent_type=agent_type,
@@ -81,3 +80,5 @@ def register_with_agentverse(
         ),
         agentverse_config=agentverse_config,
     )
+
+    return bool(register_in_agentverse_success and register_in_almanac_success)
