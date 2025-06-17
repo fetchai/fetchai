@@ -81,4 +81,10 @@ def register_with_agentverse(
         agentverse_config=agentverse_config,
     )
 
+    if not register_in_almanac_success:
+        logger.warning("Failed to register agent in Almanac")
+
+    if not register_in_agentverse_success:
+        logger.warning("Failed to register agent in Agentverse")
+
     return bool(register_in_agentverse_success and register_in_almanac_success)
