@@ -103,7 +103,7 @@ def register(name, readme, webhook, force):
             set_key(".env", "AI_NAME", name)
             click.echo("Identity and name saved to .env.")
         else:
-            click.echo("Failed to register agent")
+            click.echo(f"Failed to register agent @ {ai_identity.address}")
             sys.exit(1)
     except Exception as e:
         click.echo(f"Error registering agent: {str(e)}")
