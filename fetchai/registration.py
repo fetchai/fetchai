@@ -20,6 +20,7 @@ def register_with_agentverse(
     readme: str,
     geo_location: AgentGeoLocation | None = None,
     metadata: dict[str, str | list[str] | dict[str, str]] | None = None,
+    avatar_url: str | None = None,
     *,
     protocol_digest: str = chat_protocol_spec.digest,
     agent_type: AgentType = "custom",
@@ -35,6 +36,7 @@ def register_with_agentverse(
     :param agent_title: The title of the agent
     :param readme: The readme for the agent
     :param metadata: Additional data related to the agent.
+    :param avatar_url: The URL of the agent's avatar.
     :param geo_location: The location of the agent
     :param is_public: Denotes if the agent should be retrieved by Agentverse search by default.
     :param agentverse_base_url: The base url of the Agentverse environment we would like to use.
@@ -78,6 +80,7 @@ def register_with_agentverse(
         agent_details=AgentUpdates(
             name=agent_title,
             readme=readme,
+            avatar_url=avatar_url,
         ),
         agentverse_config=agentverse_config,
     )
