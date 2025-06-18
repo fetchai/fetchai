@@ -91,13 +91,18 @@ domain:domain-of-your-agent
 # The webhook that your AI receives messages on.
 ai_webhook = "https://api.sampleurl.com/webhook"
 
-register_with_agentverse(
+success = register_with_agentverse(
     ai_identity,
     ai_webhook,
     AGENTVERSE_KEY,
     name,
     readme,
 )
+
+if success:
+    print(f"Agent successfully registered at: {ai_identity.address}")
+else:
+    print("Failed to register agent")
 ```
 
 3. Set up environment variables in a `.env` file (or similar approach):
@@ -113,15 +118,21 @@ AGENT_SECRET_KEY='YOUR_RANDOM_SECRET_SEED'
 4. Run the Script
 
 ```
-python3 regsiter_agent.py
+python3 register_agent.py
 ```
 
-    - __Sample Output:__
+    - __Sample Output (Success):__
 
 ```
-INFO:fetchai:Registering with Almanac API
-INFO:fetchai:Successfully registered as custom agent in Agentverse
-INFO:fetchai:Completed registering agent with Agentverse
+Registering with agentverse
+Agent successfully registered at: agent1qdcdjgc23vdf06sjplvrlqnf8jmyag32y3qygze88a929nv2kuj3yj5s4uu
+```
+
+    - __Sample Output (Failure):__
+
+```
+Registering with agentverse
+Failed to register agent
 ```
 
 
@@ -129,7 +140,7 @@ INFO:fetchai:Completed registering agent with Agentverse
 
 1. __Go to the Agents tab__ in the Agentverse interface.
 
-2. __Select “Local Agents”__ and look for the name used in your script (e.g., “My AI’s Name”).
+2. __Select "Local Agents"__ and look for the name used in your script (e.g., "My AI's Name").
 
 ![local-agent](/img/uagents/local-agent.png)
 
@@ -142,6 +153,6 @@ You have successfully created and registered an AI agent with the Fetch.ai SDK. 
 
 #### Next Steps:
 
-    - Further develop your agent’s code and logic.
+    - Further develop your agent's code and logic.
     - Integrate custom Flask endpoints to handle advanced communication.
-    - Explore additional SDK features (transaction handling, smart contracts, etc.)  to expand the agent’s capabilities.
+    - Explore additional SDK features (transaction handling, smart contracts, etc.)  to expand the agent's capabilities.

@@ -74,7 +74,7 @@ def init_client():
 
 
         # Register the agent with Agentverse
-        register_with_agentverse(
+        success = register_with_agentverse(
             identity=client_identity,
             url="http://localhost:5002/api/webhook",
             agentverse_token=os.getenv("AGENTVERSE_API_KEY"),
@@ -82,7 +82,11 @@ def init_client():
             readme=readme
         )
 
-        logger.info("Quickstart agent registration complete!")
+        if success:
+            logger.info("Quickstart agent registration complete!")
+        else:
+            logger.error("Failed to register agent")
+            raise Exception("Agent registration failed")
 
     except Exception as e:
         logger.error(f"Initialization error: {e}")
@@ -204,7 +208,7 @@ def init_client():
         """
 
         # Register the agent with Agentverse
-        register_with_agentverse(
+        success = register_with_agentverse(
             identity=client_identity,
             url="http://localhost:5005/api/webhook",
             agentverse_token=os.getenv("AGENTVERSE_API_KEY"),
@@ -212,7 +216,11 @@ def init_client():
             readme=readme
         )
 
-        logger.info("Quickstart agent registration complete!")
+        if success:
+            logger.info("Quickstart agent registration complete!")
+        else:
+            logger.error("Failed to register agent")
+            raise Exception("Agent registration failed")
 
     except Exception as e:
         logger.error(f"Initialization error: {e}")

@@ -111,15 +111,19 @@ def init_client():
         """
 
         # Register the agent with Agentverse
-        register_with_agentverse(
+        success = register_with_agentverse(
             identity=client_identity,
             url="http://localhost:5002/api/webhook",
-            agentverse_token = os.getenv("AGENTVERSE_API_KEY"),
-            agent_title="Sample AI Agent communication"
+            agentverse_token=os.getenv("AGENTVERSE_API_KEY"),
+            agent_title="Sample AI Agent communication",
             readme=readme
         )
 
-        logger.info("Client agent registration complete!")
+        if success:
+            logger.info("Client agent registration complete!")
+        else:
+            logger.error("Failed to register agent")
+            raise Exception("Agent registration failed")
 
     except Exception as e:
         logger.error(f"Initialization error: {e}")
@@ -316,8 +320,8 @@ INFO:werkzeug:127.0.0.1 - - [30/Jan/2025 14:21:58] "POST /api/webhook HTTP/1.1" 
 
 ## Key Takeaways
 
-- The __uAgent__ handles structured messages using Fetch.ai’s uAgents framework.
-- The __AI Agent__ utilizes Fetch.ai’s SDK for message transmission and parsing.
+- The __uAgent__ handles structured messages using Fetch.ai's uAgents framework.
+- The __AI Agent__ utilizes Fetch.ai's SDK for message transmission and parsing.
 - Communication between the two agents follows a request-response pattern using their respective handlers.
 
 
