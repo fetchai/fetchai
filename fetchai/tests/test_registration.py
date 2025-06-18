@@ -44,22 +44,20 @@ class TestRegisterWithAgentverse:
             assert mock_almanac.call_count == 1
             assert mock_agentverse.call_count == 1
 
-    def test_returns_false_when_almanac_registration_fails(
-        self, registration_params: dict
-    ):
+    def test_agentverse_not_called_if_almanac_fails(self, registration_params: dict):
         with (
             mock.patch(
                 "fetchai.registration.register_in_almanac", return_value=False
             ) as mock_almanac,
             mock.patch(
-                "fetchai.registration.register_in_agentverse", return_value=True
+                "fetchai.registration.register_in_agentverse"
             ) as mock_agentverse,
         ):
             result = register_with_agentverse(**registration_params)
 
             assert result is False
             assert mock_almanac.call_count == 1
-            assert mock_agentverse.call_count == 1
+            mock_agentverse.assert_not_called()
 
     def test_returns_false_when_agentverse_registration_fails(
         self, registration_params: dict
@@ -67,23 +65,6 @@ class TestRegisterWithAgentverse:
         with (
             mock.patch(
                 "fetchai.registration.register_in_almanac", return_value=True
-            ) as mock_almanac,
-            mock.patch(
-                "fetchai.registration.register_in_agentverse", return_value=False
-            ) as mock_agentverse,
-        ):
-            result = register_with_agentverse(**registration_params)
-
-            assert result is False
-            assert mock_almanac.call_count == 1
-            assert mock_agentverse.call_count == 1
-
-    def test_returns_false_when_both_registrations_fail(
-        self, registration_params: dict
-    ):
-        with (
-            mock.patch(
-                "fetchai.registration.register_in_almanac", return_value=False
             ) as mock_almanac,
             mock.patch(
                 "fetchai.registration.register_in_agentverse", return_value=False
