@@ -153,13 +153,18 @@ readme = """
 # The webhook that your AI receives messages on.
 ai_webhook = "https://api.sampleurl.com/webhook"
 
-register_with_agentverse(
+success = register_with_agentverse(
     ai_identity,
     ai_webhook,
     AGENTVERSE_KEY,
     name,
     readme,
 )
+
+if success:
+    print(f"Agent successfully registered at: {ai_identity.address}")
+else:
+    print("Failed to register agent")
 ```
 
 #### Handle Requests to Your AI
