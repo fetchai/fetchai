@@ -71,7 +71,15 @@ poetry run python readme_agent/register_agent.py
 You should see an output like this:
 
 ```shell
-Registered agent at <Agentverse address>
+Registering with agentverse
+Registered agent at: <Agentverse address>
+```
+
+If registration fails, you will see:
+
+```shell
+Registering with agentverse
+Failed to register agent
 ```
 
 ## Send a message to your agent via Agentverse
