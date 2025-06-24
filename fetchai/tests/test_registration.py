@@ -92,6 +92,7 @@ class TestRegisterWithAgentverse:
                 geo_location=geo_location,
                 metadata=metadata,
                 agent_type="proxy",
+                prefix="not-real-prefix",
                 **registration_params,
             )
 
@@ -109,6 +110,7 @@ class TestRegisterWithAgentverse:
                 "geolocation": geo_location.as_str_dict(),
             }
             assert almanac_call_args.kwargs["metadata"] == expected_metadata
+            assert almanac_call_args.kwargs["prefix"] == "not-real-prefix"
 
             mock_agentverse.assert_called_once()
             agentverse_call_args = mock_agentverse.call_args
