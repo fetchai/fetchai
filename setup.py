@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="fetchai",
-    version="0.1.43",
+    version="0.1.44",
     packages=find_packages(exclude=("fetchai/tests", "examples")),
     install_requires=[
         "uagents-core>=0.3.2",
