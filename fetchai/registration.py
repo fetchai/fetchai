@@ -2,7 +2,12 @@ from uagents_core.config import DEFAULT_AGENTVERSE_URL, AgentverseConfig
 from uagents_core.contrib.protocols.chat import chat_protocol_spec
 from uagents_core.identity import Identity
 from uagents_core.registration import AgentUpdates, AgentverseConnectRequest
-from uagents_core.types import AddressPrefix, AgentType, AgentGeolocation, AgentGeoLocationDetails
+from uagents_core.types import (
+    AddressPrefix,
+    AgentType,
+    AgentGeolocation,
+    AgentGeoLocationDetails,
+)
 from uagents_core.utils.registration import register_in_agentverse, register_in_almanac
 
 from fetchai.logger import get_logger
