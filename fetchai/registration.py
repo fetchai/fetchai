@@ -2,11 +2,15 @@ from uagents_core.config import DEFAULT_AGENTVERSE_URL, AgentverseConfig
 from uagents_core.contrib.protocols.chat import chat_protocol_spec
 from uagents_core.identity import Identity
 from uagents_core.registration import AgentUpdates, AgentverseConnectRequest
-from uagents_core.types import AddressPrefix, AgentType
+from uagents_core.types import (
+    AddressPrefix,
+    AgentType,
+    AgentGeolocation,
+    AgentGeoLocationDetails,
+)
 from uagents_core.utils.registration import register_in_agentverse, register_in_almanac
 
 from fetchai.logger import get_logger
-from fetchai.schema import AgentGeoLocation
 
 logger = get_logger(__name__)
 
@@ -17,7 +21,7 @@ def register_with_agentverse(
     agentverse_token: str,
     agent_title: str,
     readme: str,
-    geo_location: AgentGeoLocation | None = None,
+    geo_location: AgentGeolocation | AgentGeoLocationDetails | None = None,
     metadata: dict[str, str | list[str] | dict[str, str]] | None = None,
     avatar_url: str | None = None,
     *,
@@ -61,7 +65,10 @@ def register_with_agentverse(
             logger.warning(
                 "The value of metadata belonging to key 'geolocation' will be overwritten by `geo_location` arg"
             )
-        metadata["geolocation"] = geo_location.as_str_dict()
+        metadata["geolocation"] = {
+            key: str(value)
+            for key, value in geo_location.model_dump(exclude_none=True).items()
+        }
 
     register_in_almanac_success = register_in_almanac(
         identity=identity,
