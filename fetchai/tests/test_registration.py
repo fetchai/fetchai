@@ -25,7 +25,9 @@ class TestRegisterWithAgentverse:
 
     @pytest.fixture
     def mock_agentverse_config(self) -> mock.Mock:
-        return mock.create_autospec(AgentverseConfig, instance=True)
+        config = mock.create_autospec(AgentverseConfig, instance=True)
+        config.proxy_endpoint = "https://proxy.agentverse.ai/submit"
+        return config
 
     def test_returns_true_when_registration_succeeds(self, registration_params: dict):
         """Test successful registration with v2 API."""
@@ -88,6 +90,8 @@ class TestRegisterWithAgentverse:
         self, registration_params: dict, mock_agentverse_config: mock.Mock
     ):
         """Test that proxy agent type uses the proxy endpoint for both requests."""
+        expected_proxy_endpoint = "https://proxy.agentverse.ai/submit"
+
         with (
             mock.patch(
                 "fetchai.registration.register_in_agentverse", return_value=True
@@ -105,8 +109,8 @@ class TestRegisterWithAgentverse:
             agent_details = call_args.kwargs["agent_details"]
             connect_request = call_args.kwargs["request"]
 
-            assert agent_details.endpoint == mock_agentverse_config.proxy_endpoint
-            assert connect_request.endpoint == mock_agentverse_config.proxy_endpoint
+            assert agent_details.endpoint == expected_proxy_endpoint
+            assert connect_request.endpoint == expected_proxy_endpoint
 
     def test_metadata_is_public_overridden_by_function_parameter(
         self, registration_params: dict
@@ -195,7 +199,10 @@ class TestRegisterWithAgentverse:
 
     def test_custom_protocol_digest(self, registration_params: dict):
         """Test that a custom protocol digest can be specified."""
-        custom_protocol = "proto:custom123"
+        # Use a valid 64-character hex digest format
+        custom_protocol = (
+            "proto:a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2"
+        )
 
         with mock.patch(
             "fetchai.registration.register_in_agentverse", return_value=True
