@@ -2,10 +2,10 @@ from setuptools import find_packages, setup
 
 setup(
     name="fetchai",
-    version="0.1.42",
+    version="0.2.0",  # Major version bump for breaking change
     packages=find_packages(exclude=("fetchai/tests", "examples")),
     install_requires=[
-        "uagents-core==0.3.11",
+        "uagents-core>=0.4.0",  # Upgraded from 0.3.11 - v2 API with permanent registration
         "mnemonic>=0.21",
         "click>=8.1.2,<9.0",
         "python-dotenv>=1.0.1",

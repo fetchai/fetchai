@@ -1,14 +1,25 @@
+"""
+Agent registration with Agentverse v2 API.
+
+With uagents-core 0.4.0+:
+- Registrations are permanent (no 48-hour expiration)
+- Agentverse automatically handles Almanac sync
+- No separate Almanac registration needed
+"""
+
 from uagents_core.config import DEFAULT_AGENTVERSE_URL, AgentverseConfig
 from uagents_core.contrib.protocols.chat import chat_protocol_spec
 from uagents_core.identity import Identity
-from uagents_core.registration import AgentUpdates, AgentverseConnectRequest
+from uagents_core.registration import AgentverseConnectRequest
 from uagents_core.types import (
-    AddressPrefix,
     AgentType,
     AgentGeolocation,
     AgentGeoLocationDetails,
 )
-from uagents_core.utils.registration import register_in_agentverse, register_in_almanac
+from uagents_core.utils.registration import (
+    register_in_agentverse,
+    AgentverseRegistrationRequest,
+)
 
 from fetchai.logger import get_logger
 
@@ -27,39 +38,41 @@ def register_with_agentverse(
     *,
     protocol_digest: str = chat_protocol_spec.digest,
     agent_type: AgentType = "custom",
-    prefix: AddressPrefix | None = None,
     is_public: bool = True,
     agentverse_base_url: str = DEFAULT_AGENTVERSE_URL,
 ) -> bool:
     """
-    Register the agent with the Agentverse API.
+    Register the agent with Agentverse v2 API.
+
+    With v2 API:
+    - Registration is permanent (no expiration)
+    - Agentverse automatically syncs to Almanac
+    - No separate Almanac registration needed
+
     :param identity: The identity of the agent.
     :param url: The URL endpoint for the agent
-    :param protocol_digest: The digest of the protocol that the agent supports
     :param agentverse_token: The token to use to authenticate with the Agentverse API
     :param agent_title: The title of the agent
     :param readme: The readme for the agent
+    :param geo_location: The location of the agent
     :param metadata: Additional data related to the agent.
     :param avatar_url: The URL of the agent's avatar.
-    :param geo_location: The location of the agent
-    :param prefix: The agent's address prefix
+    :param protocol_digest: The digest of the protocol that the agent supports
+    :param agent_type: The type of agent (e.g., "custom", "proxy")
     :param is_public: Denotes if the agent should be retrieved by Agentverse search by default.
     :param agentverse_base_url: The base url of the Agentverse environment we would like to use.
-    :return: True if registration was successful in both Almanac and Agentverse, False otherwise.
+    :return: True if registration was successful, False otherwise.
     """
-
     agentverse_config = AgentverseConfig(base_url=agentverse_base_url)
 
-    almanac_url = url
-    if agent_type == "proxy":
-        almanac_url = agentverse_config.proxy_endpoint
-
+    # Build metadata with is_public and geolocation
     metadata = metadata or {}
     if "is_public" in metadata:
         logger.warning(
             "The value of metadata belonging to key 'is_public' will be overwritten by `is_public` arg"
         )
     metadata["is_public"] = str(is_public)
+
     if geo_location:
         if "geolocation" in metadata:
             logger.warning(
@@ -70,35 +83,40 @@ def register_with_agentverse(
             for key, value in geo_location.model_dump(exclude_none=True).items()
         }
 
-    register_in_almanac_success = register_in_almanac(
-        identity=identity,
-        endpoints=[almanac_url],
-        protocol_digests=[protocol_digest],
+    # Determine endpoint URL based on agent type
+    endpoint_url = url
+    if agent_type == "proxy":
+        endpoint_url = agentverse_config.proxy_endpoint
+
+    # Build agent registration request
+    agent_details = AgentverseRegistrationRequest(
+        name=agent_title,
+        endpoint=endpoint_url,
+        protocols=[protocol_digest],
         metadata=metadata,
-        agentverse_config=agentverse_config,
-        prefix=prefix,
+        type=agent_type,
+        description="",  # Short description - can be enhanced later
+        readme=readme,
+        avatar_url=avatar_url,
     )
 
-    if not register_in_almanac_success:
-        logger.warning("Failed to register agent in Almanac")
-        return False
+    # Connect request with authentication
+    connect_request = AgentverseConnectRequest(
+        user_token=agentverse_token,
+        agent_type=agent_type,
+        endpoint=url,
+    )
 
-    register_in_agentverse_success = register_in_agentverse(
-        request=AgentverseConnectRequest(
-            user_token=agentverse_token,
-            agent_type=agent_type,
-            endpoint=url,
-        ),
+    # Register with Agentverse v2 API
+    # This automatically handles Almanac sync - no separate registration needed
+    success = register_in_agentverse(
+        request=connect_request,
         identity=identity,
-        agent_details=AgentUpdates(
-            name=agent_title,
-            readme=readme,
-            avatar_url=avatar_url,
-        ),
+        agent_details=agent_details,
         agentverse_config=agentverse_config,
     )
 
-    if not register_in_agentverse_success:
+    if not success:
         logger.warning("Failed to register agent in Agentverse")
 
-    return bool(register_in_agentverse_success and register_in_almanac_success)
+    return bool(success)
