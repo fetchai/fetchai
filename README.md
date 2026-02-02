@@ -213,6 +213,7 @@ def webhook(request):
 ## Documentation and Guides
 For more detailed information on using FetchAI, check out our documentation:
 
+- [Upgrading Guide](UPGRADING.md) - **Important**: Breaking changes and migration steps between versions
 - [AI Agent to AI Agent Messaging](docs/ai-communication.mdx) - Learn how to send messages between AI agents using FetchAI SDK
 - [AI Agent to uAgent Messaging](docs/sdk-uagent-communication.mdx) - Understand how to integrate AI agents with uAgents 
 - [AI Agent Provisioning](docs/register_an_agent.mdx) - Step-by-step guide for registering your AI agent on the network

@@ -27,125 +27,71 @@ class TestRegisterWithAgentverse:
     def mock_agentverse_config(self) -> mock.Mock:
         return mock.create_autospec(AgentverseConfig, instance=True)
 
-    def test_returns_true_when_both_registrations_succeed(
-        self, registration_params: dict
-    ):
-        with (
-            mock.patch(
-                "fetchai.registration.register_in_almanac", return_value=True
-            ) as mock_almanac,
-            mock.patch(
-                "fetchai.registration.register_in_agentverse", return_value=True
-            ) as mock_agentverse,
-        ):
+    def test_returns_true_when_registration_succeeds(self, registration_params: dict):
+        """Test successful registration with v2 API."""
+        with mock.patch(
+            "fetchai.registration.register_in_agentverse", return_value=True
+        ) as mock_agentverse:
             result = register_with_agentverse(**registration_params)
 
             assert result is True
-            assert mock_almanac.call_count == 1
             assert mock_agentverse.call_count == 1
 
-    def test_agentverse_not_called_if_almanac_fails(self, registration_params: dict):
-        with (
-            mock.patch(
-                "fetchai.registration.register_in_almanac", return_value=False
-            ) as mock_almanac,
-            mock.patch(
-                "fetchai.registration.register_in_agentverse"
-            ) as mock_agentverse,
-        ):
+    def test_returns_false_when_registration_fails(self, registration_params: dict):
+        """Test failed registration returns False."""
+        with mock.patch(
+            "fetchai.registration.register_in_agentverse", return_value=False
+        ) as mock_agentverse:
             result = register_with_agentverse(**registration_params)
 
             assert result is False
-            assert mock_almanac.call_count == 1
-            mock_agentverse.assert_not_called()
+            assert mock_agentverse.call_count == 1
 
-    def test_returns_false_when_agentverse_registration_fails(
+    def test_calls_register_in_agentverse_with_correct_parameters(
         self, registration_params: dict
     ):
-        with (
-            mock.patch(
-                "fetchai.registration.register_in_almanac", return_value=True
-            ) as mock_almanac,
-            mock.patch(
-                "fetchai.registration.register_in_agentverse", return_value=False
-            ) as mock_agentverse,
-        ):
-            result = register_with_agentverse(**registration_params)
-
-            assert result is False
-            assert mock_almanac.call_count == 1
-            assert mock_agentverse.call_count == 1
-
-    def test_calls_functions_with_correct_parameters(self, registration_params: dict):
+        """Test that register_in_agentverse is called with correct parameters."""
         geo_location = AgentGeoLocation(latitude=51.5074, longitude=-0.1278, radius=1.0)
         metadata = {"test_key": "test_value"}
 
-        with (
-            mock.patch(
-                "fetchai.registration.register_in_almanac", return_value=True
-            ) as mock_almanac,
-            mock.patch(
-                "fetchai.registration.register_in_agentverse", return_value=True
-            ) as mock_agentverse,
-        ):
+        with mock.patch(
+            "fetchai.registration.register_in_agentverse", return_value=True
+        ) as mock_agentverse:
             register_with_agentverse(
                 geo_location=geo_location,
                 metadata=metadata,
-                agent_type="proxy",
-                prefix="not-real-prefix",
+                agent_type="custom",
                 **registration_params,
             )
 
-            mock_almanac.assert_called_once()
-            almanac_call_args = mock_almanac.call_args
-            assert (
-                almanac_call_args.kwargs["identity"] == registration_params["identity"]
-            )
-            assert almanac_call_args.kwargs["protocol_digests"] == [
-                "proto:30a801ed3a83f9a0ff0a9f1e6fe958cb91da1fc2218b153df7b6cbf87bd33d62"
-            ]
-            expected_metadata = {
-                "test_key": "test_value",
-                "is_public": "True",
-                "geolocation": geo_location.as_str_dict(),
-            }
-            assert almanac_call_args.kwargs["metadata"] == expected_metadata
-            assert almanac_call_args.kwargs["prefix"] == "not-real-prefix"
-
             mock_agentverse.assert_called_once()
-            agentverse_call_args = mock_agentverse.call_args
+            call_args = mock_agentverse.call_args
+
+            # Verify connect request
             assert (
-                agentverse_call_args.kwargs["identity"]
-                == registration_params["identity"]
-            )
-            assert (
-                agentverse_call_args.kwargs["request"].user_token
+                call_args.kwargs["request"].user_token
                 == registration_params["agentverse_token"]
             )
-            assert agentverse_call_args.kwargs["request"].agent_type == "proxy"
-            assert (
-                agentverse_call_args.kwargs["request"].endpoint
-                == registration_params["url"]
-            )
-            assert (
-                agentverse_call_args.kwargs["agent_details"].name
-                == registration_params["agent_title"]
-            )
-            assert (
-                agentverse_call_args.kwargs["agent_details"].readme
-                == registration_params["readme"]
-            )
+            assert call_args.kwargs["request"].agent_type == "custom"
+            assert call_args.kwargs["request"].endpoint == registration_params["url"]
+
+            # Verify identity
+            assert call_args.kwargs["identity"] == registration_params["identity"]
+
+            # Verify agent details (AgentverseRegistrationRequest)
+            agent_details = call_args.kwargs["agent_details"]
+            assert agent_details.name == registration_params["agent_title"]
+            assert agent_details.readme == registration_params["readme"]
+            assert agent_details.endpoint == registration_params["url"]
 
     def test_handles_proxy_agent_type_correctly(
         self, registration_params: dict, mock_agentverse_config: mock.Mock
     ):
+        """Test that proxy agent type uses the proxy endpoint for both requests."""
         with (
             mock.patch(
-                "fetchai.registration.register_in_almanac", return_value=True
-            ) as mock_almanac,
-            mock.patch(
                 "fetchai.registration.register_in_agentverse", return_value=True
-            ),
+            ) as mock_agentverse,
             mock.patch(
                 "fetchai.registration.AgentverseConfig",
                 return_value=mock_agentverse_config,
@@ -153,39 +99,113 @@ class TestRegisterWithAgentverse:
         ):
             register_with_agentverse(agent_type="proxy", **registration_params)
 
-            almanac_call_args = mock_almanac.call_args
-            assert almanac_call_args.kwargs["endpoints"] == [
-                mock_agentverse_config.proxy_endpoint
-            ]
+            call_args = mock_agentverse.call_args
 
-    def test_metadata_is_public_and_geolocation_are_overridden_by_function_parameters(
+            # For proxy type, both requests should use the proxy endpoint
+            agent_details = call_args.kwargs["agent_details"]
+            connect_request = call_args.kwargs["request"]
+
+            assert agent_details.endpoint == mock_agentverse_config.proxy_endpoint
+            assert connect_request.endpoint == mock_agentverse_config.proxy_endpoint
+
+    def test_metadata_is_public_overridden_by_function_parameter(
         self, registration_params: dict
     ):
+        """Test that is_public in metadata is overridden by function parameter."""
         metadata_with_conflicts = {
             "is_public": "False",
-            "geolocation": {"lat": "0", "lng": "0"},
             "other_key": "other_value",
         }
-        geo_location = AgentGeoLocation(latitude=51.5074, longitude=-0.1278)
 
-        with (
-            mock.patch(
-                "fetchai.registration.register_in_almanac", return_value=True
-            ) as mock_almanac,
-            mock.patch(
-                "fetchai.registration.register_in_agentverse", return_value=True
-            ),
-        ):
+        with mock.patch(
+            "fetchai.registration.register_in_agentverse", return_value=True
+        ) as mock_agentverse:
             register_with_agentverse(
-                geo_location=geo_location,
                 metadata=metadata_with_conflicts,
                 is_public=True,
                 **registration_params,
             )
 
-            almanac_call_args = mock_almanac.call_args
-            final_metadata = almanac_call_args.kwargs["metadata"]
+            call_args = mock_agentverse.call_args
+            agent_details = call_args.kwargs["agent_details"]
+            final_metadata = agent_details.metadata
 
             assert final_metadata["is_public"] == "True"
-            assert final_metadata["geolocation"] == geo_location.as_str_dict()
             assert final_metadata["other_key"] == "other_value"
+
+    def test_geolocation_added_to_metadata(self, registration_params: dict):
+        """Test that geolocation is properly added to metadata."""
+        geo_location = AgentGeoLocation(latitude=51.5074, longitude=-0.1278)
+
+        with mock.patch(
+            "fetchai.registration.register_in_agentverse", return_value=True
+        ) as mock_agentverse:
+            register_with_agentverse(
+                geo_location=geo_location,
+                **registration_params,
+            )
+
+            call_args = mock_agentverse.call_args
+            agent_details = call_args.kwargs["agent_details"]
+            final_metadata = agent_details.metadata
+
+            assert "geolocation" in final_metadata
+            assert final_metadata["geolocation"] == geo_location.as_str_dict()
+
+    def test_geolocation_overrides_metadata_geolocation(
+        self, registration_params: dict
+    ):
+        """Test that geo_location parameter overrides geolocation in metadata."""
+        metadata_with_geo = {
+            "geolocation": {"lat": "0", "lng": "0"},
+        }
+        geo_location = AgentGeoLocation(latitude=51.5074, longitude=-0.1278)
+
+        with mock.patch(
+            "fetchai.registration.register_in_agentverse", return_value=True
+        ) as mock_agentverse:
+            register_with_agentverse(
+                geo_location=geo_location,
+                metadata=metadata_with_geo,
+                **registration_params,
+            )
+
+            call_args = mock_agentverse.call_args
+            agent_details = call_args.kwargs["agent_details"]
+            final_metadata = agent_details.metadata
+
+            # geo_location parameter should override metadata
+            assert final_metadata["geolocation"] == geo_location.as_str_dict()
+
+    def test_default_protocol_digest_is_chat_protocol(self, registration_params: dict):
+        """Test that the default protocol digest is the chat protocol."""
+        with mock.patch(
+            "fetchai.registration.register_in_agentverse", return_value=True
+        ) as mock_agentverse:
+            register_with_agentverse(**registration_params)
+
+            call_args = mock_agentverse.call_args
+            agent_details = call_args.kwargs["agent_details"]
+
+            # Should contain the chat protocol digest
+            expected_digest = (
+                "proto:30a801ed3a83f9a0ff0a9f1e6fe958cb91da1fc2218b153df7b6cbf87bd33d62"
+            )
+            assert expected_digest in agent_details.protocols
+
+    def test_custom_protocol_digest(self, registration_params: dict):
+        """Test that a custom protocol digest can be specified."""
+        custom_protocol = "proto:custom123"
+
+        with mock.patch(
+            "fetchai.registration.register_in_agentverse", return_value=True
+        ) as mock_agentverse:
+            register_with_agentverse(
+                protocol_digest=custom_protocol,
+                **registration_params,
+            )
+
+            call_args = mock_agentverse.call_args
+            agent_details = call_args.kwargs["agent_details"]
+
+            assert custom_protocol in agent_details.protocols
