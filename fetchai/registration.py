@@ -104,7 +104,7 @@ def register_with_agentverse(
     connect_request = AgentverseConnectRequest(
         user_token=agentverse_token,
         agent_type=agent_type,
-        endpoint=url,
+        endpoint=endpoint_url,
     )
 
     # Register with Agentverse v2 API

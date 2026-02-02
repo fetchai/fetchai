@@ -89,7 +89,7 @@ class TestRegisterWithAgentverse:
     def test_handles_proxy_agent_type_correctly(
         self, registration_params: dict, mock_agentverse_config: mock.Mock
     ):
-        """Test that proxy agent type uses the proxy endpoint."""
+        """Test that proxy agent type uses the proxy endpoint for both requests."""
         with (
             mock.patch(
                 "fetchai.registration.register_in_agentverse", return_value=True
@@ -102,9 +102,13 @@ class TestRegisterWithAgentverse:
             register_with_agentverse(agent_type="proxy", **registration_params)
 
             call_args = mock_agentverse.call_args
+
+            # For proxy type, both requests should use the proxy endpoint
             agent_details = call_args.kwargs["agent_details"]
-            # For proxy type, endpoint should be the proxy endpoint
+            connect_request = call_args.kwargs["request"]
+
             assert agent_details.endpoint == mock_agentverse_config.proxy_endpoint
+            assert connect_request.endpoint == mock_agentverse_config.proxy_endpoint
 
     def test_metadata_is_public_overridden_by_function_parameter(
         self, registration_params: dict
