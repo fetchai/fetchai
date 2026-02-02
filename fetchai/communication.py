@@ -15,7 +15,6 @@ from uagents_core.contrib.protocols.chat import (
     chat_protocol_spec,
 )
 
-
 from fetchai.schema import AgentMessage, JsonStr
 
 
