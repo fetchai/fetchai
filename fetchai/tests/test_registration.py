@@ -73,9 +73,7 @@ class TestRegisterWithAgentverse:
                 == registration_params["agentverse_token"]
             )
             assert call_args.kwargs["request"].agent_type == "custom"
-            assert (
-                call_args.kwargs["request"].endpoint == registration_params["url"]
-            )
+            assert call_args.kwargs["request"].endpoint == registration_params["url"]
 
             # Verify identity
             assert call_args.kwargs["identity"] == registration_params["identity"]
