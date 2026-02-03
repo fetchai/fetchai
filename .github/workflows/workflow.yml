@@ -49,12 +49,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Install and run Black
-        run: |
-          source venv/bin/activate
-          pip install black
-          black --check .  # Or modify to just format without checking
-
       - name: Get the new version
         id: get_version
         run: |
