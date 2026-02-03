@@ -6,10 +6,10 @@ setup(
     packages=find_packages(exclude=("fetchai/tests", "examples")),
     install_requires=[
         "uagents-core==0.4.0",
-        "mnemonic==0.21",
-        "click==8.1.8",
-        "python-dotenv==1.0.1",
-        "agentverse-client==0.1.10",
+        "mnemonic>=0.21",
+        "click>=8.1.2,<9.0",
+        "python-dotenv>=1.0.1",
+        "agentverse-client>=0.1.10",
     ],
     entry_points={
         "console_scripts": [
