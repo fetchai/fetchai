@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="fetchai",
-    version="0.2.1",  # Major version bump for breaking change
+    version="0.2.2",  # Major version bump for breaking change
     packages=find_packages(exclude=("fetchai/tests", "examples")),
     install_requires=[
         # 0.x packages: pin to minor version (breaking changes allowed in minor bumps per semver)
