@@ -24,6 +24,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Almanac-specific registration logic (handled automatically by Agentverse)
 - `prefix` parameter from registration function
 
+### Dependencies
+
+- `uagents-core`: `>=0.4.0,<0.5.0` (allows patch updates, blocks breaking changes)
+- `agentverse-client`: `>=0.1.10,<0.2.0` (0.x packages may break on minor bumps)
+- `mnemonic`: `>=0.21,<1.0`
+- `click`: `>=8.1.2,<9.0`
+- `python-dotenv`: `>=1.0.1,<2.0`
+
 ### Documentation
 
 - Added `UPGRADING.md` with migration guide from 0.1.x to 0.2.0

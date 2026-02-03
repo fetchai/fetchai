@@ -5,11 +5,13 @@ setup(
     version="0.2.0",  # Major version bump for breaking change
     packages=find_packages(exclude=("fetchai/tests", "examples")),
     install_requires=[
-        "uagents-core==0.4.0",
-        "mnemonic==0.21",
-        "click==8.1.8",
-        "python-dotenv==1.0.1",
-        "agentverse-client==0.1.10",
+        # 0.x packages: pin to minor version (breaking changes allowed in minor bumps per semver)
+        "uagents-core>=0.4.0,<0.5.0",
+        "agentverse-client>=0.1.10,<0.2.0",
+        # 1.x+ packages: allow minor/patch updates, block next major version
+        "mnemonic>=0.21,<1.0",
+        "click>=8.1.2,<9.0",
+        "python-dotenv>=1.0.1,<2.0",
     ],
     entry_points={
         "console_scripts": [
