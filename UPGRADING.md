@@ -125,7 +125,16 @@ This replaces any previous Almanac-specific removal logic.
 
 | Package | 0.1.x | 0.2.0 |
 |---------|-------|-------|
-| `uagents-core` | 0.3.11 | >=0.4.0 |
+| `uagents-core` | ==0.3.11 | >=0.4.0,<0.5.0 |
+| `agentverse-client` | ==0.1.x | >=0.1.10,<0.2.0 |
+| `mnemonic` | ==0.21 | >=0.21,<1.0 |
+| `click` | ==8.1.x | >=8.1.2,<9.0 |
+| `python-dotenv` | ==1.0.1 | >=1.0.1,<2.0 |
+
+#### Versioning Strategy
+
+- **0.x packages** (`uagents-core`, `agentverse-client`): Pinned to minor version because semver allows breaking changes in minor bumps for pre-1.0 packages
+- **1.x+ packages**: Allow minor/patch updates, block next major version
 
 ### Frequently Asked Questions
 
