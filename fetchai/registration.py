@@ -83,15 +83,16 @@ def register_with_agentverse(
             for key, value in geo_location.model_dump(exclude_none=True).items()
         }
 
-    # Determine endpoint URL based on agent type
-    endpoint_url = url
-    if agent_type == "proxy":
-        endpoint_url = agentverse_config.proxy_endpoint
+    # Always use the caller-provided URL as the endpoint.
+    # Previously, this function unconditionally overwrote the URL with
+    # agentverse_config.proxy_endpoint for agent_type="proxy", which
+    # prevented callers from registering their own webhook callback URL.
+    # The caller is responsible for passing the correct endpoint URL.
 
     # Build agent registration request
     agent_details = AgentverseRegistrationRequest(
         name=agent_title,
-        endpoint=endpoint_url,
+        endpoint=url,
         protocols=[protocol_digest],
         metadata=metadata,
         type=agent_type,
@@ -104,7 +105,7 @@ def register_with_agentverse(
     connect_request = AgentverseConnectRequest(
         user_token=agentverse_token,
         agent_type=agent_type,
-        endpoint=endpoint_url,
+        endpoint=url,
     )
 
     # Register with Agentverse v2 API
