@@ -86,31 +86,29 @@ class TestRegisterWithAgentverse:
             assert agent_details.readme == registration_params["readme"]
             assert agent_details.endpoint == registration_params["url"]
 
-    def test_handles_proxy_agent_type_correctly(
-        self, registration_params: dict, mock_agentverse_config: mock.Mock
+    def test_proxy_agent_type_preserves_caller_provided_url(
+        self, registration_params: dict
     ):
-        """Test that proxy agent type uses the proxy endpoint for both requests."""
-        expected_proxy_endpoint = "https://proxy.agentverse.ai/submit"
+        """Test that proxy agent type uses the caller-provided URL, not the proxy endpoint.
 
-        with (
-            mock.patch(
-                "fetchai.registration.register_in_agentverse", return_value=True
-            ) as mock_agentverse,
-            mock.patch(
-                "fetchai.registration.AgentverseConfig",
-                return_value=mock_agentverse_config,
-            ),
-        ):
+        Previously, agent_type="proxy" unconditionally overwrote the URL with the
+        Agentverse proxy endpoint, which prevented callers from registering their
+        own webhook callback URL. The caller is now responsible for passing the
+        correct endpoint URL.
+        """
+        with mock.patch(
+            "fetchai.registration.register_in_agentverse", return_value=True
+        ) as mock_agentverse:
             register_with_agentverse(agent_type="proxy", **registration_params)
 
             call_args = mock_agentverse.call_args
 
-            # For proxy type, both requests should use the proxy endpoint
+            # Both requests should use the caller-provided URL
             agent_details = call_args.kwargs["agent_details"]
             connect_request = call_args.kwargs["request"]
 
-            assert agent_details.endpoint == expected_proxy_endpoint
-            assert connect_request.endpoint == expected_proxy_endpoint
+            assert agent_details.endpoint == registration_params["url"]
+            assert connect_request.endpoint == registration_params["url"]
 
     def test_metadata_is_public_overridden_by_function_parameter(
         self, registration_params: dict
