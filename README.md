@@ -10,7 +10,7 @@ Fetch.ai provides apps for every audience, frameworks for developers, and a shar
 |---|---|
 | **Build agents with Python** | [uAgents Framework](https://github.com/fetchai/uAgents) — Multi-agent framework |
 | **Use agent primitives (identity, registration, messaging) without the full framework** | [uAgents Core](https://pypi.org/project/uagents-core/) — Lightweight core library |
-| **Build with the ASI1 model API** | [ASI1 API Docs](https://docs.asi1.ai) — OpenAI-compatible LLM API |
+| **Build with the ASI1 model API** | [ASI1 API Docs](https://docs.asi1.ai) — OpenAI-compatible large language model API |
 | **Rapidly prototype for a hackathon or proof of concept** | [Innovation Lab](https://innovationlab.fetch.ai) — Starter guides and accelerator |
 | **Get my agent discovered by other AIs** | [Agentverse](https://agentverse.ai) — Agent marketing and discovery platform |
 | **Get a personal AI that learns, socializes, and takes action for me** | [ASI:One](https://asi1.ai) — Your personal AI |
@@ -21,25 +21,25 @@ Fetch.ai provides apps for every audience, frameworks for developers, and a shar
 ## The Ecosystem at a Glance
 
 ```
-                   Ways to build or use AI agents
-  ┌─────────────┬─────────────┬─────────────┬─────────────────┐
-  │             │             │             │                 │
-  │  ASI:One    │   Fetch     │  Flockx     │  uAgents        │
-  │             │  Business   │             │  Framework      │
-  │  Your       │  Verified   │  Your Team  │                 │
-  │  personal   │  agents     │  of AIs for │  Full-stack     │
-  │  AI         │  for brands │  creative   │  agent dev for  │
-  │             │             │  pros       │  developers     │
-  └──────┬──────┴──────┬──────┴──────┬──────┴───────┬─────────┘
-         │             │             │              │
-         │     all register agents on Agentverse    │
-         └─────────────┼─────────────┼──────────────┘
-                       │             │
-            ┌──────────▼─────────────▼──────────┐
-            │         Agentverse                │
-            │  Agent marketing & discovery      │
-            │  All agents find each other here  │
-            └───────────────────────────────────┘
+                     Ways to build or use AI agents
+  ┌─────────────┬─────────────┬──────────────────┬─────────────────┐
+  │             │             │                  │                 │
+  │  ASI:One    │   Fetch     │  Flockx          │  uAgents        │
+  │             │  Business   │                  │  Framework      │
+  │  Your       │  Verified   │  Your Team       │                 │
+  │  personal   │  agents     │  of AIs for      │  Full-stack     │
+  │  AI         │  for brands │  creative        │  agent dev for  │
+  │             │             │  professionals   │  developers     │
+  └──────┬──────┴──────┬──────┴────────┬─────────┴───────┬─────────┘
+         │             │               │                 │
+         │       all register agents on Agentverse       │
+         └─────────────┼───────────────┼─────────────────┘
+                       │               │
+            ┌──────────▼───────────────▼──────────┐
+            │         Agentverse                  │
+            │  Agent marketing & discovery        │
+            │  All agents find each other here    │
+            └─────────────────────────────────────┘
 
   Powered by:
   ┌────────────────────┐  ┌─────────────────────┐
@@ -87,7 +87,7 @@ A multi-agent system that gives creative professionals a team of specialized AI 
 | **Sage** | Strategic planning and market analysis |
 | **Otto** | Operations management and process optimization |
 | **Maya** | Marketing strategy and campaign management |
-| **Clara** | Content creation and SEO optimization |
+| **Clara** | Content creation and search engine optimization |
 | **Alex** | Relationship building and external relations |
 | **Eva** | Executive assistance and coordination |
 
@@ -101,34 +101,6 @@ A multi-agent system that gives creative professionals a team of specialized AI 
   - Agent-to-Agent (A2A) interoperability across marketplaces
   - API and WebSocket access for developers
 - **Built for:** Podcasters, writers, artists, musicians, influencers, solopreneurs, and founders
-
-
-## Agentverse — Agent Marketing and Discovery
-
-Agentverse is the marketing platform that helps get your AI discovered by other AIs. Every app (ASI:One, Business, Flockx) and every framework (uAgents) registers agents here. Once registered, agents appear in search results across ASI:One and the broader network.
-
-- **Docs:** [docs.agentverse.ai](https://docs.agentverse.ai)
-- **Getting started:** [Platform Overview](https://docs.agentverse.ai/documentation/getting-started/overview)
-- **Key features:**
-  - Agent hosting (visual builder or bring your own)
-  - Discovery and marketplace (search ranking, metadata optimization)
-  - Analytics dashboard (impressions, queries, usage)
-  - AI-powered agent evaluation
-  - Monetization tools (subscriptions, premium tags)
-- **CLI:** [`avctl`](https://docs.agentverse.ai) — Deploy and manage agents from the terminal
-
-## Model — The Underlying LLM
-
-### ASI1 Model API
-
-The ASI1 model is the underlying large language model that powers the ecosystem. It's OpenAI-compatible, so you can use it with existing OpenAI client libraries. The ASI1 model is what makes ASI:One agentic: it can autonomously discover and call agents registered on Agentverse.
-
-- **API Docs:** [docs.asi1.ai](https://docs.asi1.ai)
-- **Quickstart:** [Developer Quickstart](https://docs.asi1.ai/documentation/getting-started/quickstart)
-- **Capabilities:** OpenAI-compatible chat completions, tool calling, image generation, structured data, agentic mode
-- **Build with it:** [Agentic LLM Guide](https://docs.asi1.ai/documentation/build-with-asi-one/agentic-llm)
-
-## Frameworks — For Developers
 
 ### uAgents Framework — Multi-Agent Systems in Python
 
@@ -145,9 +117,9 @@ pip install uagents
   - Decorator-based message handlers (`@agent.on_message`, `@agent.on_interval`)
   - Automatic Almanac registration
   - Agent-to-agent communication
-  - Mailbox service (no public IP required)
+  - Mailbox service (no public internet address required)
   - Chat protocol for LLM-powered agents
-- **Adapters:** Connect agents built with [LangChain](https://uagents.fetch.ai/docs/guides/langchain_agent), [CrewAI](https://innovationlab.fetch.ai/resources/docs/examples/adapters/crewai-adapter-example), [MCP](https://github.com/fetchai/uAgents/tree/main/python/uagents-adapter), and [Google A2A](https://github.com/fetchai/uAgents/tree/main/python/uagents-adapter)
+- **Adapters:** Connect agents built with [LangChain](https://uagents.fetch.ai/docs/guides/langchain_agent), [CrewAI](https://innovationlab.fetch.ai/resources/docs/examples/adapters/crewai-adapter-example), [Model Context Protocol](https://github.com/fetchai/uAgents/tree/main/python/uagents-adapter), and [Google A2A](https://github.com/fetchai/uAgents/tree/main/python/uagents-adapter)
 
 ### uAgents Core — Lightweight Primitives
 
@@ -166,6 +138,41 @@ pip install uagents-core
   - Contributed protocols (chat, payment, subscriptions)
 - **When to use it:** You have your own web server (FastAPI, Flask, Django) and want to register it as an agent and communicate with other agents without adopting the full uAgents runtime
 
+## Agentverse — Agent Marketing and Discovery
+
+Agentverse is the marketing platform that helps get your AI discovered by other AIs. Every app (ASI:One, Business, Flockx) and every framework (uAgents) registers agents here. Once registered, agents appear in search results across ASI:One and the broader network.
+
+- **Docs:** [docs.agentverse.ai](https://docs.agentverse.ai)
+- **Getting started:** [Platform Overview](https://docs.agentverse.ai/documentation/getting-started/overview)
+- **Key features:**
+  - Agent hosting (visual builder or bring your own)
+  - Discovery and marketplace (search ranking, metadata optimization)
+  - Analytics dashboard (impressions, queries, usage)
+  - AI-powered agent evaluation
+  - Monetization tools (subscriptions, premium tags)
+- **Command line interface:** [`avctl`](https://docs.agentverse.ai) — Deploy and manage agents from the terminal
+
+## Powered By
+
+### ASI1 Model API
+
+The ASI1 model is the underlying large language model that powers the ecosystem. It's OpenAI-compatible, so you can use it with existing OpenAI client libraries. The ASI1 model is what makes ASI:One agentic: it can autonomously discover and call agents registered on Agentverse.
+
+- **API Docs:** [docs.asi1.ai](https://docs.asi1.ai)
+- **Quickstart:** [Developer Quickstart](https://docs.asi1.ai/documentation/getting-started/quickstart)
+- **Capabilities:** OpenAI-compatible chat completions, tool calling, image generation, structured data, agentic mode
+- **Build with it:** [Agentic LLM Guide](https://docs.asi1.ai/documentation/build-with-asi-one/agentic-llm)
+
+### Network — Blockchain, Almanac, and Wallet
+
+The on-chain infrastructure that powers agent registration, discovery, and payments.
+
+- **Docs:** [network.fetch.ai/docs](https://network.fetch.ai/docs)
+- **Almanac:** [On-chain agent registry](https://network.fetch.ai/docs/introduction/almanac/introduction) — Public contract of all registered agents
+- **CosmPy:** [Python library for Cosmos-based blockchains](https://network.fetch.ai/docs/guides/cosmpy/installation)
+- **Wallet:** [ASI Wallet guide](https://network.fetch.ai/docs/guides/asi-wallet/mobile-wallet/get-started) — Token management and agent interaction
+- **Ledger:** [Open ledger of agents and transactions](https://network.fetch.ai/docs)
+
 ## Resources
 
 ### Innovation Lab — Starter Guides and Accelerator
@@ -178,16 +185,6 @@ Fetch.ai's Innovation Lab provides resources for rapid prototyping, hackathons, 
   - [CrewAI Multi-Agent with uAgents Adapter](https://innovationlab.fetch.ai/resources/docs/examples/adapters/crewai-adapter-example)
   - [Solana Wallet Agent](https://innovationlab.fetch.ai/resources/docs/examples/chat-protocol/solana-wallet-agent)
 - **Programs:** Ambassador Innovator Club, Internship Incubator, Startup Accelerator
-
-### Network — Blockchain, Almanac, and Wallet
-
-The on-chain infrastructure that powers agent registration, discovery, and payments.
-
-- **Docs:** [network.fetch.ai/docs](https://network.fetch.ai/docs)
-- **Almanac:** [On-chain agent registry](https://network.fetch.ai/docs/introduction/almanac/introduction) — Public contract of all registered agents
-- **CosmPy:** [Python library for Cosmos-based blockchains](https://network.fetch.ai/docs/guides/cosmpy/installation)
-- **Wallet:** [ASI Wallet guide](https://network.fetch.ai/docs/guides/asi-wallet/mobile-wallet/get-started) — Token management and agent interaction
-- **Ledger:** [Open ledger of agents and transactions](https://network.fetch.ai/docs)
 
 ## All Documentation Links
 
@@ -243,7 +240,7 @@ These guides are specific to the `fetchai` package and remain available for refe
 - [AI Agent to AI Agent Messaging](docs/ai-communication.mdx)
 - [AI Agent to uAgent Messaging](docs/sdk-uagent-communication.mdx)
 - [AI Agent Provisioning](docs/register_an_agent.mdx)
-- [CLI Reference](docs/cli.mdx)
+- [Command Line Interface Reference](docs/cli.mdx)
 
 ## License
 
