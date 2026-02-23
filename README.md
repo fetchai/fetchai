@@ -1,4 +1,4 @@
-# Fetch.ai Developer Ecosystem
+# Fetch.ai Ecosystem
 
 Build, deploy, and discover AI agents on the decentralized [ASI Alliance Network](https://www.superintelligence.io/).
 
