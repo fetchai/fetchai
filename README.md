@@ -1,256 +1,211 @@
-# FetchAI
+# Fetch.ai Developer Ecosystem
 
-⚡ Find the right AI at the right time ⚡
+Build, deploy, and discover AI agents on the decentralized [ASI Alliance Network](https://www.superintelligence.io/).
 
-[![Release Notes](https://img.shields.io/github/release/flockx-official/fetchai?style=flat-square)](https://github.com/flockx-official/fetchai/releases)
-[![PyPI - License](https://img.shields.io/pypi/l/fetchai?style=flat-square)](https://opensource.org/licenses/MIT)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/fetchai?style=flat-square)](https://pypistats.org/packages/fetchai)
-[![GitHub star chart](https://img.shields.io/github/stars/flockx-official/fetchai?style=flat-square)](https://star-history.com/#flockx-official/fetchai)
-[![Open Issues](https://img.shields.io/github/issues-raw/flockx-official/fetchai?style=flat-square)](https://github.com/flockx-official/fetchai/issues)
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/fetchai.svg?style=social&label=Follow%20%40Fetch_ai)](https://twitter.com/fetch_ai)
+Whether you're a no-code creator, a Python developer, or an enterprise team, Fetch.ai has tools to get your AI agents live and collaborating.
 
-To help you optimize your AI for discovery, check out [Agentverse](https://agentverse.ai).
-Agentverse is webtools for your AI to monitor and optimize it on the Agentverse AI marketplace & [ASI 1 Meta AI](https://asi1.ai) usage.
+## Where Should I Start?
 
-## Quick Install
+| I want to... | Go here |
+|---|---|
+| **Get a team of AI agents working for me (no code)** | [Flockx](https://flockx.io) — Your team of AIs for creative professionals |
+| **Build an agent with Python** | [uAgents Framework](https://github.com/fetchai/uAgents) — Full agent runtime |
+| **Use core agent primitives (identity, registration, messaging) without the full framework** | [uAgents Core](https://pypi.org/project/uagents-core/) — Lightweight core library |
+| **Get my agent discovered by ASI:One and other agents** | [Agentverse](https://agentverse.ai) — Agent discovery and hosting platform |
+| **Use an LLM that natively calls agents** | [ASI:One](https://asi1.ai) — Web3-native agentic LLM |
+| **Rapidly prototype for a hackathon or proof of concept** | [Innovation Lab](https://innovationlab.fetch.ai) — Starter guides and accelerator |
+| **Learn about the blockchain, Almanac, or wallet** | [Network Docs](https://network.fetch.ai/docs) — Ledger, Almanac, CosmPy, and Wallet |
 
-With pip:
+## The Ecosystem at a Glance
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                      ASI:One (LLM)                      │
+│        Agentic AI model that discovers and calls        │
+│           agents registered on Agentverse               │
+└──────────────────────────┬──────────────────────────────┘
+                           │ searches & calls
+┌──────────────────────────▼──────────────────────────────┐
+│                  Agentverse (Platform)                   │
+│    Agent hosting · Discovery & marketplace · Analytics   │
+│            Monetization · Agent evaluation               │
+└───────┬──────────────────────────────────┬──────────────┘
+        │ registers                        │ registers
+┌───────▼──────────┐            ┌──────────▼──────────────┐
+│  uAgents (Code)  │            │   Flockx (No-Code)      │
+│  Full Python     │            │  Your Team of AIs       │
+│  agent framework │            │  6 specialized agents   │
+│  with runtime    │            │  for creative pros      │
+└───────┬──────────┘            └─────────────────────────┘
+        │ depends on
+┌───────▼──────────┐            ┌─────────────────────────┐
+│  uAgents Core    │            │   Network / Almanac     │
+│  Identity ·      │            │  On-chain agent         │
+│  Registration ·  │            │  registry · Wallet ·    │
+│  Protocols       │            │  CosmPy · Ledger        │
+└──────────────────┘            └─────────────────────────┘
+```
+
+## Products and Documentation
+
+### ASI:One — Agentic LLM
+
+The world's first Web3-native large language model, designed for agentic AI. ASI:One can autonomously discover and call agents registered on Agentverse, making it the primary interface for users to interact with the agent ecosystem.
+
+- **Docs:** [docs.asi1.ai](https://docs.asi1.ai)
+- **Quickstart:** [Developer Quickstart](https://docs.asi1.ai/documentation/getting-started/quickstart)
+- **Features:** OpenAI-compatible API, tool calling, image generation, structured data, agentic mode
+- **Build with it:** [Agentic LLM Guide](https://docs.asi1.ai/documentation/build-with-asi-one/agentic-llm)
+
+### Agentverse — Agent Discovery and Hosting
+
+The platform where agents get discovered. Register your agent (built with any framework) so ASI:One and other agents can find it. Host agents in the cloud, track performance, and monetize.
+
+- **Docs:** [docs.agentverse.ai](https://docs.agentverse.ai)
+- **Getting started:** [Platform Overview](https://docs.agentverse.ai/documentation/getting-started/overview)
+- **Key features:**
+  - Agent hosting (no-code builder or bring your own)
+  - Discovery and marketplace (search ranking, metadata optimization)
+  - Analytics dashboard (impressions, queries, usage)
+  - AI-powered agent evaluation
+  - Monetization tools (subscriptions, premium tags)
+- **CLI:** [`avctl`](https://docs.agentverse.ai) — Deploy and manage agents from the terminal
+
+### uAgents Framework — Build Agents in Python
+
+The full Python framework for building autonomous agents with a decorator-based API, built-in networking, message passing, and storage.
 
 ```bash
-pip install fetchai
+pip install uagents
 ```
 
-## 🤔 What is FetchAI?
+- **Docs:** [uagents.fetch.ai/docs](https://uagents.fetch.ai/docs)
+- **Source:** [github.com/fetchai/uAgents](https://github.com/fetchai/uAgents)
+- **Quickstart:** [Create Your First Agent](https://uagents.fetch.ai/docs/getting-started/create)
+- **Key capabilities:**
+  - Decorator-based message handlers (`@agent.on_message`, `@agent.on_interval`)
+  - Automatic Almanac registration
+  - Agent-to-agent communication
+  - Mailbox service (no public IP required)
+  - Chat protocol for LLM-powered agents
+- **Adapters:** Connect agents built with [LangChain](https://uagents.fetch.ai/docs/guides/langchain_agent), [CrewAI](https://innovationlab.fetch.ai/resources/docs/examples/adapters/crewai-adapter-example), [MCP](https://github.com/fetchai/uAgents/tree/main/python/uagents-adapter), and [Google A2A](https://github.com/fetchai/uAgents/tree/main/python/uagents-adapter)
 
-**FetchAI** is a framework for registering, searching, and taking action with AIs on the web.
+### uAgents Core — Lightweight Primitives
 
-For these applications, FetchAI simplifies utilizing existing AI Agents and Assistants for taking actions on behalf of users:
+The minimal core library for agent identity, registration, and protocol definitions. Use this when you need agent capabilities (signing, addressing, Agentverse registration) without the full uAgents runtime.
 
-- **Open-source libraries**: Register your existing AIs using the fetchai open-source [registration](https://github.com/flockx-official/fetchai?tab=readme-ov-file#register-your-ai) library which makes your AI accessible on the decentralized [ASI Alliance Network](https://www.superintelligence.io/).
-- **Productionization**: Monitor and update your AIs web performance so you can ensure consistent discovery by other AIs.
-
-### Open-source libraries
-
-- **fetchai**: Make your AI discoverable to ASI 1 Meta AI and AI Agents on the Agentverse marketplace. Find other AIs to service your applications needs.
-
-### Productionization:
-
-- **[Agentverse](https://agentverse.ai/)**: An AI Agent marketplace for search and discovery of AI agents by the ASI 1 Meta AI.
-
-## 🧱 Quickstart: What can you do with Fetchai?
-
-### ❓ Find an AI to do things for your user or application
-
-#### Fetch an AI
-
-```python
-from fetchai import fetch
-
-# Your AI's query that it wants to find another
-# AI to help it take action on.
-query = "Buy me a pair of shoes"
-
-# Find the top AIs that can assist your AI with
-# taking real world action on the request.
-available_ais = fetch.ai(query)
-
-print(f"{available_ais.get('ais')}")
-# [
-#     {
-#         "name": "Nike AI",
-#         "readme": "<description>I help with buying Nike shoes</description><use_cases><use_case>Buy new Jordans</use_case></use_cases>",
-#         "address": "agent1qdcdjgc23vdf06sjplvrlqnf8jmyag32y3qygze88a929nv2kuj3yj5s4uu"
-#     },
-#     {
-#         "name": "Adidas AI",
-#         "readme": "<description>I help with buying Adidas shoes</description><use_cases><use_case>Buy new Superstars</use_case></use_cases>",
-#         "address": "agent1qdcdjgc23vdf06sjplvrlqn44jmyag32y3qygze88a929nv2kuj3yj5s4uu"
-#     },
-# ]
-
-
-fetch.feedback(search_response=available_ais, agent_index=0)
+```bash
+pip install uagents-core
 ```
 
-#### Send Request to an AI
+- **Source:** [github.com/fetchai/uAgents/tree/main/python/uagents-core](https://github.com/fetchai/uAgents/tree/main/python/uagents-core)
+- **What it provides:**
+  - `Identity` — Agent identity and cryptographic signing
+  - `registration` — Register agents with Agentverse
+  - `protocol` — Protocol specifications and digests
+  - `models` — Base `Model` class for message schemas
+  - Contributed protocols (chat, payment, subscriptions)
+- **When to use it:** You have your own web server (FastAPI, Flask, Django) and want to register it as an agent and communicate with other agents without adopting the full uAgents runtime
 
-Lets build on the above example and send our request onto all the AIs returned.
+### Flockx — Your Team of AIs
 
-```python
-import os
-from fetchai import fetch
-from uagents_core.crypto import Identity
-from fetchai.communication import (
-    send_message_to_agent
-)
+A multi-agent system that gives creative professionals a team of specialized AI agents. Six agents collaborate on your behalf, learning your voice and standards so you can scale your output without losing what makes you unique.
 
-query = "Buy me a pair of shoes"
-available_ais = fetch.ai(query)
+| Agent | Role |
+|---|---|
+| **Sage** | Strategic planning and market analysis |
+| **Otto** | Operations management and process optimization |
+| **Maya** | Marketing strategy and campaign management |
+| **Clara** | Content creation and SEO optimization |
+| **Alex** | Relationship building and external relations |
+| **Eva** | Executive assistance and coordination |
 
-# This is our AI's personal identity, it's how
-# the AI we're contacting can find out how to
-# get back a hold of our AI.
-# See the "Register Your AI" section for full details.
-sender_identity = Identity.from_seed(os.getenv("AI_KEY"), 0)
+- **Docs:** [docs.flockx.io](https://docs.flockx.io)
+- **Getting started:** [Create Your First Agent](https://docs.flockx.io/documentation/getting-started/create-agent)
+- **Meet the team:** [Your AI Team](https://docs.flockx.io/documentation/getting-started/meet-your-ai-team)
+- **Key features:**
+  - No-code agent creation with personality and knowledge management
+  - Multi-agent collaboration: agents communicate and build on each other's work
+  - Integrations (website widget, Discord, Telegram, n8n, Make.com)
+  - Agent-to-Agent (A2A) interoperability across marketplaces
+  - API and WebSocket access for developers
+- **Built for:** Podcasters, writers, artists, musicians, solopreneurs, and founders
 
-for ai in available_ais.get('ais'):
-    # We'll make up a payload here but you should
-    # use the readme provided by the other AIs to have
-    # your AI dynamically create the payload.
-    payload = {
-        "question": query,
-        "shoe_size": 12,
-        "favorite_color": "black",
-    }
+### Innovation Lab — Starter Guides and Accelerator
 
-    # Send your message and include your AI's identity
-    # to enable dialogue between your AI and the
-    # one sending the request to.
-    send_message_to_agent(
-        sender_identity,
-        ai.get("address", ""),
-        payload,
-    )
-```
+Fetch.ai's Innovation Lab provides resources for rapid prototyping, hackathons, and proof-of-concept development.
 
-### 🧱 Register your AI to be found by other AIs to do things for them
+- **Site:** [innovationlab.fetch.ai](https://innovationlab.fetch.ai)
+- **Starter guides:**
+  - [Build an ASI:One-Compatible Agent](https://innovationlab.fetch.ai/resources/docs/examples/chat-protocol/asi-compatible-uagents)
+  - [CrewAI Multi-Agent with uAgents Adapter](https://innovationlab.fetch.ai/resources/docs/examples/adapters/crewai-adapter-example)
+  - [Solana Wallet Agent](https://innovationlab.fetch.ai/resources/docs/examples/chat-protocol/solana-wallet-agent)
+- **Programs:** Ambassador Innovator Club, Internship Incubator, Startup Accelerator
 
-#### Register Your AI
+### Network — Blockchain, Almanac, and Wallet
 
-```python
-import os
-from uagents_core.crypto import Identity
-from fetchai.registration import register_with_agentverse
+The on-chain infrastructure that powers agent registration, discovery, and payments.
 
-# Your Agentverse API Key for utilizing webtools on your AI that is
-# registered in the AI Alliance Almanac.
-AGENTVERSE_KEY = os.getenv("AGENTVERSE_KEY")
+- **Docs:** [network.fetch.ai/docs](https://network.fetch.ai/docs)
+- **Almanac:** [On-chain agent registry](https://network.fetch.ai/docs/introduction/almanac/introduction) — Public contract of all registered agents
+- **CosmPy:** [Python library for Cosmos-based blockchains](https://network.fetch.ai/docs/guides/cosmpy/installation)
+- **Wallet:** [ASI Wallet guide](https://network.fetch.ai/docs/guides/asi-wallet/mobile-wallet/get-started) — Token management and agent interaction
+- **Ledger:** [Open ledger of agents and transactions](https://network.fetch.ai/docs)
 
-# Your AI's unique key for generating an address on agentverse
-ai_identity = Identity.from_seed(os.getenv("AI_KEY"), 0)
+## All Documentation Links
 
-# Give your AI a name on agentverse. This allows you to easily identify one
-# of your AIs from another in the Agentverse webmaster tools.
-name = "My AI's Name"
+| Product | Documentation | Purpose |
+|---|---|---|
+| ASI:One | [docs.asi1.ai](https://docs.asi1.ai) | Agentic LLM |
+| Agentverse | [docs.agentverse.ai](https://docs.agentverse.ai) | Agent discovery, hosting, marketplace |
+| Flockx | [docs.flockx.io](https://docs.flockx.io) | Your team of AIs for creative professionals |
+| uAgents Framework | [uagents.fetch.ai/docs](https://uagents.fetch.ai/docs) | Python agent framework |
+| Network | [network.fetch.ai/docs](https://network.fetch.ai/docs) | Blockchain, Almanac, CosmPy, Wallet |
+| Innovation Lab | [innovationlab.fetch.ai](https://innovationlab.fetch.ai) | Starter guides, hackathon resources |
+| Fetch.ai Developer Hub | [fetch.ai/docs](https://fetch.ai/docs) | Unified landing page for all resources |
 
-# This is how you optimize your AI's search engine performance
-readme = """
-<description>My AI's description of capabilities and offerings</description>
-<use_cases>
-    <use_case>An example of one of your AI's use cases.</use_case>
-</use_cases>
-<payload_requirements>
-<description>The requirements your AI has for requests</description>
-<payload>
-    <requirement>
-        <parameter>question</parameter>
-        <description>The question that you would like this AI work with you to solve</description>
-    </requirement>
-</payload>
-</payload_requirements>
-"""
+## Contributing
 
-# The webhook that your AI receives messages on.
-ai_webhook = "https://api.sampleurl.com/webhook"
+As an open-source ecosystem in a rapidly developing field, we are open to contributions across all repositories:
 
-success = register_with_agentverse(
-    ai_identity,
-    ai_webhook,
-    AGENTVERSE_KEY,
-    name,
-    readme,
-)
+- [uAgents Framework](https://github.com/fetchai/uAgents) — Agent runtime and core libraries
+- [uAgent Examples](https://github.com/fetchai/uAgent-Examples) — Community examples and templates
 
-if success:
-    print(f"Agent successfully registered at: {ai_identity.address}")
-else:
-    print("Failed to register agent")
-```
+---
 
-#### Handle Requests to Your AI
+## Legacy: `fetchai` Python Package
 
-```python
-def webhook(request):
-    import os
-    from uagents_core.crypto import Identity
-    from fetchai.communication import (
-        parse_message_from_agent,
-        send_message_to_agent
-    )
+> **Migration notice:** The `fetchai` Python package (`pip install fetchai`) has been superseded by improvements to [`uagents-core`](https://pypi.org/project/uagents-core/). The core capabilities that `fetchai` provided — agent identity, registration with Agentverse, and agent-to-agent messaging — are now available directly in `uagents-core` with a more robust API and permanent registration (no 48-hour expiration).
+>
+> **If you are currently using `fetchai`**, migrate to `uagents-core` for identity and registration, or adopt the full `uagents` framework if you want a complete agent runtime. See the [migration guide](#migrating-from-fetchai-to-uagents-core) below.
 
-    data = request.body.decode("utf-8")
-    try:
-        message = parse_message_from_agent(data)
-    except ValueError as e:
-        return {"status": f"error: {e}"}
+### What the `fetchai` Package Provided
 
-    # This is the AI that sent the request to your AI
-    # along with details on how to respond to it.
-    sender = message.sender
+The `fetchai` package (v0.2.0) was a lightweight wrapper that combined:
+- **Search:** `fetch.ai(query)` — Discover agents on the Agentverse marketplace
+- **Registration:** `register_with_agentverse()` — Register your agent for discovery
+- **Messaging:** `send_message_to_agent()` / `parse_message_from_agent()` — Agent-to-agent communication
 
-    # This is the request that the sender AI sent your
-    # AI. Make sure to include payload requirements and
-    # recommendations in your AI's readme
-    payload = message.payload
+### Migrating from `fetchai` to `uagents-core`
 
-    # Assuming the sending AI included your required parameters
-    # you can access the question we identified as a requirement
-    message = payload.get("question", "")
-    print(f"Have your AI process the message {message}")
+| `fetchai` function | `uagents-core` equivalent |
+|---|---|
+| `Identity.from_seed()` | `uagents_core.crypto.Identity.from_seed()` (same — `fetchai` already re-exported this) |
+| `register_with_agentverse()` | `uagents_core.registration.register_with_agentverse()` |
+| `send_message_to_agent()` | Use `uagents_core` envelope utilities or the full `uagents` framework for messaging |
+| `parse_message_from_agent()` | Use `uagents_core` envelope utilities |
+| `fetch.ai(query)` | Use the [Agentverse API](https://docs.agentverse.ai) or [ASI:One](https://docs.asi1.ai) for agent discovery |
 
-    # Send a response if needed to the AI that asked
-    # for help
-    ai_identity = Identity.from_seed(os.getenv("AI_KEY"), 0)
-    send_message_to_agent(
-        ai_identity,
-        sender,
-        payload,
-    )
+### Legacy Documentation
 
-    return {"status": "Agent message processed"}
-```
+These guides are specific to the `fetchai` package and remain available for reference:
 
-## Documentation and Guides
-For more detailed information on using FetchAI, check out our documentation:
+- [Upgrading from 0.1.x to 0.2.0](UPGRADING.md)
+- [AI Agent to AI Agent Messaging](docs/ai-communication.mdx)
+- [AI Agent to uAgent Messaging](docs/sdk-uagent-communication.mdx)
+- [AI Agent Provisioning](docs/register_an_agent.mdx)
+- [CLI Reference](docs/cli.mdx)
 
-- [Upgrading Guide](UPGRADING.md) - **Important**: Breaking changes and migration steps between versions
-- [AI Agent to AI Agent Messaging](docs/ai-communication.mdx) - Learn how to send messages between AI agents using FetchAI SDK
-- [AI Agent to uAgent Messaging](docs/sdk-uagent-communication.mdx) - Understand how to integrate AI agents with uAgents 
-- [AI Agent Provisioning](docs/register_an_agent.mdx) - Step-by-step guide for registering your AI agent on the network
-- [AI Agent CLI](docs/cli.mdx) - Command line interface helper functions to rapidly get your Agent provisioned and operational
-- [AI Collaboration Layer](https://docs.flockx.io) - Multi-agent collaboration to discuss and act autonomously. 
+## License
 
-## Advanced Usage
-
-### Search Within A Specific Protocol
-
-When you have a specific group of agents you want to look for an AI to help your AI execute,
-you can include additional optional parameters to the fetch.ai() call.
-
-```python
-from fetchai import fetch
-
-# Your AI's query that it wants to find another
-# AI to help it take action on.
-query = "Buy me a pair of shoes"
-
-# By default, the fetch.ai function uses the default protocol for text based
-# collaboration. But you can change the protocol to be any specialized
-# protocol you'd like.
-protocol = "proto:30a801ed3a83f9a0ff0a9f1e6fe958cb91da1fc2218b153df7b6cbf87bd33d62"
-
-# Find the top AIs that can assist your AI with
-# taking real world action on the request.
-available_ais = fetch.ai(query, protocol=protocol)
-
-print(f"{available_ais.get('ais')}")
-```
-
-
-## 💁 Contributing
-
-As an open-source project in a rapidly developing field, we are extremely open to contributions, whether it be in the form of a new feature, improved infrastructure, or better documentation.
-
-## 🌟 Contributors
-
-[![fetchai contributors](https://contrib.rocks/image?repo=flockx-official/fetchai&max=2000)](https://github.com/flockx-official/fetchai/graphs/contributors)
+MIT — see [LICENSE](LICENSE) for details.
