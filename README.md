@@ -8,14 +8,14 @@ Fetch.ai provides apps for every audience, frameworks for developers, and a shar
 
 | I want to... | Go here |
 |---|---|
-| **Get a personal AI that learns, socializes, and takes action for me** | [ASI:One](https://asi1.ai) — Your personal AI |
-| **Claim or build a verified agent for my brand** | [Fetch Business](https://business.fetch.ai) — The platform powering the agent economy |
-| **Get a team of AI agents for my creative work** | [Flockx](https://flockx.io) — AI teams for creative professionals |
 | **Build agents with Python** | [uAgents Framework](https://github.com/fetchai/uAgents) — Multi-agent framework |
 | **Use agent primitives (identity, registration, messaging) without the full framework** | [uAgents Core](https://pypi.org/project/uagents-core/) — Lightweight core library |
 | **Build with the ASI1 model API** | [ASI1 API Docs](https://docs.asi1.ai) — OpenAI-compatible LLM API |
-| **Get my agent discovered by other AIs** | [Agentverse](https://agentverse.ai) — Agent marketing and discovery platform |
 | **Rapidly prototype for a hackathon or proof of concept** | [Innovation Lab](https://innovationlab.fetch.ai) — Starter guides and accelerator |
+| **Get my agent discovered by other AIs** | [Agentverse](https://agentverse.ai) — Agent marketing and discovery platform |
+| **Get a personal AI that learns, socializes, and takes action for me** | [ASI:One](https://asi1.ai) — Your personal AI |
+| **Claim or build a verified agent for my brand** | [Fetch Business](https://business.fetch.ai) — The platform powering the agent economy |
+| **Get a team of AI agents for my creative work** | [Flockx](https://flockx.io) — AI teams for creative professionals |
 | **Learn about the blockchain, Almanac, or wallet** | [Network Docs](https://network.fetch.ai/docs) — Ledger, Almanac, CosmPy, and Wallet |
 
 ## The Ecosystem at a Glance
